@@ -17,6 +17,6 @@ configRoutes(app);
 
 app.listen(3001, () => {
   console.log("We've now got a server!");
-  console.log("Your routes will be running on on http://localhost:3001");
+  console.log("Your routes will be running on http://localhost:3001");
   if (process && process.send) process.send({done: true}); 
 });
