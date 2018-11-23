@@ -1,0 +1,26 @@
+
+<div class="main">
+    <div class="container-fluid">
+
+<header>
+    <h1>Delete Activity</h1>
+    
+</header>
+<body>
+            <form id = "delete-activity" method="POST">
+            <label class = "workoutActivity" for="username">User
+             <input class = "workoutActivity" id="username" name="username" />  
+            </label><br>   
+            <label for ="id">ActivityId
+                <input type="text" id = "id" name = "id" />
+            </label>
+            <br />
+            <button type="submit">deleteWorkout</button>
+            {{#if flag}}
+            <p class = "error">{{error}}</p>
+       
+        {{/if}}
+        </form>
+        </body>
+        </div>
+        </div>

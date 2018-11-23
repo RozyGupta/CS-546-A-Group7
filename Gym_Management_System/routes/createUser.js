@@ -12,7 +12,7 @@ router.use(cookieParser());
 router.use(bodyParser.json());
 
 
-const createUserAuth = async function (req, res, next) {
+/*const createUserAuth = async function (req, res, next) {
     let userId = req.cookies.userId;
     console.log (userId);
     try {
@@ -32,13 +32,13 @@ const createUserAuth = async function (req, res, next) {
         console.log("Problem in getting role");
     }
 
-};
+};*/
 
 
-router.get('/',createUserAuth,async function (req, res) {
+router.get('/',async function (req, res) {
     res.render("createUser");
 });
-router.post("/",createUserAuth,async function (req, res) {
+router.post("/",async function (req, res) {
     try{
         let userInfo=req.body;
   

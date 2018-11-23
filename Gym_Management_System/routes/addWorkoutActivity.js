@@ -1,11 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const data = require("../data");
-const resultData = data.addWorkoutActivity;
+const resultData = data.workoutActivity;
 const userData = data.user;
 
 
-
+// const checkRole = async function (req, res, next) {
+//     let loggedInUser = await userData.getUserByUsername(user);
+//     let role = await loggedInUser.role;
+//     console.log(role);
+//     if(role === "admin" || role === "Trainer"){
+//         res.next();
+//     }
+//     else{
+//         res.render("error",{error: "Unauthorized user"});
+//     }
+// };
 router.get("/", (req, res) => {
     res.render("addWorkoutActivity");
    });
@@ -15,7 +25,8 @@ router.get("/", (req, res) => {
     let weight = req.body.weight;
     let repetitions = req.body.repetitions;
     let user = req.body.username;
-    console.log(activity);
+
+    
      if (!activity) {
          res.render("addWorkout", { flag: 1, message: "Please provide activity",title:"workoutActivity" });
          return;
@@ -28,19 +39,20 @@ router.get("/", (req, res) => {
         res.render("addWorkout", { flag: 1, message: "Please provide repetitions",title:"workoutActivity"});
         return;
     }
-     
+    if (!user) {
+        res.render("addWorkout", { flag: 1, message: "Please provide user",title:"workoutActivity"});
+        return;
+    }
          
          let postcredentials = await resultData.addActivity(activity, weight,repetitions);
          let acitivityId= postcredentials.newId;
          let user1 = await userData.getUserByUsername(user);
-         console.log(user1);
          let userId = user1._id;
-         console.log(userId);
          let postuserActivity = await resultData.addUserActivity(userId,acitivityId);
 
 
          
-    res.redirect("/addWorkoutActivity");
+    res.redirect("/workoutActivity");
  });
 
 
