@@ -1,0 +1,34 @@
+
+<div class="main">
+    <div class="container-fluid">
+
+<header>
+    <h1>Add Activity</h1>
+    
+</header>
+<body>
+            <form id = "add-activity" method="POST">
+            <label class = "workoutActivity" for="username">User
+             <input class = "workoutActivity" id="username" name="username" />  
+            </label><br>   
+            <label for ="activity">Activity
+                <input type="text" id = "activity" name = "activity" />
+            </label>
+            <br />
+            <label for ="weight"> Weight
+                <input type="text" id = "weight" name = "weight" />
+            </label>
+            <br />
+            <label for ="repetitions"> Repetitions
+                <input type="text" id = "repetitions" name = "repetitions" />
+            </label>
+           
+            <button type="submit">addWorkout</button>
+            {{#if flag}}
+            <p class = "error">{{error}}</p>
+       
+        {{/if}}
+        </form>
+        </body>
+        </div>
+        </div>
