@@ -1,0 +1,39 @@
+<div class="main">
+    <div class="container-fluid">
+
+<header>
+    <h1>View Activity</h1>
+    
+</header>
+<body>
+            <form id = "view-activity" method="POST">
+            <label class = "workoutActivity" for="username">User
+             <input class = "workoutActivity" id="username" name="username" />  
+            </label>   
+            <br />
+            <button type="submit">viewWorkout</button>
+            {{#if flag}}
+            <p class = "error">{{error}}</p>
+       
+        {{/if}}
+        
+        {{#if showactivities}}
+        {{#each showactivities}}
+         <p>Activity:{{this.activity}}</p>
+         <p>Weight:{{this.weight}}</p>
+         <p>Repetitions:{{this.repetitions}}</p>
+        <p>================================</p>
+        {{/each}}
+        {{else}}
+        <p>
+            
+            
+           
+            
+        
+        </p>
+        {{/if}}
+        </form>
+        </body>
+        </div>
+        </div>

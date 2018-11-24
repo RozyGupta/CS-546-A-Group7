@@ -3,6 +3,8 @@ const workoutActivity = mongoCollections.workoutActivity;
 const userWorkout = mongoCollections.userWorkout;
 const uuid = require('uuid/v1');
 
+let  activityIds = [];
+
 const exportedMethods = {
     async addActivity(activity, weight, repetitions) {
         if (!activity) throw "No activity provided";
@@ -56,8 +58,8 @@ const exportedMethods = {
             addedUserWorkout,
         }
     },
-
-    async removeActivity(activityId) {
+    
+ async removeActivity(activityId) {
         if (!activityId) throw "You must provide an id to delete";
        
         const workoutCollection = await workoutActivity();
@@ -84,5 +86,40 @@ const exportedMethods = {
           throw `Could not delete activity with id: ${activityId}`;
         }
       },
+
+      
+
+
+
+
+          async getActivityById(userid) {
+            if (!userid) throw "You must provide  userid to search for";
+            const userWorkoutCollection = await userWorkout();
+            const activity = await userWorkoutCollection.find({ userId: userid }).toArray();
+            
+            if (activity === null) throw `No activity with id of ${userid}`;
+            for(let i =0; i<activity.length; i++ ){
+              let activityId = activity[i].activityId
+               
+               activityIds.push(activityId);
+               
+            }
+            
+           
+            return activityIds;
+        
+        },
+        
+
+          async getAllActivities(acitivityid) {
+            const workoutActivityCollection = await workoutActivity();
+        
+            const getActivities = await workoutActivityCollection.find({_id: acitivityid}).toArray();
+           // console.log(getActivities);
+        
+            return getActivities;
+        
+        },
+        
 }
 module.exports = exportedMethods;
