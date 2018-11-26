@@ -1,39 +1,70 @@
 <div class="main">
     <div class="container-fluid">
 
-<header>
-    <h1>View Activity</h1>
-    
-</header>
-<body>
-            <form id = "view-activity" method="POST">
-            <label class = "workoutActivity" for="username">User
-             <input class = "workoutActivity" id="username" name="username" />  
-            </label>   
-            <br />
-            <button type="submit">viewWorkout</button>
-            {{#if flag}}
-            <p class = "error">{{error}}</p>
-       
-        {{/if}}
-        
-        {{#if showactivities}}
-        {{#each showactivities}}
-         <p>Activity:{{this.activity}}</p>
-         <p>Weight:{{this.weight}}</p>
-         <p>Repetitions:{{this.repetitions}}</p>
-        <p>================================</p>
-        {{/each}}
-        {{else}}
-        <p>
-            
-            
-           
-            
-        
-        </p>
-        {{/if}}
-        </form>
+        <header>
+            <h1>View Activity</h1>
+
+        </header>
+
+        <body>
+            <form id="view-activity" method="POST">
+                {{!-- <label class="workoutActivity" for="username">User
+                    <input class="workoutActivity" id="username" name="username" />
+                </label>
+                 --}}
+                  <label for="username">username</label><br>
+                        {{try}}
+                        <select id="username" name="username">
+                             {{#each username}}
+                            <option value=this.userId >{{this.name}}</option>
+                            {{/each}}
+                        </select>
+                            
+                <button type="submit">viewWorkout</button>
+            </form>
+                {{#if flag}}
+                <p class="error">{{error}}</p>
+
+                {{/if}}
+                
+                    {{#if showactivities}}
+                    <table name = "result" style="width:100%">
+                    <tr >
+                       
+                        <th>ID</th>
+                        <th>Activity</th>
+                        <th>Weight</th>
+                        <th>Repetitions</th>
+                    </tr>
+                    {{#each showactivities}}
+
+                     <tr name ="row">
+                        
+                        <td>{{this._id}}</td>
+                        <td>{{this.activity}}</td>
+                        <td>{{this.weight}}</td>
+                        <td>{{this.repetitions}}</td>
+                        <td> <form method="POST" action="/deleteWorkoutActivity">
+                        <input type="hidden" value={{this._id}} name="aid">
+                        <input type="submit" value="delete">
+
+                        </form></td>
+                       <td>
+                            
+                             
+                    </tr> 
+                   
+                    {{/each}}
+                </table>
+
+
+                <br />
+                <br />
+                {{/if}}
+          
+<a class = "workoutActivity" name = "add" href="/addWorkoutActivity">AddWorkoutActiviy</a><br/>
+        <a class = "workoutActivity" name = "delete" href="/deleteWorkoutActivity">DeleteWorkoutActiviy</a><br/>
+        <a class = "workoutActivity" name = "update" href="/updateWorkoutActivity">UpdateWorkoutActiviy</a>
         </body>
-        </div>
-        </div>
+    </div>
+</div>

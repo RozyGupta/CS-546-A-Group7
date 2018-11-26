@@ -7,20 +7,24 @@ const userData = data.user;
 
 
 router.get("/", (req, res) => {
+ 
     res.render("deleteWorkoutActivity");
    });
 
    router.post("/", async (req, res) => {
+    let activityId = req.body.aid;
+
+    console.log("Activity Id: "+activityId);
     let user = req.body.username;
     console.log(user);
-    let activityId = req.body.id;
-    console.log(activityId);
+
+    console.log(activityId); 
     if (!user) {
         res.render("deleteWorkoutActivity", { flag: 1, message: "Please provide user",title:"workoutActivity"});
         return;
     }
     if (!activityId) {
-        res.render("deleteWorkoutActivity", { flag: 1, message: "Please provide id",title:"workoutActivity"});
+        res.render("deleteWorkoutActivity", { flag: 1, message: "Please provide activity id",title:"workoutActivity"});
         return;
     }
         let postcredentials = await resultData.removeActivity(activityId);
@@ -30,7 +34,7 @@ router.get("/", (req, res) => {
          console.log(userId);
          console.log(activityId);
          let postuserActivity = await resultData.removeUserActivity(userId,activityId);
-         res.redirect("/workoutActivity");
+         res.render("deleteworkoutActivity",{message:"Activity deleted successfully!"});
    });
 
 

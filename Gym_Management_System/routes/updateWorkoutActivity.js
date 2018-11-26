@@ -53,11 +53,15 @@ router.get("/", (req, res) => {
     console.log(user);
     let userId =user._id;
     console.log(userId);
-    let activityId= await resultData.getActivityById(userId);
+    let activityId= await resultData.getAllActivitiesById(userId);
     console.log(activityId);
-    let activity = req.body.activity;
-    let weight = req.body.weight;
-    let repetitions = req.body.repetitions;
+    let activity = req.body.activityId;
+   // let weight = req.body.weight;
+    //let repetitions = req.body.repetitions;
+    let useractivity = await resultData.getActivityById(activity);
+    console.log(useractivity);
+    let activityContent = await resultData.getAllActivities(useractivity);
+    console.log(activityContent);
     // if(!req.body.activityId){
     //   res.status(404).json({ error: "Please provide an activity id" });
     //   return;
@@ -68,12 +72,12 @@ router.get("/", (req, res) => {
     //    return;
     // }
 
-  const updatedActivity = {
-      activity: activity,
-      weight: weight,
-      repetitions: repetitions
-  }
-  console.log(updatedActivity);
+//   const updatedActivity = {
+//       activity: activity,
+//       weight: weight,
+//       repetitions: repetitions
+//   }
+//   console.log(updatedActivity);
 //   try {
 //     await recipeData.getRecipeById(req.params.id);
 //   } catch (e) {
@@ -115,12 +119,12 @@ router.get("/", (req, res) => {
 //     return;
 //   }
  
-  try {
-   const modifiedActivity= await resultData.updateActivity(activityId,updatedActivity);
-    res.redirect("/workoutActivity");
-  } catch (e) {
-    res.status(404).json({ error: "Activity not found" });
-    return;
-  }
+//   try {
+//    const modifiedActivity= await resultData.updateActivity(activityId,updatedActivity);
+//     res.redirect("/workoutActivity");
+//   } catch (e) {
+//     res.status(404).json({ error: "Activity not found" });
+//     return;
+//   }
 });
    module.exports = router;

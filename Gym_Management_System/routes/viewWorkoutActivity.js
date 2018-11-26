@@ -6,14 +6,24 @@ const userData = data.user;
 
 
 
-router.get("/", (req, res) => {
-    res.render("viewWorkoutActivity");
+router.get("/", async(req, res) => {
+    let arr=[{name:"ab"},{name:"c"},{name:"dsa"}];
+    console.log(arr);
+    let users = await userData.getAllUsers();
+    console.log(users);
+    res.render("viewWorkoutActivity",{
+        try:"trail",
+        username:arr
+    });
    });
 
    router.post("/", async (req, res) => {
     let username = req.body.username;
-    console.log(username);
-  
+    let row = req.body.delete;
+    console.log("this is " + row);
+   
+   
+    
     if (!username) {
         res.render("viewWorkoutActivity", { flag: 1, message: "Please provide username",title:"viewWorkoutActivity"});
         return;
@@ -21,22 +31,24 @@ router.get("/", (req, res) => {
    
        let user = await userData.getUserByUsername(username);
        let userId = user._id;
-       let activityIds = await resultData.getActivityById(userId);
+       let activityIds = await resultData.getAllActivitiesById(userId);
        let activities = [];
        let activity = null;
         for(let i = 0 ; i<activityIds.length; i++){
             activity =await resultData.getAllActivities(activityIds[i]);
-           console.log(activity)
+           
            let obj = activity.pop([i])
            activities.push(obj);
         }
            
        
     
-        console.log(activities);
-         res.render("viewWorkoutActivity",{showactivities: activities});
+        
+         res.render("viewWorkoutActivity",{showactivities: activities,username:activities});
    });
 
+
+   
 
 
 
