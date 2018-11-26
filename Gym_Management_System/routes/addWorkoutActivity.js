@@ -26,23 +26,23 @@ router.get("/", (req, res) => {
     let repetitions = req.body.repetitions;
     let user = req.body.username;
 
-    
+    if (!user) {
+        res.render("addWorkoutActivity", { flag: 1, message: "Please provide user",title:"workoutActivity"});
+        return;
+    }
      if (!activity) {
-         res.render("addWorkout", { flag: 1, message: "Please provide activity",title:"workoutActivity" });
+         res.render("addWorkoutActivity", { flag: 1, message: "Please provide activity",title:"workoutActivity" });
          return;
      }
      if (!weight) {
-         res.render("addWorkout", { flag: 1, message: "Please provide weight",title:"workoutActivity"});
+         res.render("addWorkoutActivity", { flag: 1, message: "Please provide weight",title:"workoutActivity"});
          return;
      }
      if (!repetitions) {
-        res.render("addWorkout", { flag: 1, message: "Please provide repetitions",title:"workoutActivity"});
+        res.render("addWorkoutActivity", { flag: 1, message: "Please provide repetitions",title:"workoutActivity"});
         return;
     }
-    if (!user) {
-        res.render("addWorkout", { flag: 1, message: "Please provide user",title:"workoutActivity"});
-        return;
-    }
+    
          
          let postcredentials = await resultData.addActivity(activity, weight,repetitions);
          let acitivityId= postcredentials.newId;
@@ -52,7 +52,7 @@ router.get("/", (req, res) => {
 
 
          
-    res.redirect("/workoutActivity");
+    res.render("addworkoutActivity",{message:"Activity added successfully!"});
  });
 
 

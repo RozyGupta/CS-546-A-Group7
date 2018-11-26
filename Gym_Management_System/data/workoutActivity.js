@@ -92,7 +92,7 @@ const exportedMethods = {
 
 
 
-          async getActivityById(userid) {
+          async getAllActivitiesById(userid) {
             if (!userid) throw "You must provide  userid to search for";
             const userWorkoutCollection = await userWorkout();
             const activity = await userWorkoutCollection.find({ userId: userid }).toArray();
@@ -115,6 +115,16 @@ const exportedMethods = {
             const workoutActivityCollection = await workoutActivity();
         
             const getActivities = await workoutActivityCollection.find({_id: acitivityid}).toArray();
+           // console.log(getActivities);
+        
+            return getActivities;
+        
+        },
+
+        async getActivityById(acitivityid) {
+            const workoutActivityCollection = await workoutActivity();
+        
+            const getActivities = await workoutActivityCollection.findOne({_id: acitivityid});
            // console.log(getActivities);
         
             return getActivities;

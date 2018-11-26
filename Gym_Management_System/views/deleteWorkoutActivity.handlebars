@@ -15,11 +15,14 @@
                 <input type="text" id = "id" name = "id" />
             </label>
             <br />
+            <p>{{activities}}</p>
             <button type="submit">deleteWorkout</button>
             {{#if flag}}
             <p class = "error">{{error}}</p>
        
         {{/if}}
+           <p>{{message}}</p>
+           <a href ="/viewWorkoutActivity">Go back</a>
         </form>
         </body>
         </div>

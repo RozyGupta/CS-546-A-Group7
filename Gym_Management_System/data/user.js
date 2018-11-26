@@ -57,7 +57,16 @@ let exportedMethods = {
       });
     });
   },
-  
+  async getAllUsers() {
+    const userCollection = await userWorkout();
+
+    const getusers = await userCollection.find({}).toArray();
+   // console.log(getActivities);
+
+    return getusers;
+
+},
+
   async createUser(userInfo) {
     const plainTextPassword = userInfo.password;
     const hashPassword = await bcrypt.hash(plainTextPassword, saltRounds);
