@@ -58,7 +58,7 @@ let exportedMethods = {
     });
   },
   async getAllUsers() {
-    const userCollection = await userWorkout();
+    const userCollection = await user();
 
     const getusers = await userCollection.find({}).toArray();
    // console.log(getActivities);

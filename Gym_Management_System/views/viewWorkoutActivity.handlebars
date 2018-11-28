@@ -7,19 +7,13 @@
         </header>
 
         <body>
-            <form id="view-activity" method="POST">
-                {{!-- <label class="workoutActivity" for="username">User
-                    <input class="workoutActivity" id="username" name="username" />
-                </label>
-                 --}}
+            <form id="view-activity" action = "/viewWorkoutActivity" method="POST">
                   <label for="username">username</label><br>
-                        {{try}}
                         <select id="username" name="username">
                              {{#each username}}
-                            <option value=this.userId >{{this.name}}</option>
+                            <option name ="user" value={{this._id}}>{{{this.username}}}</option>
                             {{/each}}
-                        </select>
-                            
+                        </select>       
                 <button type="submit">viewWorkout</button>
             </form>
                 {{#if flag}}
@@ -32,7 +26,13 @@
                     <tr >
                        
                         <th>ID</th>
+                        <th>Level</th>
+                        <th>Description</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Days</th>
                         <th>Activity</th>
+                        <th>Sets</th>
                         <th>Weight</th>
                         <th>Repetitions</th>
                     </tr>
@@ -41,15 +41,20 @@
                      <tr name ="row">
                         
                         <td>{{this._id}}</td>
+                        <td>{{this.level}}</td>
+                        <td>{{this.description}}</td>
+                        <td>{{this.startdate}}</td>
+                        <td>{{this.enddate}}</td>
+                        <td>{{this.days}}</td>
                         <td>{{this.activity}}</td>
+                        <td>{{this.sets}}</td>
                         <td>{{this.weight}}</td>
                         <td>{{this.repetitions}}</td>
-                        <td> <form method="POST" action="/deleteWorkoutActivity">
-                        <input type="hidden" value={{this._id}} name="aid">
+                        <td><form method="POST" action="/deleteWorkoutActivity"> 
+                        <input type="hidden" value={{this._id}} name="activityId"> 
                         <input type="submit" value="delete">
-
                         </form></td>
-                       <td>
+                       
                             
                              
                     </tr> 
@@ -61,10 +66,10 @@
                 <br />
                 <br />
                 {{/if}}
+                <p>{{message}}</p>
+                <a href ="/workoutActivity">Go back</a>
           
-<a class = "workoutActivity" name = "add" href="/addWorkoutActivity">AddWorkoutActiviy</a><br/>
-        <a class = "workoutActivity" name = "delete" href="/deleteWorkoutActivity">DeleteWorkoutActiviy</a><br/>
-        <a class = "workoutActivity" name = "update" href="/updateWorkoutActivity">UpdateWorkoutActiviy</a>
+
         </body>
     </div>
 </div>
