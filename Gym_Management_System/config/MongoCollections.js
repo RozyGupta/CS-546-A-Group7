@@ -17,5 +17,7 @@ module.exports = {
   user: getCollectionFn("user"),
   session: getCollectionFn("session"),
   workoutActivity:getCollectionFn("workout activity"),
-  userWorkout:getCollectionFn("user_workout")
+  authentication:getCollectionFn("authentication"),
+  userWorkout:getCollectionFn("userWorkout"),
+  activity:getCollectionFn("activity")
 };
