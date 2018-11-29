@@ -1,0 +1,39 @@
+<div class="main">
+    <div class="container-fluid">
+
+        <header>
+            <h1>View Activity</h1>
+
+        </header>
+
+        <body>
+            <form id="view-activity" action = "/viewActivity" method="POST">
+                  {{#if activity}}
+                    <table name = "result" style="width:100%">
+                    <tr >
+                       
+                        <th>ActivityName</th>
+                        <th>ActivityTrainer</th>
+                        <th>Membershipplan</th>
+                        <th>ActivityMember</th>
+                    </tr>
+                    {{#each activity}}
+
+                     <tr name ="row">
+                        
+                        <td>{{this.activityname}}</td>
+                        <td>{{this.activitytrainer}}</td>
+                        <td>{{this.membershipplan}}</td>
+                        <td>{{this.member}}</td>
+                        </tr>
+                        {{/each}}
+                        </table>
+                        {{/if}}
+                    </form>
+                
+                    
+          
+
+        </body>
+    </div>
+</div>
