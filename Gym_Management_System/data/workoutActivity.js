@@ -46,7 +46,9 @@ const exportedMethods = {
 
         const addedactivity = await workoutActivityCollection.insertOne(newactivity);
         const newId = addedactivity.insertedId;
-        
+        if (addedactivity.insertedCount === 0) {
+            throw "Could not add user and activity id  successfully";
+        }
         return {
             status: true,
             addedactivity,
@@ -62,7 +64,6 @@ const exportedMethods = {
         const userWorkoutCollection = await userWorkout();
 
         const newUserActivity = {
-            id:uuid(),
             userId: userId,
             activityId: activityId,
 
@@ -73,7 +74,6 @@ const exportedMethods = {
         if (addedUserWorkout.insertedCount === 0) {
             throw "Could not add user and activity id  successfully";
         }
-        //const newId  = addeduser.insertedId;
         return {
             status: true,
             addedUserWorkout,
@@ -96,11 +96,6 @@ const exportedMethods = {
         if (!activityId) throw "You must provide an id to delete";
 
         const userWorkoutCollection = await userWorkout();
-
-        // const activiytToDelete = {
-        //     userId: userId,
-        //     activityId: activityId
-        // }
         const removeActivity = await userWorkoutCollection.removeOne({ userId: userId, activityId: activityId });
 
         if (removeActivity.deletedCount === 0) {

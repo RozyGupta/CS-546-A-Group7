@@ -10,9 +10,11 @@ const userData = data.user;
 
    router.post("/", async (req, res) => {
        let activityId=req.body.activityId;
-       
+       console.log("DELETE BUTTON WORKING HERE: "+activityId);
+       let user = req.body.username;
+        console.log(user);
 
-       console.log("activityId"+activityId);
+       console.log("This activityId"+activityId);
        
 
        let postActivity = await resultData.removeActivity(activityId);
@@ -27,8 +29,7 @@ const userData = data.user;
     // let activityId = req.body.aid;
 
     // console.log("Activity Id: "+activityId);
-    // let user = req.body.username;
-    // console.log(user);
+    
 
     // console.log(activityId); 
     // if (!user) {
