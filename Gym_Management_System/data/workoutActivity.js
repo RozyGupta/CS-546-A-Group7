@@ -123,7 +123,7 @@ const exportedMethods = {
         //console.log("fghv"+activityIds);
     }
     console.log("ababs"+activityArray);
-        if (!activityIds) throw "No activities for the user";
+       if (!activityIds) throw "No activities for the user";
         else {
             return activityArray;
         }
