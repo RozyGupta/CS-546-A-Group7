@@ -31,14 +31,10 @@ router.post("/", async (req, res) => {
     let weight = user.weight;
     let repetitions = user.repetitions;
 
-        try{
+        
         let users = await userData.getAllUsers();
-        }
-        catch(e)
-        {
-            res.render("error", { title: "error" });
-            return;
-        }
+        
+       
         
         if (!username) {
             res.render("addWorkoutActivity", { username: users, message: "Please choose the member for adding activity", title: "addWorkoutActivity" });
