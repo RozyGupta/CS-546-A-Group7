@@ -11,6 +11,7 @@ const userData = data.user;
    router.post("/", async (req, res) => {
        let activityId=req.body.activityId;
        console.log("DELETE BUTTON WORKING HERE: "+activityId);
+       
        let user = req.body.username;
         console.log(user);
 

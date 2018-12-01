@@ -6,6 +6,7 @@ const userData = data.user;
 
    router.post("/", async (req, res) => {
     let activityToUpdate = req.body;
+    console.log("activityToUpdate: " + activityToUpdate)
     let activityId = activityToUpdate.activityId;
     let level = activityToUpdate.activitylevel;
     let description = activityToUpdate.activitydescription;

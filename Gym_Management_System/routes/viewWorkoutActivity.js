@@ -17,30 +17,29 @@ router.get("/", async(req, res) => {
    });
 
    router.post("/", async (req, res) => {
-    let username = req.body.username;
-    if (!username) {
-        res.render("viewWorkoutActivity", { flag: 1, message: "Please provide username",title:"viewWorkoutActivity"});
+
+    let userId = req.body.username;
+    console.log(userId);
+    if (!userId) {
+        res.render("viewWorkoutActivity", { flag: 1, message: "Please provide userId",title:"viewWorkoutActivity"});
         return;
     }
-   
-       let activityIds = await resultData.getAllActivitiesById(username);
 
-       if(!activityIds){
-           let users = await userData.getAllUsers();
-        res.render("viewWorkoutActivity", { flag: 1, message: "There are no activities for this user",title:"viewWorkoutActivity",username:users});
-       return;
-    }
-       let activities = [];
-       let activity = null;
-        for(let i = 0 ; i<activityIds.length; i++){
-            activity =await resultData.getAllActivities(activityIds[i]);
-           
-           let obj = activity.pop([i])
-           activities.push(obj);
-        }
-           
-        let users = await userData.getAllUsers();
-        let activityId=req.body.activityId
-         res.render("viewWorkoutActivity",{showactivities: activities,username:users});
+
+     let activityIds = await resultData.getAllUserActivitiesId(userId);
+     console.log("length " +activityIds);
+      
+      if(!activityIds){
+       res.render("viewWorkoutActivity", { flag: 1, message: "No activities for this user",title:"viewWorkoutActivity"});
+        return;
+      }
+       let activityArray = [];
+     for(let i = 0 ; i<activityIds.length; i++){
+      activity =await resultData.getAllActivities(activityIds[i]);
+      activityArray.push(activity);
+      console.log("activityhere:" +activityArray);
+      }
+    let users = await userData.getAllUsers();
+     res.render("viewWorkoutActivity",{showactivities: activityArray,username:users});
    });
 module.exports = router;

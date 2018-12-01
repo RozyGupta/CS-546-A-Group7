@@ -108,52 +108,70 @@ const exportedMethods = {
 
 
 
-    async getAllActivitiesById(userid) {
+    async getAllUserActivitiesId(userid) {
         if (!userid) throw "You must provide  userid to search for";
+        let activityIds =null
+        let activityArray =[];
         const userWorkoutCollection = await userWorkout();
-        let activity = undefined;
-        activity = await userWorkoutCollection.find({ userId: userid }).toArray();
-        if (activity.length==0) {
-            //console.log("activityLength"+activity.length());
-            console.log("Activity" + activity)
-            activity = undefined;
-
-        }
-
-        if (!activity) return undefined;
+        let activity = await userWorkoutCollection.find({ userId: userid }).toArray();
+        console.log(activity);
+        console.log(activity.length);
+        let acitivityIds =null;
+        for(let i =0; i<activity.length;i++){
+        activityIds = activity[i].activityId;
+        activityArray.push(activityIds);
+        //console.log("fghv"+activityIds);
+    }
+    console.log("ababs"+activityArray);
+        if (!activityIds) throw "No activities for the user";
         else {
-            for (let i = 0; i < activity.length; i++) {
-                let activityId = activity[i].activityId
-
-                activityIds.push(activityId);
-
-            }
-
-
-            return activityIds;
+            return activityArray;
         }
     },
 
 
+    // async getAllActivities(acitivityid) {
+    //     const workoutActivityCollection = await workoutActivity();
+        
+    //     const getActivities = await workoutActivityCollection.findOne({ _id: acitivityid })
+    //     // let acitivityId = null;
+    //     // let acitivityIds = [];
+    //     //  for (let i = 0; i < activity.length; i++) {
+    //     //     activityId = activity[i].activityId
+    //     //     acitivityIds.push(activityId);
+    //     //  }
+    //      console.log("aid" + activityIds);
+    //     console.log("getActivities" +getActivities);
+        
+        
+
+    //     return getActivities;
+
+    // },
     async getAllActivities(acitivityid) {
+        if (!acitivityid) throw "You must provide an id to search for";
+        let acitivities = null;
         const workoutActivityCollection = await workoutActivity();
-
-        const getActivities = await workoutActivityCollection.find({ _id: acitivityid }).toArray();
-        // console.log(getActivities);
-
-        return getActivities;
-
+        const task = await workoutActivityCollection.find({ _id: acitivityid }).toArray();
+        for (let i = 0; i < task.length; i++) {
+            acitivities = task[i]
+            console.log("activityId: " + acitivities)
+            }
+        if (task === null) throw `No task with id of ${id}`;
+        console.log("task: " + acitivities)
+        return acitivities;
+    
     },
 
-    async getActivityById(acitivityid) {
-        const workoutActivityCollection = await workoutActivity();
+    // async getActivityById(acitivityid) {
+    //     const workoutActivityCollection = await workoutActivity();
 
-        const getActivities = await workoutActivityCollection.findOne({ _id: acitivityid });
-        // console.log(getActivities);
+    //     const getActivities = await workoutActivityCollection.findOne({ _id: acitivityid });
+    //     console.log("ga" +getActivities);
 
-        return getActivities;
+    //     return getActivities;
 
-    },
+    // },
 
 }
 module.exports = exportedMethods;

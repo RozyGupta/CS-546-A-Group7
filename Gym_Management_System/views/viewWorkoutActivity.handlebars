@@ -37,38 +37,29 @@
                         <th>Weight</th>
                         <th>Repetitions</th>
                     </tr>
-                    {{#each showactivities}}
+                    {{#each showactivities}}    
                      <tr name ="row">
-                        
-                        <td contenteditable = "true">{{this._id}}</td>
-                        <td contenteditable = "true">{{this.level}}</td>
-                        <td contenteditable = "true">{{this.description}}</td>
-                        <td contenteditable = "true">{{this.startdate}}</td>
-                        <td contenteditable = "true">{{this.enddate}}</td>
-                        <td contenteditable = "true">{{this.days}}</td>
-                        <td contenteditable = "true">{{this.activity}}</td>
-                        <td contenteditable = "true">{{this.sets}}</td>
-                        <td contenteditable = "true">{{this.weight}}</td>
-                        <td contenteditable = "true">{{this.repetitions}}</td>
-                        <td contenteditable = "true"><form method="POST" action="/deleteWorkoutActivity"> 
-                        <input type="hidden" value={{this._id}} name="activityId"> 
-                        <input type="submit" value="Delete">
-                        </form></td>   
-                         <td><form method="POST" action="/updateWorkoutActivity"> 
-                        <input type="hidden" value={{this._id}} name="activityId"> 
-                        <input type="hidden" value={{this.level}} name="activitylevel"> 
-                        <input type="hidden" value={{this.description}} name="activitydescription"> 
-                        <input type="hidden" value={{this.startdate}} name="activitystartdate"> 
-                        <input type="hidden" value={{this.enddate}} name="activityenddate"> 
-                        <input type="hidden" value={{this.days}} name="activitydays"> 
-                        <input type="hidden" value={{this.activity}} name="activity"> 
-                        <input type="hidden" value={{this.sets}} name="activitysets"> 
-                        <input type="hidden" value={{this.weight}} name="activityweight"> 
-                        <input type="hidden" value={{this.repetitions}} name="activityrepetitions"> 
-                        <input type="submit" value="Update">
-                        </form></td>           
-                    </tr> 
-                    {{/each}}
+                        <form method="POST" action="/updateWorkoutActivity"> 
+                            <td ><input type="text" name="activityId" placeholder={{this._id}}  > </td>
+                            <td><input  type="text" name="activitylevel" placeholder={{this.level}}  ></td>
+                            <td><input  type="text"  name="activitydescription" placeholder={{this.description}} ></td>
+                            <td><input   type="text"  name="activitystartdate" placeholder={{this.startdate}} ></td>
+                            <td><input   type="text"  name="activityenddate" placeholder={{this.enddate}} ></td>
+                            <td><input  type="text"  name="days" placeholder={{this.days}} ></td>
+                            <td><input  type="text"  name="activity" placeholder={{this.activity}} ></td>
+                            <td><input  type="text"  name="sets" placeholder={{this.sets}} ></td>
+                            <td><input  type="text"  name="weight" placeholder={{this.weight}} ></td>
+                            <td><input  type="text"  name="repetitions" placeholder={{this.repetitions}}  ></td>
+                            <td><input type="submit" value="Update"></td>
+                        </form>
+                        <td>
+                        <form method="POST" action="/deleteWorkoutActivity">
+                            <input type="hidden" value={{this._id}} name="activityId"> 
+                            <input type="submit" value="Delete">
+                        </form>
+                        </td>   
+                        </tr>
+                            {{/each}}
                 </table>
                 {{/if}}
                 <br />
