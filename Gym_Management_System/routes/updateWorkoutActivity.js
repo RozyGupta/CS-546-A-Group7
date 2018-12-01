@@ -4,6 +4,16 @@ const data = require("../data");
 const resultData = data.workoutActivity;
 const userData = data.user;
 
+
+router.get("/", (req, res) => {
+    res.render("updateWorkoutActivity");
+   });
+
+
+   router.post("/", async (req, res) => {
+    let username = req.body.username;
+    console.log(username);
+
    router.post("/", async (req, res) => {
     let activityToUpdate = req.body;
     console.log("activityToUpdate: " + activityToUpdate)
@@ -30,6 +40,7 @@ const userData = data.user;
     
     
    //  let user = await userData.getUserByUsername(username);
+
     
    //  console.log(user);
    //  let userId =user._id;
