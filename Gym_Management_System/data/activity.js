@@ -61,6 +61,37 @@ const exportedMethods = {
         const getActivities = await activityCollection.findOne({ _id: acitivityid });
         return getActivities;
     },
+    async updateActivity(activityId,updatedActivity){
+        const activityCollection = await activity();
+        const updatedDataActivity={};
+    
+        if(!activityId)throw "invalid id";
+        if (updatedActivity.activityname){
+            updatedDataActivity.activityname = updatedActivity.activityname;
+        } 
+        if (updatedActivity.ctivitytrainer){
+            updatedDataActivity.ctivitytrainer = updatedActivity.ctivitytrainer;
+        } 
+        if (updatedActivity.membershipplan){
+            updatedDataActivity.membershipplan = updatedActivity.membershipplan;
+        } 
+        if (updatedActivity.member){
+            updatedDataActivity.member = updatedActivity.member;
+        } 
+        
+    
+        let updateCommand = {
+          $set: updatedDataActivity
+        };
+       
+        const query = {
+          _id: activityId
+        };
+    
+        await activityCollection.updateOne(query, updateCommand);
+        return await this.getActivityById(acitivityid);
+      },
+    
 
 }
 module.exports = exportedMethods;

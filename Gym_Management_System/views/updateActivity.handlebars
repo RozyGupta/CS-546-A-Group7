@@ -1,0 +1,37 @@
+
+<div class="main">
+    <div class="container-fluid">
+
+<header>
+    <h1>Update Activity</h1>
+    
+</header>
+    <body>
+            <form id = "update-activity" method="POST">
+            <label class = "activity" for="activityname">ActivityName
+            <input class = "activity" id="activityname" name="activityname" />  
+            </label>
+            <br/> 
+            <label for ="activitytrainer">ActivityTrainer
+                <input type="text" id = "activitytrainer" name = "activitytrainer" />
+            </label>
+            <br />
+            <label for ="membershipplan">Membershipplan
+                <input type="text" id = "membershipplan" name = "membershipplan" />
+            </label>
+            <br />
+            <label for ="member">ActivityMember
+                <input type="text" id = "member" name = "member" />
+            </label>
+            <br />
+
+         <br/>   
+            <button type="submit">updateActivity</button>
+            {{#if flag}}
+            <p class = "error">{{error}}</p>
+       
+        {{/if}}
+        </form>
+    </body>
+</div>
+      

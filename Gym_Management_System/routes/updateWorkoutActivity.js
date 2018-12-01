@@ -8,42 +8,7 @@ router.get("/", (req, res) => {
     res.render("updateWorkoutActivity");
    });
 
-//    router.post("/", async (req, res) => {
-//     let username = req.body.username;
-//     console.log(username);
-    
-//     let user = await userData.getUserByUsername(username);
-    
-//     console.log(user);
-//     let userId =user._id;
-//     console.log(userId);
-//     let activityId= await resultData.getActivityById(userId);
-//     console.log(activityId);
-//     let fieldToUpdate = req.body.field;
-//     console.log(fieldToUpdate)
-//     let value = req.body.newvalue;
-//     let updatedvalue ={
-//         fieldToUpdate:value
-//     }
-//     if (!user) {
-//         res.render("deleteWorkoutActivity", { flag: 1, message: "Please provide user",title:"workoutActivity"});
-//         return;
-//     }
-//     if (!fieldToUpdate) {
-//         res.render("deleteWorkoutActivity", { flag: 1, message: "Please provide id",title:"workoutActivity"});
-//         return;
-//     }
-//     if (!value) {
-//         res.render("deleteWorkoutActivity", { flag: 1, message: "Please provide id",title:"workoutActivity"});
-//         return;
-//     }
 
-//     let updatedActivity = await resultData.updateActivity(activityId,updatedvalue);
-//     res.redirect("/workoutActivity");
-
-   
-//     console.log(activityId);
-//    });
    router.post("/", async (req, res) => {
     let username = req.body.username;
     console.log(username);
