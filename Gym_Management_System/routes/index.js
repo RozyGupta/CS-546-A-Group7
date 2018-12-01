@@ -9,7 +9,8 @@ const updateWorkoutActivityRoutes = require("./updateWorkoutActivity");
 const activityRoutes = require("./activity");
 const addActivityRoutes = require("./addActivity");
 const viewActivityRoutes = require("./viewActivity");
-
+const deleteActivityRoutes = require("./deleteActivity");
+const updateActivityRoutes = require("./updateActivity");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
@@ -32,6 +33,8 @@ const constructorMethod = app => {
   app.use("/activity", activityRoutes);
   app.use("/addActivity", addActivityRoutes);
   app.use("/viewActivity", viewActivityRoutes);
+  app.use("/deleteActivity", deleteActivityRoutes);
+  app.use("/updateActivity", updateActivityRoutes);
   app.use("*", (req, res) => {
     res.redirect("/");
   });
