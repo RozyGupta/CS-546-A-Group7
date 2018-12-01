@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
     let username = req.body.username;
     console.log(username);
 
-   router.post("/", async (req, res) => {
+  
     let activityToUpdate = req.body;
     console.log("activityToUpdate: " + activityToUpdate)
     let activityId = activityToUpdate.activityId;
