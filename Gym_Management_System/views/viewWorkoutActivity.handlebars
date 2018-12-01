@@ -21,6 +21,7 @@
 
                 {{/if}}
                 
+                
                     {{#if showactivities}}
                     <table name = "result" style="width:100%">
                     <tr >
@@ -36,36 +37,33 @@
                         <th>Weight</th>
                         <th>Repetitions</th>
                     </tr>
-                    {{#each showactivities}}
-
+                    {{#each showactivities}}    
                      <tr name ="row">
-                        
-                        <td>{{this._id}}</td>
-                        <td>{{this.level}}</td>
-                        <td>{{this.description}}</td>
-                        <td>{{this.startdate}}</td>
-                        <td>{{this.enddate}}</td>
-                        <td>{{this.days}}</td>
-                        <td>{{this.activity}}</td>
-                        <td>{{this.sets}}</td>
-                        <td>{{this.weight}}</td>
-                        <td>{{this.repetitions}}</td>
-                        <td><form method="POST" action="/deleteWorkoutActivity"> 
-                        <input type="hidden" value={{this._id}} name="activityId"> 
-                        <input type="submit" value="delete">
-                        </form></td>
-                       
-                            
-                             
-                    </tr> 
-                   
-                    {{/each}}
+                        <form method="POST" action="/updateWorkoutActivity"> 
+                            <td ><input type="text" name="activityId" placeholder={{this._id}}  > </td>
+                            <td><input  type="text" name="activitylevel" placeholder={{this.level}}  ></td>
+                            <td><input  type="text"  name="activitydescription" placeholder={{this.description}} ></td>
+                            <td><input   type="text"  name="activitystartdate" placeholder={{this.startdate}} ></td>
+                            <td><input   type="text"  name="activityenddate" placeholder={{this.enddate}} ></td>
+                            <td><input  type="text"  name="days" placeholder={{this.days}} ></td>
+                            <td><input  type="text"  name="activity" placeholder={{this.activity}} ></td>
+                            <td><input  type="text"  name="sets" placeholder={{this.sets}} ></td>
+                            <td><input  type="text"  name="weight" placeholder={{this.weight}} ></td>
+                            <td><input  type="text"  name="repetitions" placeholder={{this.repetitions}}  ></td>
+                            <td><input type="submit" value="Update"></td>
+                        </form>
+                        <td>
+                        <form method="POST" action="/deleteWorkoutActivity">
+                            <input type="hidden" value={{this._id}} name="activityId"> 
+                            <input type="submit" value="Delete">
+                        </form>
+                        </td>   
+                        </tr>
+                            {{/each}}
                 </table>
-
-
-                <br />
-                <br />
                 {{/if}}
+                <br />
+                <br />
                 <p>{{message}}</p>
                 <a href ="/workoutActivity">Go back</a>
           
