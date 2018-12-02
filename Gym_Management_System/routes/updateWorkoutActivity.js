@@ -4,7 +4,6 @@ const data = require("../data");
 const resultData = data.workoutActivity;
 const userData = data.user;
 
-
    router.post("/", async (req, res) => {
    
     let activityToUpdate = req.body;
@@ -18,11 +17,8 @@ const userData = data.user;
     let sets = activityToUpdate.sets;
     let weight = activityToUpdate.weight;
     let repetitions = activityToUpdate.repetitions;
-
-    
-    
-   let updatedActivity = await resultData.updateActivity(activityId,level,description,startdate,enddate,days,activity,sets,weight,repetitions);
-   let users = await userData.getAllUsers();
+    let updatedActivity = await resultData.updateActivity(activityId,level,description,startdate,enddate,days,activity,sets,weight,repetitions);
+    let users = await userData.getAllUsers();
     
     res.render("viewWorkoutActivity",{message:"Activity updated Successfully",title: "viewWorkoutActivity",username:users})
  
