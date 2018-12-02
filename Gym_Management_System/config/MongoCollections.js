@@ -18,6 +18,6 @@ module.exports = {
   session: getCollectionFn("session"),
   workoutActivity:getCollectionFn("workout activity"),
   authentication:getCollectionFn("authentication"),
-  userWorkout:getCollectionFn("userWorkout"),
+  userWorkout:getCollectionFn("user_workout"),
   activity:getCollectionFn("activity")
 };

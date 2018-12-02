@@ -4,43 +4,26 @@ const data = require("../data");
 const resultData = data.workoutActivity;
 const userData = data.user;
 
-
-router.get("/", (req, res) => {
-    res.render("updateWorkoutActivity");
-   });
-
-
-   router.post("/", async (req, res) => {
-    let username = req.body.username;
-    console.log(username);
-
    router.post("/", async (req, res) => {
     let activityToUpdate = req.body;
-    console.log("activityToUpdate: " + activityToUpdate)
+    console.log(activityToUpdate);
     let activityId = activityToUpdate.activityId;
     let level = activityToUpdate.activitylevel;
     let description = activityToUpdate.activitydescription;
     let startdate = activityToUpdate.activitystartdate;
     let enddate = activityToUpdate.activityenddate;
-    let days = activityToUpdate.activitydays;
+    let days = activityToUpdate.days;
     let activity = activityToUpdate.activity;
-    let sets = activityToUpdate.activitysets;
-    let weight = activityToUpdate.activityweight;
-    let repetitions = activityToUpdate.activityrepetitions;
-    console.log(activityId);
-    console.log(level);
-    console.log(description);
-    console.log(startdate);
-    console.log(enddate);
-    console.log(days);
-    console.log(activity);
-    console.log(sets);
-    console.log(weight);
-    console.log(repetitions);
-    
-    
-   //  let user = await userData.getUserByUsername(username);
+    let sets = activityToUpdate.sets;
+    let weight = activityToUpdate.weight;
+    let repetitions = activityToUpdate.repetitions;
 
+    
+    
+   let updatedActivity = await resultData.updateActivity(activityId,level,description,startdate,enddate,days,activity,sets,weight,repetitions);
+   let users = await userData.getAllUsers();
+    
+    res.render("viewWorkoutActivity",{message:"Activity updated Successfully",title: "viewWorkoutActivity",username:users})
     
    //  console.log(user);
    //  let userId =user._id;

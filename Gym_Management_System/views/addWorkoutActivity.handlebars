@@ -50,13 +50,12 @@
                 <input type="checkbox" name="days" value="Sunday">Sunday
                 <br />
                 <label for="activity">Activities</label><br>
+                {{#each activity}}
                 <select id="activity" name="activity">
                     <option value="" <option value="" selected disabled hidden></option>
-                    </option>
-                    <option name="activity" value=Leg curl>Leg curl</option>
-                    <option name="activity" value=Bench press>Bench press</option>
-                    <option name="activity" value=Crunch>Crunch</option>
+                    <option name="activity" value={{this.activityname}}>{{this.activityname}}</option>   
                 </select>
+                {{/each}}
                 <label for="sets"> Sets
                     <input type="text" id="sets" name="sets" />
                 </label>

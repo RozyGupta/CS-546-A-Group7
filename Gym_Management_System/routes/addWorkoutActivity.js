@@ -3,13 +3,18 @@ const router = express.Router();
 const data = require("../data");
 const resultData = data.workoutActivity;
 const userData = data.user;
+const activityData = data.activity;
 
 
 router.get("/", async (req, res) => {
 
     try {
         let users = await userData.getAllUsers();
-        res.render("addWorkoutActivity", { username: users });
+        let activity = await activityData.getAllActivities();
+        console.log(activity);
+        let activitynam = activity.activityname;
+        //console.log(activitynam);
+        res.render("addWorkoutActivity", { username: users,activity:activity});
     }
     catch (e) {
         res.render("error", { title: "error" });
@@ -86,9 +91,6 @@ router.post("/", async (req, res) => {
         userId = usertoadd._id;
         let postcredentials = await resultData.addActivity(level, description, startdate, enddate, days, activity, sets, weight, repetitions);
         acitivityId = postcredentials.newId;
-        console.log("aid " +acitivityId)
-        console.log(userId)
-        console.log("userId: "+userId)
         let postuserActivity = await resultData.addUserActivity(userId, acitivityId);
         let users = await userData.getAllUsers();
         res.render("addworkoutActivity", {username: users,message: "Activity added successfully!" });

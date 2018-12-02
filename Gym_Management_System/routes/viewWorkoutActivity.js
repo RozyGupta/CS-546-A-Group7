@@ -6,40 +6,40 @@ const userData = data.user;
 
 
 
-router.get("/", async(req, res) => {
-   
-    let users = await userData.getAllUsers();
-    
-    res.render("viewWorkoutActivity",{
-       
-        username:users
-    });
-   });
+router.get("/", async (req, res) => {
+    try {
+        let users = await userData.getAllUsers();
+        res.render("viewWorkoutActivity", { username: users });
+    }
+    catch (e) {
+        res.render("error", { title: "error" });
+        return;
+    }
+});
 
-   router.post("/", async (req, res) => {
+router.post("/", async (req, res) => {
 
     let userId = req.body.username;
-    console.log(userId);
     if (!userId) {
-        res.render("viewWorkoutActivity", { flag: 1, message: "Please provide userId",title:"viewWorkoutActivity"});
+        res.render("viewWorkoutActivity", { message: "Please provide userId", title: "viewWorkoutActivity" });
         return;
     }
 
+    try {
 
-     let activityIds = await resultData.getAllUserActivitiesId(userId);
-     console.log("length " +activityIds);
-      
-      if(!activityIds){
-       res.render("viewWorkoutActivity", { flag: 1, message: "No activities for this user",title:"viewWorkoutActivity"});
+        let activityIds = await resultData.getAllUserActivitiesId(userId);
+        let activityArray = [];
+        for (let i = 0; i < activityIds.length; i++) {
+            let activity = await resultData.getAllActivities(activityIds[i]);
+            activityArray.push(activity);
+        }
+        let users = await userData.getAllUsers();
+        res.render("viewWorkoutActivity", { showactivities: activityArray, username: users });
+    }
+    catch (e) {
+        let user = await userData.getAllUsers();
+        res.render("viewWorkoutActivity", { message: "No activities for this user", username: user, title: "viewWorkoutActivity" });
         return;
-      }
-       let activityArray = [];
-     for(let i = 0 ; i<activityIds.length; i++){
-      activity =await resultData.getAllActivities(activityIds[i]);
-      activityArray.push(activity);
-      console.log("activityhere:" +activityArray);
-      }
-    let users = await userData.getAllUsers();
-     res.render("viewWorkoutActivity",{showactivities: activityArray,username:users});
-   });
+    }
+});
 module.exports = router;

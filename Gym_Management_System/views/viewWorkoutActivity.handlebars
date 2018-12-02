@@ -8,9 +8,11 @@
 
         <body>
             <form id="view-activity" action = "/viewWorkoutActivity" method="POST">
+            <p>{{message}}</p>
                   <label for="username">username</label><br>
                         <select id="username" name="username">
                              {{#each username}}
+                             <option value="" <option value="" selected disabled hidden></option></option>
                             <option name ="user" value={{this._id}}>{{{this.username}}}</option>
                             {{/each}}
                         </select>       
@@ -40,16 +42,16 @@
                     {{#each showactivities}}    
                      <tr name ="row">
                         <form method="POST" action="/updateWorkoutActivity"> 
-                            <td ><input type="text" name="activityId" placeholder={{this._id}}  > </td>
-                            <td><input  type="text" name="activitylevel" placeholder={{this.level}}  ></td>
-                            <td><input  type="text"  name="activitydescription" placeholder={{this.description}} ></td>
-                            <td><input   type="text"  name="activitystartdate" placeholder={{this.startdate}} ></td>
-                            <td><input   type="text"  name="activityenddate" placeholder={{this.enddate}} ></td>
-                            <td><input  type="text"  name="days" placeholder={{this.days}} ></td>
-                            <td><input  type="text"  name="activity" placeholder={{this.activity}} ></td>
-                            <td><input  type="text"  name="sets" placeholder={{this.sets}} ></td>
-                            <td><input  type="text"  name="weight" placeholder={{this.weight}} ></td>
-                            <td><input  type="text"  name="repetitions" placeholder={{this.repetitions}}  ></td>
+                            <td ><input type="text" name="activityId"  value ={{this._id}}  > </td>
+                            <td><input  type="text" name="activitylevel"  value ={{this.level}}  ></td>
+                            <td><input  type="text"  name="activitydescription"  value ={{this.description}} ></td>
+                            <td><input   type="text"  name="activitystartdate"  value ={{this.startdate}} ></td>
+                            <td><input   type="text"  name="activityenddate"  value ={{this.enddate}} ></td>
+                            <td><input  type="text"  name="days"  value ={{this.days}} ></td>
+                            <td><input  type="text"  name="activity"  value ={{this.activity}} ></td>
+                            <td><input  type="text"  name="sets"  value ={{this.sets}} ></td>
+                            <td><input  type="text"  name="weight"  value ={{this.weight}} ></td>
+                            <td><input  type="text"  name="repetitions"  value ={{this.repetitions}}  ></td>
                             <td><input type="submit" value="Update"></td>
                         </form>
                         <td>

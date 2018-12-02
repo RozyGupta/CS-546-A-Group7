@@ -32,8 +32,7 @@ const constructorMethod = app => {
   app.use("/activity", activityRoutes);
   app.use("/addActivity", addActivityRoutes);
   app.use("/viewActivity", viewActivityRoutes);
-  app.use("*", (req, res) => {
-    res.redirect("/");
+  app.use("*", (req, res) => {res.redirect("/")
   });
 };
 
