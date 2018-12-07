@@ -31,7 +31,6 @@ router.get('/', userAuth,async (req, res) => {
         let userId = await session.getSessionById(clientSessionId);
         if (!userId) throw "Unauthorize access";
         userdetail = await user.getUserById(userId);
-        console.log(userdetail);
         res.render("dashboard", {
             title: "Dashboard",
             firstname: userdetail.firstname,

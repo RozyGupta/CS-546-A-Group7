@@ -28,7 +28,6 @@ router.post('/login', async function (req, res) {
 
   let userId = undefined;
   let userInfo = req.body;
-  console.log(userInfo);
 
   try {
 
@@ -52,6 +51,7 @@ router.post('/login', async function (req, res) {
       let sessionId = uuidv1();
       await session.createSession("authCookie", sessionId, userId);
       res.cookie('authCookie', sessionId);
+      res.cookie('userId', userId);
       res.redirect("/dashboard");
     }
   } catch (error) {
@@ -62,8 +62,11 @@ router.post('/login', async function (req, res) {
     });
   };
 });
-router.get('/logout', function (req, res) {
+router.get('/logout', async function (req, res) {
+  let clientSessionId = req.cookies.authCookie;
+  await session.deleteSession(clientSessionId);
   res.clearCookie("authCookie");
+  res.clearCookie("userId");
   res.render("login", {
     layout: "index",
     title: "login",

@@ -46,7 +46,14 @@ let exportedMethods = {
       });
     });
   },
-
+  async getUserNameByRole(role) {
+    
+    const userCollection = await user();
+    const users = await userCollection.find({
+      role:role
+    }).toArray();
+    return users.map(users =>users.firstname+" "+users.lastname);
+  },
   async getUserByUsername(username) {
     return user().then(userCollection => {
       return userCollection.findOne({

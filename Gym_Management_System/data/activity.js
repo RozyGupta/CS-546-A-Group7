@@ -4,16 +4,16 @@ const uuid = require('uuid/v1');
 
 
 const exportedMethods = {
-    async addActivity(activityname,activitytrainer,membershipplan,member) {
+    async addActivity(activityname,activitytrainer,membershipplan,activityDescription) {
         
         if (!activityname) throw "No activityname provided";
         if (!activitytrainer) throw "No activitytrainer provided";
         if (!membershipplan) throw "No membershipplan provided";
-        if (!member) throw "No member provided";
+        if (!activityDescription) throw "No activity Description provided";
         console.log(activityname)
         console.log(activitytrainer)
         console.log(membershipplan)
-        console.log(member)
+        console.log(activityDescription)
        
         const activityCollection = await activity();
         const newactivity = {
@@ -21,7 +21,7 @@ const exportedMethods = {
             activityname: activityname,
             activitytrainer:activitytrainer,
             membershipplan:membershipplan,
-            member:member            
+            activityDescription:activityDescription            
         };
 
         const addedactivity = await activityCollection.insertOne(newactivity);
@@ -64,19 +64,19 @@ const exportedMethods = {
     async updateActivity(activityId,updatedActivity){
         const activityCollection = await activity();
         const updatedDataActivity={};
-    
+        console.log("updated : "+updatedActivity.activityname);
         if(!activityId)throw "invalid id";
         if (updatedActivity.activityname){
             updatedDataActivity.activityname = updatedActivity.activityname;
         } 
-        if (updatedActivity.ctivitytrainer){
-            updatedDataActivity.ctivitytrainer = updatedActivity.ctivitytrainer;
+        if (updatedActivity.activitytrainer){
+            updatedDataActivity.activitytrainer = updatedActivity.activitytrainer;
         } 
         if (updatedActivity.membershipplan){
             updatedDataActivity.membershipplan = updatedActivity.membershipplan;
         } 
-        if (updatedActivity.member){
-            updatedDataActivity.member = updatedActivity.member;
+        if (updatedActivity.activityDescription){
+            updatedDataActivity.activityDescription =updatedActivity.activityDescription;
         } 
         
     
@@ -89,7 +89,7 @@ const exportedMethods = {
         };
     
         await activityCollection.updateOne(query, updateCommand);
-        return await this.getActivityById(acitivityid);
+        return await this.getActivityById(activityId);
       },
     
 

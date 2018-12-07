@@ -1,35 +1,33 @@
-<div class="main">
-    <div class="container-fluid">
-
-        <header>
-            <h1>View Activity</h1>
-
-        </header>
-
-        <body>
-            <form id="view-activity" action = "/viewActivity" method="POST">
-                  {{#if activity}}
-                    <table name = "result" style="width:100%">
-                    <tr >
-                       
-                        <th>ActivityName</th>
-                        <th>ActivityTrainer</th>
-                        <th>Membershipplan</th>
-                        <th>ActivityMember</th>
-                    </tr>
-                    {{#each activity}}
-
-                     <tr name ="row">
-                        
-                        <td>{{this.activityname}}</td>
-                        <td>{{this.activitytrainer}}</td>
-                        <td>{{this.membershipplan}}</td>
-                        <td>{{this.member}}</td>
-                        </tr>
-                        {{/each}}
-                        </table>
-                        {{/if}}
-                    </form>
-        </body>
-    </div>
+<div class="content">
+   <div class="container-fluid">
+      <div class="jumbotron" id="head-doc">
+         <header>
+            <h1>{{activity.activityname}} Activity</h1>
+            {{#if permission}}
+               <p id="editOption"><a  href="/activity/update/{{activity._id}}"><img src="../../public/images/Editing-edit-icon.png"></a> | <a href="/activity/delete/{{activity._id}}"><img src="../../public/images/delete.png"></a></p>
+            {{/if}}
+         </header>
+         {{#if msg}}
+            <p class="successMsg">{{msg}}</p>
+         {{/if}}
+         <div class="row">
+            <div class="col-sm-9">
+               <div class="view" id="description">
+                  <h4>ABOUT</h4>
+                  <p>{{activity.activityDescription}}</p>
+               </div>
+            </div>
+            <div class="col-sm-3">
+               <div class="view" id="activityTrainer">
+                  <h4>TRAINER</h4>
+                  <p>{{activity.activitytrainer}}</p>
+               </div>
+               <div class="view" id="membershipPlan">
+                  <h4>MEMEBERSHIP PLAN</h4>
+                  <p>{{activity.membershipplan}}</p>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>

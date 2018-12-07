@@ -1,16 +1,32 @@
-<div class="main">
+<div class="content">
     <div class="container-fluid">
-
-        <header>
-            <h1>Activity</h1>
-
-        </header>
-
-        <body>
-            <button type = "button" onclick = "window.location.href='/addActivity'" class ="btn btn-default">AddActivity</button>
-             <button type = "button" onclick = "window.location.href='/viewActivity'" class ="btn btn-default">ViewActivity</button>
-             <button type = "button" onclick = "window.location.href='/deleteActivity'" class ="btn btn-default">DeleteActivity</button>
-             <button type = "button" onclick = "window.location.href='/updateActivity'" class ="btn btn-default">UpdateActivity</button>
-        </body>
+        <div class="jumbotron" id="head-doc">
+            <header>
+                <h1>Activity</h1>
+            </header>
+            <main>
+                <p>{{message}}</p>
+                <div class="row">
+                    {{#if activity}}
+                    {{#each activity}}
+                    <div class="col-sm-3" id="activity">
+                        <a href="/activity/view/{{this._id}}">
+                            <p id="plan">{{this.membershipplan}}</p>
+                            <hr>
+                            <img src="../public/images/abs.jpg">
+                            <activityName>{{this.activityname}}</activityName>
+                            {{this.activitytrainer}}
+                        </a>
+                    </div>
+                    {{/each}}
+                    {{/if }}
+                    {{#if permission}}
+                        <div class="col-sm-3" id="add">
+                            <a href="activity/add"><img src="../public/images/add.png"></a>
+                        </div>
+                    {{/if}}
+                </div>
+            </main>
+        </div>
     </div>
 </div>

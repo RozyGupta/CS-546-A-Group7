@@ -10,7 +10,7 @@ let exportedMethods = {
 
         const sessionCollection = await session();
         const newSession = {
-            _id: uuid(),
+            _id: cookieValue,
             cookieName: cookieName,
             cookieValue: cookieValue,
             userId: userId,
@@ -53,15 +53,14 @@ let exportedMethods = {
         });
     },
     async getSessionById(sessionId) {
-        // return session().then(sessionCollection => {
-        //     return sessionCollection.findOne({
-        //         _id:sessionID
-        //     }).then(session => {
-        //         if (!session) throw "session not found";
-        //         else return session.userId;
-        //     });
-        // });
-        return "b54cee60-ee12-11e8-aab5-dd5a8a9ef651";
+        return session().then(sessionCollection => {
+            return sessionCollection.findOne({
+                _id:sessionId
+            }).then(session => {
+                if (!session) throw "session not found";
+                else return session.userId;
+            });
+        });
     },
     async getSessionByUserId(userId) {
 

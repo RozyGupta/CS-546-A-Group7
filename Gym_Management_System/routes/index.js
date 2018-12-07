@@ -7,10 +7,6 @@ const addWorkoutActivityRoutes = require("./addWorkoutActivity");
 const deleteWorkoutActivityRoutes = require("./deleteWorkoutActivity");
 const updateWorkoutActivityRoutes = require("./updateWorkoutActivity");
 const activityRoutes = require("./activity");
-const addActivityRoutes = require("./addActivity");
-const viewActivityRoutes = require("./viewActivity");
-const deleteActivityRoutes = require("./deleteActivity");
-const updateActivityRoutes = require("./updateActivity");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
@@ -20,24 +16,31 @@ const constructorMethod = app => {
   app.use(cookieParser());
 
   app.use(bodyParser.json());
-
+try{
 
   app.use("/", loginRoutes);
   app.use("/dashboard",dashboard);
   app.use("/createUser", createUserRoutes);
   app.use("/workoutActivity",workoutActivityRoutes);
-  app.use("/viewWorkoutActivity", viewWorkoutActivityRoutes);
+ 
   app.use("/addWorkoutActivity", addWorkoutActivityRoutes);
   app.use("/deleteWorkoutActivity", deleteWorkoutActivityRoutes);
   app.use("/updateWorkoutActivity", updateWorkoutActivityRoutes);
+  app.use("/viewWorkoutActivity", viewWorkoutActivityRoutes);
+  
   app.use("/activity", activityRoutes);
-  app.use("/addActivity", addActivityRoutes);
-  app.use("/viewActivity", viewActivityRoutes);
-  app.use("/deleteActivity", deleteActivityRoutes);
-  app.use("/updateActivity", updateActivityRoutes);
+  app.use("/activity/add", activityRoutes);
+  app.use("/activity/view/:id", activityRoutes);
+  app.use("/activity/update", activityRoutes);
+  app.use("/activity/update/:id", activityRoutes);
+  app.use("/activity/delete/:id", activityRoutes);
+}
+catch(error){
+  console.log(error);
   app.use("*", (req, res) => {
     res.redirect("/");
   });
+}
 };
 
 module.exports = constructorMethod;

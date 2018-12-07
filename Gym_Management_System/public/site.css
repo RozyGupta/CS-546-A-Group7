@@ -42,11 +42,11 @@ h1{
      height:100vh;    
 }
 input[type="text"],[type="password"]{
-    padding:1%;
+    padding:5px;
 }
 input[type="submit"]{
-    width:90%;
-    padding:1%;
+    width:380px;
+    padding:5px;
     background-color: darkgreen;
     border-color:transparent;
     color:white;
