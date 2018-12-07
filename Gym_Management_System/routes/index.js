@@ -7,6 +7,7 @@ const addWorkoutActivityRoutes = require("./addWorkoutActivity");
 const deleteWorkoutActivityRoutes = require("./deleteWorkoutActivity");
 const updateWorkoutActivityRoutes = require("./updateWorkoutActivity");
 const activityRoutes = require("./activity");
+const workoutMemberRoutes = require("./workoutMember");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
@@ -34,6 +35,12 @@ try{
   app.use("/activity/update", activityRoutes);
   app.use("/activity/update/:id", activityRoutes);
   app.use("/activity/delete/:id", activityRoutes);
+
+  app.use("/workoutMember", workoutMemberRoutes);
+  app.use("/workoutMember/add", workoutMemberRoutes);
+  app.use("/workoutMember/view", workoutMemberRoutes);
+  app.use("/workoutMember/update", workoutMemberRoutes);
+  app.use("/workoutMember/delete", workoutMemberRoutes);
 }
 catch(error){
   console.log(error);

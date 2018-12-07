@@ -3,12 +3,13 @@ const session = require("./session");
 const authentication = require("./authentication");
 const workoutActivity = require("./workoutActivity");
 const activity = require("./activity");
+const workoutMember = require("./workoutMember")
 
 module.exports = {
   user: user,
   session:session,
   authentication:authentication,
   workoutActivity:workoutActivity,
-  activity:activity
- 
+  activity:activity,
+  workoutMember:workoutMember
 };
