@@ -10,10 +10,6 @@ const exportedMethods = {
         if (!activitytrainer) throw "No activitytrainer provided";
         if (!membershipplan) throw "No membershipplan provided";
         if (!activityDescription) throw "No activity Description provided";
-        console.log(activityname)
-        console.log(activitytrainer)
-        console.log(membershipplan)
-        console.log(activityDescription)
        
         const activityCollection = await activity();
         const newactivity = {
@@ -52,7 +48,6 @@ const exportedMethods = {
     async getAllActivities() {
         const activityCollection = await activity();
         const getActivities = await activityCollection.find({}).toArray();
-        console.log(getActivities);
         return getActivities;
 
     },
@@ -65,7 +60,6 @@ const exportedMethods = {
     async updateActivity(activityId,updatedActivity){
         const activityCollection = await activity();
         const updatedDataActivity={};
-        console.log("updated : "+updatedActivity.activityname);
         if(!activityId)throw "invalid id";
         if (updatedActivity.activityname){
             updatedDataActivity.activityname = updatedActivity.activityname;
