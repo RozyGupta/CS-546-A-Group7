@@ -7,20 +7,13 @@
         </header>
 
         <body>
-            <form id="view-activity" action = "/viewWorkoutActivity" method="POST">
+            <form id="view-activity"  action = "/WorkoutActivity/add/" method="GET">
             <p>{{message}}</p>
-                  <label for="username">username</label><br>
-                        <select id="username" name="username">
-                             {{#each username}}
-                             <option value="" <option value="" selected disabled hidden></option></option>
-                            <option name ="user" value={{this._id}}>{{{this.username}}}</option>
-                            {{/each}}
-                        </select>       
-                <button type="submit">viewWorkout</button>
+            <input type="hidden" value={{userId}} name="userId">
+            <button type="submit">AddWorkout</button>
             </form>
                 {{#if flag}}
                 <p class="error">{{error}}</p>
-
                 {{/if}}
                 
                 
@@ -41,7 +34,7 @@
                     </tr>
                     {{#each showactivities}}    
                      <tr name ="row">
-                        <form method="POST" action="/updateWorkoutActivity"> 
+                        <form  id="update-activity" method="POST" action = "/WorkoutActivity/update/"> 
                             <td ><input type="text" name="activityId"  value ={{this._id}}  > </td>
                             <td><input  type="text" name="activitylevel"  value ={{this.level}}  ></td>
                             <td><input  type="text"  name="activitydescription"  value ={{this.description}} ></td>
@@ -55,7 +48,7 @@
                             <td><input type="submit" value="Update"></td>
                         </form>
                         <td>
-                        <form method="POST" action="/deleteWorkoutActivity">
+                        <form  id="delete-activity" method="GET" action = "/WorkoutActivity/delete/">
                             <input type="hidden" value={{this._id}} name="activityId"> 
                             <input type="submit" value="Delete">
                         </form>
@@ -66,7 +59,6 @@
                 {{/if}}
                 <br />
                 <br />
-                <p>{{message}}</p>
                 <a href ="/workoutActivity">Go back</a>
           
 

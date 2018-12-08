@@ -52,6 +52,7 @@ const exportedMethods = {
     async getAllActivities() {
         const activityCollection = await activity();
         const getActivities = await activityCollection.find({}).toArray();
+        console.log(getActivities);
         return getActivities;
 
     },

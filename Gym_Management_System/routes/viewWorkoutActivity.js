@@ -19,7 +19,8 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
 
-    let userId = req.body.username;
+    let userId = req.body.userId;
+    console.log("this user id : " + userId)
     if (!userId) {
         res.render("viewWorkoutActivity", { message: "Please provide userId", title: "viewWorkoutActivity" });
         return;

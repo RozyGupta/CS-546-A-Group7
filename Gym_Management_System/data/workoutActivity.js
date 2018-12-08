@@ -108,7 +108,7 @@ const exportedMethods = {
         }
     },
 
-    async getAllActivities(acitivityid) {
+    async getAllActivitiesById(acitivityid) {
         if (!acitivityid) throw "You must provide an id to search for";
         let acitivities = null;
         const workoutActivityCollection = await workoutActivity();
@@ -145,8 +145,6 @@ const exportedMethods = {
         if (finishedTask.modifiedCount === 0) {
           throw "Could not update task successfully";
         }
-    
-        //return await this.getTask(taskId);
     
     
     },

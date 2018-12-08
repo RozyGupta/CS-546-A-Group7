@@ -7,13 +7,18 @@
         </header>
 
         <body>
-
-            <button type="button" onclick="window.location.href='/addWorkoutActivity'" class="btn btn-default"> AddWorkout </button>
-            <button type="button" onclick="window.location.href='/viewWorkoutActivity'" class="btn btn-default"> ViewWorkout </button>
-           
-
-
-
-                </body>
-    </div>
-</div>
+            <form id="workout-activity" action = "/WorkoutActivity/view/" method="GET">
+            <p>{{message}}</p>
+                  <label for="username">username</label><br>
+                        <select id="username" name="username">
+                            <option value="" <option value="" selected disabled hidden></option></option>
+                             {{#each username}}
+                            <option name ="userId" value={{this._id}}>{{{this.username}}}</option>
+                            {{/each}}
+                        </select>       
+                <button type="submit" >viewWorkout</button>
+                 
+            </form>
+            </body>
+            </div>
+            </div>
