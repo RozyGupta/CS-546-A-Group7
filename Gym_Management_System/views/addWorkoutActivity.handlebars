@@ -7,15 +7,9 @@
         </header>
 
         <body>
-            <form id="add-activity" method="POST">
-                <label for="username">Select Member</label><br>
-                <p class="error">{{message}}</p>
-                <select id="username" name="username">
-                    {{#each username}}
-                    <option value="" <option value="" selected disabled hidden></option>></option>
-                    <option name="username" value={{this.username}}>{{{this.username}}}</option>
-                    {{/each}}
-                </select> <br>
+            <form id="add-activity" action="/workoutActivity/add/" method="POST">
+            <p>{{message}}</p>
+                <input type="hidden" value={{userId}} name="userId">
                 <label for="level">Level</label><br>
                 <select id="level" name="level">
                     <option value="" <option value="" selected disabled hidden></option>
@@ -36,9 +30,6 @@
                 <label for="enddate">End Date
                     <input type="text" id="enddate" name="enddate" />
                 </label>
-                {{!-- <label for="activity">Activity
-                    <input type="text" id="activity" name="activity" />
-                </label> --}}
                 <br />
                 <label for="days">Select Days</label>
                 <input type="checkbox" name="days" value="Monday">Monday
@@ -49,13 +40,14 @@
                 <input type="checkbox" name="days" value="Saturday">Saturday
                 <input type="checkbox" name="days" value="Sunday">Sunday
                 <br />
-                <label for="activity">Activities</label><br>
-                {{#each activity}}
-                <select id="activity" name="activity">
-                    <option value="" <option value="" selected disabled hidden></option>
-                    <option name="activity" value={{this.activityname}}>{{this.activityname}}</option>   
-                </select>
-                {{/each}}
+                 <label for="activityname">Activities</label><br>
+                <select id="activityname" name="activityname">
+                    <option value="" <option value="" selected disabled hidden></option>></option>
+                    {{#each activity}}
+                    
+                    <option name="activityname" value={{this.activityname}}>{{{this.activityname}}}</option>
+                    {{/each}}
+                </select> <br> 
                 <label for="sets"> Sets
                     <input type="text" id="sets" name="sets" />
                 </label>

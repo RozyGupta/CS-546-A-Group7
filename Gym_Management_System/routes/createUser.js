@@ -4,6 +4,7 @@ const data = require("../data");
 const user = data.user;
 const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
+const authentication=data.authentication;
 
 router.use(cookieParser());
 router.use(bodyParser.json());
@@ -30,15 +31,15 @@ const authRoute = function (moduleName) {
                 }
             }
         } catch (err) {
-            console.log("Problem in getting role" + err);
+            console.log(err);
         }
     };
 }
 
-router.get('/', authRoute("createUser"), function (req, res) {
+router.get('/', function (req, res) {
     res.render("createUser");
 });
-router.post("/", authRoute("createUser"), async function (req, res) {
+router.post("/", async function (req, res) {
     try {
         let userInfo = req.body;
         let successFlag = await user.createUser(userInfo);

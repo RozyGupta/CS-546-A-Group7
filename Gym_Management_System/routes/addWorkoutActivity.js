@@ -84,11 +84,11 @@ router.post("/", async (req, res) => {
             res.render("addWorkoutActivity", { username: users, message: "Please provide repetitions", title: "addWorkoutActivity" });
             return;
         }
-    let userId = null;
+    let userId = req.body.userId;
     let acitivityId = null;
     try {
-        let usertoadd = await userData.getUserByUsername(username);
-        userId = usertoadd._id;
+        //let usertoadd = await userData.getUserByUsername(username);
+        //userId = usertoadd._id;
         let postcredentials = await resultData.addActivity(level, description, startdate, enddate, days, activity, sets, weight, repetitions);
         acitivityId = postcredentials.newId;
         let postuserActivity = await resultData.addUserActivity(userId, acitivityId);

@@ -51,7 +51,7 @@ router.get("/", async (req, res) => {
 });
 router.get("/add", authRoute("addActivity"),async (req, res) => {
 
-    let trainerList = await userData.getUserNameByRole("trainer");
+    let trainerList = await userData.getUserNameByRole("TRAINER");
     res.render("addActivity", {
         trainerList: trainerList
     });
@@ -115,7 +115,7 @@ router.get("/view/:id", async (req, res) => {
         let activity = await activityData.getActivityById(req.params.id);
         res.render("viewActivity", {
             activity: activity,
-            permission:permission
+            permission:true
         });
     } catch (e) {
         console.log(e);
@@ -127,7 +127,7 @@ router.get("/view/:id", async (req, res) => {
 router.get("/update/:id",authRoute("addActivity"), async (req, res) => {
     try {
         let activity = await activityData.getActivityById(req.params.id);
-        let trainerList = await userData.getUserNameByRole("trainer");
+        let trainerList = await userData.getUserNameByRole("TRAINER");
         res.render("updateActivity", {
             activity: activity,
             trainerList: trainerList
@@ -177,7 +177,7 @@ router.post("/update",authRoute("addActivity"), async (req, res) => {
         });
     } catch (error) {
 
-        let trainerList = await userData.getUserNameByRole("trainer");
+        let trainerList = await userData.getUserNameByRole("TRAINER");
         res.render("updateActivity", {
             activity: activity,
             trainerList: trainerList,

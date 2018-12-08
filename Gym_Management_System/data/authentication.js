@@ -51,6 +51,7 @@ let exportedMethods = {
         else {
             try {
                 let role=(await user.getUserById(userId)).role;
+                console.log(role+" "+moduleName);
                 return permission().then(permissionCollection => {
                     return permissionCollection.findOne({
                         permission:role,
