@@ -1,6 +1,5 @@
 const mongoCollections = require("../config/mongoCollections");
 const membership = mongoCollections.membership;
-const membershipActivity = mongoCollections.membershipActivity;
 const uuid = require('uuid/v1');
 
 const exportedMethods = {
@@ -18,8 +17,6 @@ const exportedMethods = {
             signupfees: signupfees,
             services: services
         };
-
-
         const addedmembership = await membershipCollection.insertOne(newmembership);
         const newId = addedmembership.insertedId;
         if (addedmembership.insertedCount === 0) {
@@ -30,7 +27,6 @@ const exportedMethods = {
             addedmembership,
             newId
         }
-
     },
     async getAllMemberships() {
         const membershipCollection = await membership();
@@ -63,15 +59,12 @@ const exportedMethods = {
                 membershipperiod: membershipperiod,
                 signupfees: signupfees,
                 services: services
-            }
-        
-        
+            } 
         });
     
         if (updatedMembership.modifiedCount === 0) {
           throw "Could not update task successfully";
         }
-    
     
     },
     

@@ -1,11 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const data = require("../data");
-const userData = data.user;
 const membershipData = data.membership;
 const authentication=data.authentication;
-const activityData = data.activity;
-const url = require('url');
 
 const authRoute = function (moduleName) {
 

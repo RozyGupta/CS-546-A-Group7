@@ -6,14 +6,16 @@ const activity = require("./activity");
 const workoutMember = require("./workoutMember");
 const membership = require("./membership");
 const trainer = require("./trainer");
+const gymMember = require("./gymMember");
 
 module.exports = {
   user: user,
-  trainer: trainer,
   session: session,
   authentication: authentication,
   workoutActivity: workoutActivity,
   activity: activity,
   workoutMember: workoutMember,
-  membership: membership
+  membership: membership,
+  trainer: trainer,
+  gymMember: gymMember
 };
