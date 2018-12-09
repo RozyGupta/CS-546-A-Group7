@@ -19,8 +19,6 @@ const exportedMethods = {
         if (!description) throw "No activity provided";
 
         const workoutActivityCollection = await workoutActivity();
-
-
         const newactivity = {
             _id: uuid(),
             level: level,

@@ -3,7 +3,8 @@ const session = require("./session");
 const authentication = require("./authentication");
 const workoutActivity = require("./workoutActivity");
 const activity = require("./activity");
-const workoutMember = require("./workoutMember")
+const workoutMember = require("./workoutMember");
+const membership = require("./membership");
 
 module.exports = {
   user: user,
@@ -11,5 +12,6 @@ module.exports = {
   authentication:authentication,
   workoutActivity:workoutActivity,
   activity:activity,
-  workoutMember:workoutMember
+  workoutMember:workoutMember,
+  membership:membership
 };

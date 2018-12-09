@@ -2,12 +2,9 @@ const createUserRoutes = require("./createUser");
 const dashboard = require("./dashboard");
 const loginRoutes = require("./login");
 const workoutActivityRoutes = require("./workoutActivity");
-//const viewWorkoutActivityRoutes = require("./viewWorkoutActivity");
-//const addWorkoutActivityRoutes = require("./addWorkoutActivity");
-//const deleteWorkoutActivityRoutes = require("./deleteWorkoutActivity");
-//const updateWorkoutActivityRoutes = require("./updateWorkoutActivity");
 const activityRoutes = require("./activity");
 const workoutMemberRoutes = require("./workoutMember");
+const membershipRoutes = require("./membership");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
@@ -33,15 +30,18 @@ try{
   app.use("/activity/update", activityRoutes);
   app.use("/activity/update/:id", activityRoutes);
   app.use("/activity/delete/:id", activityRoutes);
-
   app.use("/workoutMember", workoutMemberRoutes);
   app.use("/workoutMember/add", workoutMemberRoutes);
   app.use("/workoutMember/view", workoutMemberRoutes);
   app.use("/workoutMember/update", workoutMemberRoutes);
   app.use("/workoutMember/delete", workoutMemberRoutes);
+  app.use("/membership", membershipRoutes);
+  app.use("/membership/add", membershipRoutes);
+  app.use("/membership/view", membershipRoutes);
+  app.use("/membership/delete", membershipRoutes);
+  app.use("/membership/update", membershipRoutes);
 }
 catch(error){
-  console.log("dsfsd0 "+error);
   app.use("*", (req, res) => {
     res.redirect("/");
   });
