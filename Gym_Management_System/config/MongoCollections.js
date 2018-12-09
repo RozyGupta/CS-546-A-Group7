@@ -15,13 +15,14 @@ const getCollectionFn = collection => {
 
 module.exports = {
   user: getCollectionFn("user"),
+  trainer: getCollectionFn("trainer"),
   session: getCollectionFn("session"),
-  workoutActivity:getCollectionFn("workout activity"),
-  authentication:getCollectionFn("authentication"),
-  userWorkout:getCollectionFn("user_workout"),
-  activity:getCollectionFn("activity"),
-  permission:getCollectionFn("permission"),
-  workoutMember:getCollectionFn("workout member"),
-  membership:getCollectionFn("membership"),
-  membershipActivity:getCollectionFn("membership_activity"),
+  workoutActivity: getCollectionFn("workout activity"),
+  authentication: getCollectionFn("authentication"),
+  userWorkout: getCollectionFn("user_workout"),
+  activity: getCollectionFn("activity"),
+  permission: getCollectionFn("permission"),
+  workoutMember: getCollectionFn("workout member"),
+  membership: getCollectionFn("membership"),
+  membershipActivity: getCollectionFn("membership_activity"),
 };
