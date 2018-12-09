@@ -3,9 +3,7 @@
       <div class="jumbotron" id="head-doc">
          <header>
             <h1>{{activity.activityname}} Activity</h1>
-            {{#if permission}}
                <p id="editOption"><a  href="/activity/update/{{activity._id}}"><img src="../../public/images/Editing-edit-icon.png"></a> | <a href="/activity/delete/{{activity._id}}"><img src="../../public/images/delete.png"></a></p>
-            {{/if}}
          </header>
          {{#if msg}}
             <p class="successMsg">{{msg}}</p>

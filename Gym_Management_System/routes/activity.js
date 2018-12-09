@@ -26,27 +26,20 @@ const authRoute = function (moduleName) {
                 }
             }
         } catch (err) {
-            console.log("Problem in getting role" + err);
+            res.render("error", { title: "error" });
         }
     };
 }
 
-router.get("/", async (req, res) => {
+router.get("/",authRoute("activity"), async (req, res) => {
 
-    let userId = req.cookies.userId;
-    let permission=false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("activity", userId)
-        if(booleanFlag) {
-            permission=true;
-        }
         let activity = await activityData.getAllActivities();
         res.render("activity", {
-            activity: activity,
-            permission:true
+            activity: activity
         });
     }catch(error){
-        console.log(error);
+        res.render("error", { title: "error" });
     } 
 });
 router.get("/add", authRoute("addActivity"),async (req, res) => {
@@ -103,7 +96,7 @@ router.post("/add",authRoute("addActivity"),async (req, res) => {
         });
     }
 });
-router.get("/view/:id", async (req, res) => {
+router.get("/view/:id",authRoute("viewActivity"), async (req, res) => {
     
     let userId = req.cookies.userId;
     let permission=false;
@@ -118,13 +111,13 @@ router.get("/view/:id", async (req, res) => {
             permission:true
         });
     } catch (e) {
-        console.log(e);
+
         res.status(404).render("activity", {
             errorMessage: "Activity Not Found"
         })
     }
 });
-router.get("/update/:id",authRoute("addActivity"), async (req, res) => {
+router.get("/update/:id",authRoute("updateActivity"),async (req, res) => {
     try {
         let activity = await activityData.getActivityById(req.params.id);
         let trainerList = await userData.getUserNameByRole("TRAINER");
@@ -139,7 +132,7 @@ router.get("/update/:id",authRoute("addActivity"), async (req, res) => {
         })
     }
 });
-router.get("/delete/:id",authRoute("addActivity"), async (req, res) => {
+router.get("/delete/:id",authRoute("deleteActivity"), async (req, res) => {
     try {
         await activityData.removeActivity(req.params.id);
         res.redirect("/activity");
@@ -149,7 +142,7 @@ router.get("/delete/:id",authRoute("addActivity"), async (req, res) => {
         });
     }
 });
-router.post("/update",authRoute("addActivity"), async (req, res) => {
+router.post("/update",authRoute("updateActivity"), async (req, res) => {
     let activity;
 
     try {

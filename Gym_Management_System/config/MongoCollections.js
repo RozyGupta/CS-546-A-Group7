@@ -15,7 +15,6 @@ const getCollectionFn = collection => {
 
 module.exports = {
   user: getCollectionFn("user"),
-  trainer: getCollectionFn("trainer"),
   session: getCollectionFn("session"),
   workoutActivity: getCollectionFn("workout activity"),
   authentication: getCollectionFn("authentication"),
@@ -24,5 +23,6 @@ module.exports = {
   permission: getCollectionFn("permission"),
   workoutMember: getCollectionFn("workout member"),
   membership: getCollectionFn("membership"),
-  membershipActivity: getCollectionFn("membership_activity"),
+  trainer: getCollectionFn("trainer"),
+  gymMember: getCollectionFn("gymMember"),
 };

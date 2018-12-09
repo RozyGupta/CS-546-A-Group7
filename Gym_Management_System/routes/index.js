@@ -6,6 +6,7 @@ const activityRoutes = require("./activity");
 const workoutMemberRoutes = require("./workoutMember");
 const membershipRoutes = require("./membership");
 const trainerRoutes = require("./trainer");
+const gymMemberRoutes = require("./gymMember");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
@@ -42,10 +43,13 @@ const constructorMethod = app => {
     app.use("/membership/delete", membershipRoutes);
     app.use("/membership/update", membershipRoutes);
     app.use("/trainer", trainerRoutes);
-    app.use("./trainer/add", trainerRoutes);
-    app.use("./trainer/view", trainerRoutes);
-    app.use("./trainer/update", trainerRoutes);
-    app.use("./trainer/delete", trainerRoutes);
+    app.use("/trainer/add", trainerRoutes);
+    app.use("/trainer/view", trainerRoutes);
+    app.use("/gymMember", gymMemberRoutes);
+    app.use("/gymMember/add", gymMemberRoutes);
+    app.use("/gymMember/delete", gymMemberRoutes);
+    app.use("/gymMember/update", gymMemberRoutes);
+    app.use("/gymMember/view", gymMemberRoutes);
   }
   catch (error) {
     app.use("*", (req, res) => {
