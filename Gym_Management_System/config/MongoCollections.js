@@ -21,5 +21,7 @@ module.exports = {
   userWorkout:getCollectionFn("user_workout"),
   activity:getCollectionFn("activity"),
   permission:getCollectionFn("permission"),
-  workoutMember:getCollectionFn("workout member")
+  workoutMember:getCollectionFn("workout member"),
+  membership:getCollectionFn("membership"),
+  membershipActivity:getCollectionFn("membership_activity"),
 };

@@ -151,7 +151,7 @@ router.post("/add/",authRoute("addWorkoutActivity"),async (req, res) => {
 
 
 router.post("/update/",authRoute("updateWorkoutActivity"), async (req, res) => {
-   
+   try{
     let activityToUpdate = req.body;
     let activityId = activityToUpdate.activityId;
     let level = activityToUpdate.activitylevel;
@@ -163,9 +163,13 @@ router.post("/update/",authRoute("updateWorkoutActivity"), async (req, res) => {
     let sets = activityToUpdate.sets;
     let weight = activityToUpdate.weight;
     let repetitions = activityToUpdate.repetitions;
-    let updatedActivity = await workoutActivityData.updateActivity(activityId,level,description,startdate,enddate,days,activity,sets,weight,repetitions);
     
+    let updatedActivity = await workoutActivityData.updateActivity(activityId,level,description,startdate,enddate,days,activity,sets,weight,repetitions);
     res.render("viewWorkoutActivity",{message:"Activity updated Successfully",title: "viewWorkoutActivity"})
+    }
+    catch(e){
+        res.render("error", { title: "error" });
+    }
  
 });
 
