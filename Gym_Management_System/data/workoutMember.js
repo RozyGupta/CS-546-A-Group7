@@ -47,6 +47,7 @@ const exportedMethods = {
         }
 
     },
+
     async addUserActivity(userId, activityId) {
         if (!userId) throw "No userId provided";
         if (!activityId) throw "No activityId provided!";
@@ -76,6 +77,7 @@ const exportedMethods = {
             throw `Could not delete activity with id: ${activityId}`;
         }
     },
+
     async removeUserActivity(activityId) {
 
         if (!activityId) throw "You must provide an id to delete";
@@ -88,7 +90,7 @@ const exportedMethods = {
         }
     },
 
-    async getAllUserActivitiesId(userid) {
+    async getUserActivitiesId(userid) {
         if (!userid) throw "You must provide  userid to search for";
 
         let activityArray = [];
@@ -123,12 +125,14 @@ const exportedMethods = {
 
     },
 
-    async updateActivity(activityId,level, description, startdate, enddate, days, activity, sets, weight, repetitions) {
+    async updateActivity(activityId, level, description, startdate, enddate, days, activity, sets, weight, repetitions) {
         if (!activityId) throw "You must provide an id to update";
-        const workoutMemberCollection = await workoutMember(); 
-    
-        const finishedTask = await workoutMemberCollection.updateOne({ _id: activityId }, {$set: 
-            {   level: level,
+        const workoutMemberCollection = await workoutMember();
+
+        const finishedTask = await workoutMemberCollection.updateOne({ _id: activityId }, {
+            $set:
+            {
+                level: level,
                 description: description,
                 startdate: startdate,
                 enddate: enddate,
@@ -138,15 +142,13 @@ const exportedMethods = {
                 weight: weight,
                 repetitions: repetitions
             }
-        
-        
+
         });
-    
+
         if (finishedTask.modifiedCount === 0) {
-          throw "Could not update task successfully";
+            throw "Could not update task successfully";
         }
-    
-    
+
     },
 
 }

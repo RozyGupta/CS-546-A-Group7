@@ -2,13 +2,13 @@
     <div class="container-fluid">
         <div class="jumbotron" id="addUser-form">
             <header>
-            <h1>Create User</h1>
+                <h1>Create User</h1>
             </header>
             {{#if successMsg}}
-                <p class="successMsg">{{successMsg}}</p>
+            <p class="successMsg">{{successMsg}}</p>
             {{/if}}
             {{#if alertMsg}}
-                <p class="alertMsg">{{alertMsg}}</p>
+            <p class="alertMsg">{{alertMsg}}</p>
             {{/if}}
             <form id="createUser-form" method="POST">
                 <div id="inputDiv">
@@ -70,7 +70,7 @@
                     <div class="col-sm-6">
                         <label for="role">Role</label><br>
                         <select id="role" name="role">
-                            <option value="gymMember">Gym Memeber</option>
+                            <option value="gymMember">Gym Member</option>
                             <option value="TRAINER">Trainer</option>
                             <option value="ADMIN">Admin</option>
                             <option value="STAFF">Staff</option>
