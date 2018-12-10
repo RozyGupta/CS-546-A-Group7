@@ -3,6 +3,7 @@ const router = express.Router();
 const data = require("../data");
 const gymMemberData = data.gymMember;
 const authentication=data.authentication;
+const noticeData=data.notice;
 
 const authRoute = function (moduleName) {
 

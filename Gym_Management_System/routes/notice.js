@@ -149,11 +149,8 @@ router.post("/update",authRoute("updateNotice"), async (req, res) => {
     let notice;
     try {
         notice = req.body;
-        console.log(notice)
         let noticeId = notice.noticeId;
-        console.log(noticeId);
         let title = notice.title;
-        console.log(title)
         let content = notice.content;
         let startdate = notice.startdate;
         let enddate = notice.enddate;

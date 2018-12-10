@@ -17,7 +17,7 @@ let exportedMethods = {
         return userCollection.updateOne({
           _id: userId
         }, updateCommand).then(() => {
-          return this.getUserById(id);;
+          return this.getUserById(userId);;
         });
       });
     });

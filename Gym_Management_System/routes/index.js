@@ -1,4 +1,4 @@
-const createUserRoutes = require("./createUser");
+const userRoutes = require("./user");
 const dashboard = require("./dashboard");
 const loginRoutes = require("./login");
 const workoutActivityRoutes = require("./workoutActivity");
@@ -21,7 +21,11 @@ const constructorMethod = app => {
 
     app.use("/", loginRoutes);
     app.use("/dashboard", dashboard);
-    app.use("/createUser", createUserRoutes);
+    app.use("/user", userRoutes);
+    app.use("/user/add", userRoutes);
+    app.use("/user/view", userRoutes);
+    app.use("/user/delete", userRoutes);
+    app.use("/user/update", userRoutes);
     app.use("/workoutActivity", workoutActivityRoutes);
     app.use("/workoutActivity/view/", workoutActivityRoutes);
     app.use("/workoutActivity/add/", workoutActivityRoutes);
