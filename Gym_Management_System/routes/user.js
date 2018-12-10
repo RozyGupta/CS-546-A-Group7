@@ -1,0 +1,126 @@
+const express = require("express");
+const router = express.Router();
+const data = require("../data");
+const userData = data.user;
+const bodyParser = require('body-parser');
+const cookieParser = require("cookie-parser");
+const authentication=data.authentication;
+
+router.use(cookieParser());
+router.use(bodyParser.json());
+
+const authRoute = function (moduleName) {
+
+    return async function (req, res, next) {
+
+        let userId = req.cookies.userId;
+        console.log("userId" + userId);
+        try {
+            if (!moduleName) {
+                throw "moduleName or UserId is empty";
+            } else {
+                let booleanFlag = await authentication.getPermissionForRoute(moduleName, userId)
+                if (booleanFlag) {
+                    next();
+                } else {
+                    res.status(403).render("error", {
+                        layout: "index",
+                        title: "Error",
+                        error: "Page Not available"
+                    });
+                }
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+}
+
+router.get('/', async function (req, res) {
+    try{
+    let users = await userData.getAllUsers();
+    res.render("user", {users: users});
+}catch(error){
+    res.render("error", { title: "error" });
+} 
+});
+
+router.get("/add",async (req, res) => {
+    res.render("addUser");
+
+});
+router.post("/add/", async function (req, res) {
+    try {
+        let userInfo = req.body;
+        let successFlag = await userData.createUser(userInfo);
+        if (successFlag == true) {
+            res.redirect("/user");
+        } else {
+            res.render("addUser", {
+                alertMsg: "User Creation unsuccess"
+            })
+        }
+    } catch (err) {
+        console.log("ERROR" + err);
+    }
+});
+
+router.get("/view/:id", async (req, res) => {
+    
+   
+    try {
+        let user = await userData.getUserById(req.params.id);
+        res.render("viewUser", {
+            user: user,
+        });
+    } catch (e) {
+        res.status(404).render("user", {
+            errorMessage: "User Not Found"
+        })
+    }
+});
+
+
+router.get("/update/:id",async (req, res) => {
+    try {
+        let user = await userData.getUserById(req.params.id);
+        res.render("updateUser", {
+            user: user,
+        });
+    } catch (e) {
+        res.status(404).render("user", {
+            errorMessage: "User Not Found"
+        })
+    }
+});
+
+router.get("/delete/:id", async (req, res) => {
+    try {
+        await userData.deleteUser(req.params.id);
+        res.redirect("/user");
+    } catch (error) {
+        res.render("viewUser", {
+            alertMsg: "error while deleting"
+        });
+    }
+});
+router.post("/update",async (req, res) => {
+    let user;
+
+    try {
+        user = req.body;
+        let userId=user.userId;
+        let updatedUser = await userData.updateUser(userId,user);
+         res.render("viewUser", {
+         msg: "User updated Successfully"
+        });
+    } catch (error) {
+        console.log(error);
+        res.render("updateUser", {
+            error: "error while updating"
+        });
+
+    }
+});
+
+module.exports = router;

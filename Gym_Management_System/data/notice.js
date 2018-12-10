@@ -82,8 +82,7 @@ const exportedMethods = {
           throw "Could not update task successfully";
         }
     },
-
-
+    
 }
 
 module.exports = exportedMethods;
