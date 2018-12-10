@@ -7,6 +7,9 @@
          {{#if error}}
          <p class = "alertMsg">*{{error}}</p>
          {{/if}}
+          {{#if alertMsg}}
+         <p class = "alertMsg">*{{alertMsg}}</p>
+         {{/if}}
          <form id="updateGymMember-form" action="/gymMember/update" method="POST">
             <div id="inputDiv">
                <label for="membername"> Member Name</label><br>

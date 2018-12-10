@@ -157,11 +157,45 @@ router.post("/update",authRoute("updateNotice"), async (req, res) => {
         let noticeFor = notice.noticeFor;
 
        
-
+        if (!title) {
+            res.render("updateNotice", {
+                alertMsg: "Please provide notice title",
+                title: "updateNotice"
+            });
+            return;
+        }
+        if (!content) {
+            res.render("updateNotice", {
+                alertMsg: "Please provide notice content name",
+                title: "updateNotice"
+            });
+            return;
+        }
+        if (!startdate) {
+            res.render("addNotice", {
+                alertMsg: "Please provide notice startdate",
+                title: "addNotice"
+            });
+            return;
+        }
+        if (!enddate) {
+            res.render("updateNotice", {
+                alertMsg: "Please provide notice enddate",
+                title: "updateNotice"
+            });
+            return;
+        }
+        if (!noticeFor) {
+            res.render("updateNotice", {
+                alertMsg: "Please provide notice for ",
+                title: "updateNotice"
+            });
+            return;
+        }
         await noticeData.updateNotice(noticeId,title,content,startdate,enddate,noticeFor);
         let updatedNotice = await noticeData.getNoticesById(noticeId);
 
-        res.render("viewNotice", {
+        res.render("updateNotice", {
             notice: notice,
             msg: "Notice updated Successfully"
         });

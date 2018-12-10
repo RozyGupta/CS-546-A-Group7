@@ -46,6 +46,13 @@ router.get("/add",authRoute("addUser"),async (req, res) => {
 router.post("/add/",authRoute("addUser"), async function (req, res) {
     try {
         let userInfo = req.body;
+        if(!userInfo){
+            res.render("adduser", {
+                alertMsg: "Please provide user Info",
+                title: "adduser"
+            });
+            return;
+        }
         let successFlag = await userData.createUser(userInfo);
         if (successFlag == true) {
             res.redirect("/user");
@@ -103,6 +110,13 @@ router.post("/update",authRoute("updateUser"),async (req, res) => {
 
     try {
         user = req.body;
+        if(!user){
+            res.render("adduser", {
+                alertMsg: "Please provide user Info",
+                title: "adduser"
+            });
+            return;
+        }
         let userId=user.userId;
         let updatedUser = await userData.updateUser(userId,user);
          res.render("viewUser", {

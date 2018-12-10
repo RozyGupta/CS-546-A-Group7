@@ -142,6 +142,34 @@ router.post("/update",authRoute("updateMembership"),async (req, res) => {
         let membershipperiod = membership.membershipperiod;
         let signupfees = membership.signupfees;
         let services = membership.services;
+        if (!membershipname) {
+            res.render("updateMembership", {
+                alertMsg: "Please provide membership name",
+                title: "updateMembership"
+            });
+            return;
+        }
+        if (!membershipperiod) {
+            res.render("updateMembership", {
+                alertMsg: "Please provide membership period",
+                title: "updateMembership"
+            });
+            return;
+        }
+        if (!signupfees) {
+            res.render("updateMembership", {
+                alertMsg: "Please provide signup fees",
+                title: "updateMembership"
+            });
+            return;
+        }
+        if (!services) {
+            res.render("updateMembership", {
+                alertMsg: "Please provide services name",
+                title: "updateMembership"
+            });
+            return;
+        }
          await membershipData.updateMembership(membershipId,membershipname,membershipperiod,signupfees,services);
          res.render("viewMembership", {
          msg: "Activity updated Successfully"
