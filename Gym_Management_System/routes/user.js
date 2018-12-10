@@ -2,19 +2,13 @@ const express = require("express");
 const router = express.Router();
 const data = require("../data");
 const userData = data.user;
-const bodyParser = require('body-parser');
-const cookieParser = require("cookie-parser");
 const authentication=data.authentication;
-
-router.use(cookieParser());
-router.use(bodyParser.json());
 
 const authRoute = function (moduleName) {
 
     return async function (req, res, next) {
 
         let userId = req.cookies.userId;
-        console.log("userId" + userId);
         try {
             if (!moduleName) {
                 throw "moduleName or UserId is empty";
@@ -36,7 +30,7 @@ const authRoute = function (moduleName) {
     };
 }
 
-router.get('/', async function (req, res) {
+router.get('/',authRoute("user"), async function (req, res) {
     try{
     let users = await userData.getAllUsers();
     res.render("user", {users: users});
@@ -45,11 +39,11 @@ router.get('/', async function (req, res) {
 } 
 });
 
-router.get("/add",async (req, res) => {
+router.get("/add",authRoute("addUser"),async (req, res) => {
     res.render("addUser");
 
 });
-router.post("/add/", async function (req, res) {
+router.post("/add/",authRoute("addUser"), async function (req, res) {
     try {
         let userInfo = req.body;
         let successFlag = await userData.createUser(userInfo);
@@ -65,7 +59,7 @@ router.post("/add/", async function (req, res) {
     }
 });
 
-router.get("/view/:id", async (req, res) => {
+router.get("/view/:id",authRoute("viewUser"), async (req, res) => {
     
    
     try {
@@ -81,7 +75,7 @@ router.get("/view/:id", async (req, res) => {
 });
 
 
-router.get("/update/:id",async (req, res) => {
+router.get("/update/:id",authRoute("updateUser"),async (req, res) => {
     try {
         let user = await userData.getUserById(req.params.id);
         res.render("updateUser", {
@@ -94,7 +88,7 @@ router.get("/update/:id",async (req, res) => {
     }
 });
 
-router.get("/delete/:id", async (req, res) => {
+router.get("/delete/:id",authRoute("deleteUser"),async (req, res) => {
     try {
         await userData.deleteUser(req.params.id);
         res.redirect("/user");
@@ -104,7 +98,7 @@ router.get("/delete/:id", async (req, res) => {
         });
     }
 });
-router.post("/update",async (req, res) => {
+router.post("/update",authRoute("updateUser"),async (req, res) => {
     let user;
 
     try {

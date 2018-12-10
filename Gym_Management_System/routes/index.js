@@ -1,4 +1,5 @@
 const userRoutes = require("./user");
+const adminOnlyRoutes = require("./adminOnly");
 const dashboard = require("./dashboard");
 const loginRoutes = require("./login");
 const workoutActivityRoutes = require("./workoutActivity");
@@ -60,6 +61,8 @@ const constructorMethod = app => {
     app.use("/notice/view", noticeRoutes);
     app.use("/notice/delete", noticeRoutes);
     app.use("/notice/update", noticeRoutes);
+    app.use("/adminOnly",adminOnlyRoutes);
+    app.use("/adminOnly/add",adminOnlyRoutes);
   }
   catch (error) {
     app.use("*", (req, res) => {
