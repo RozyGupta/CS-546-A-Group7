@@ -188,6 +188,69 @@ router.post("/update",authRoute("updateGymMember"),async (req, res) => {
         let memberusername = member.memberusername;
         let memberheight = member.memberheight;
         let memberweight = member.memberweight;
+        if (!membername) {
+            res.render("updateGymMember", {
+                alertMsg: "Please provide name",
+                title: "updateGymMember"
+            });
+            return;
+        }
+        if (!memberaddress) {
+            res.render("updateGymMember", {
+                alertMsg: "Please provide address",
+                title: "updateGymMember"
+            });
+            return;
+        }
+        if (!memberemail) {
+            res.render("updateGymMember", {
+                alertMsg: "Please provide email",
+                title: "updateGymMember"
+            });
+            return;
+        }
+        if (!membermobileno) {
+            res.render("updateGymMember", {
+                alertMsg: "Please provide mobileno",
+                title: "updateGymMember"
+            });
+            return;
+        }
+        if (!memberdob) {
+            res.render("updateGymMember", {
+                alertMsg: "Please provide date of birth",
+                title: "updateGymMember"
+            });
+            return;
+        }
+        if (!membergender) {
+            res.render("updateGymMember", {
+                alertMsg: "Please provide gender",
+                title: "updateGymMember"
+            });
+            return;
+        }
+        if (!memberusername) {
+            res.render("updateGymMember", {
+                alertMsg: "Please provide username",
+                title: "updateGymMember"
+            });
+            return;
+        }
+        if (!memberheight) {
+            res.render("updateGymMember", {
+                alertMsg: "Please provide height",
+                title: "updateGymMember"
+            });
+            return;
+        }
+        if (!memberweight) {
+            res.render("updateGymMember", {
+                alertMsg: "Please provide weight",
+                title: "updateGymMember"
+            });
+            return;
+        }
         let bmi = memberweight/(memberheight*memberheight);
         await gymMemberData.updateGymMember(memberId,membername,memberaddress,memberemail,membermobileno,memberdob,membergender,memberusername,memberheight,memberweight,bmi);
          res.render("viewGymMember", {

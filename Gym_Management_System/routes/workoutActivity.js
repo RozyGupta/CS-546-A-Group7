@@ -163,7 +163,44 @@ router.post("/update/",authRoute("updateWorkoutActivity"), async (req, res) => {
     let sets = activityToUpdate.sets;
     let weight = activityToUpdate.weight;
     let repetitions = activityToUpdate.repetitions;
-    
+    if (!level) {
+        res.render("updateWorkoutActivity", { activity:allActivities, message: "Please provide level", title: "updateWorkoutActivity" });
+        return;
+    }
+
+    if (!description) {
+        res.render("updateWorkoutActivity", {activity:allActivities, message: "Please provide description", title: "updateWorkoutActivity" });
+        return;
+    }
+
+    if (!startdate) {
+        res.render("updateWorkoutActivity", {activity:allActivities, message: "Please provide startdate", title: "updateWorkoutActivity" });
+        return;
+    }
+    if (!enddate) {
+        res.render("updateWorkoutActivity", {activity:allActivities,message: "Please provide enddate", title: "updateWorkoutActivity" });
+        return;
+    }
+    if (!days) {
+        res.render("updateWorkoutActivity", {activity:allActivities,message: "Please provide days", title: "updateWorkoutActivity" });
+        return;
+    }
+    if (!activity) {
+        res.render("updateWorkoutActivity", {activity:allActivities,message: "Please provide activity", title: "updateWorkoutActivity" });
+        return;
+    }
+    if (!sets) {
+        res.render("updateWorkoutActivity", {activity:allActivities,message: "Please provide sets", title: "updateWorkoutActivity" });
+        return;
+    }
+    if (!weight) {
+        res.render("updateWorkoutActivity", {activity:allActivities,message: "Please provide weight", title: "updateWorkoutActivity" });
+        return;
+    }
+    if (!repetitions) {
+        res.render("updateWorkoutActivity", {activity:allActivities,message: "Please provide repetitions", title: "updateWorkoutActivity" });
+        return;
+    }
     let updatedActivity = await workoutActivityData.updateActivity(activityId,level,description,startdate,enddate,days,activity,sets,weight,repetitions);
     res.render("viewWorkoutActivity",{message:"Activity updated Successfully",title: "viewWorkoutActivity"})
     }

@@ -153,6 +153,35 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
         let activityDescription = activity.description;
         let activitytrainer = activity.trainer;
         let membershipplan = activity.membershipplan;
+        
+        if (!activityname) {
+            res.render("updateActivity", {
+                alertMsg: "Please provide activity name",
+                title: "updateActivity"
+            });
+            return;
+        }
+        if (!activitytrainer) {
+            res.render("updateActivity", {
+                alertMsg: "Please provide activity trainer name",
+                title: "updateActivity"
+            });
+            return;
+        }
+        if (!membershipplan) {
+            res.render("updateActivity", {
+                alertMsg: "Please provide membershipplan",
+                title: "updateActivity"
+            });
+            return;
+        }
+        if (!activityDescription) {
+            res.render("updateActivity", {
+                alertMsg: "Please provide member name",
+                title: "updateActivity"
+            });
+            return;
+        }
 
         let updateActivity = {
             activityId: activityId,

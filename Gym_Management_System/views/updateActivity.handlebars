@@ -7,6 +7,9 @@
          {{#if error}}
          <p class = "alertMsg">*{{error}}</p>
          {{/if}}
+         {{#if alertMsg}}
+         <p class = "alertMsg">*{{alertMsg}}</p>
+         {{/if}}
          <form id="createActivity-form" action="/activity/update" method="POST">
             <div id="inputDiv">
                <label for="activity"> Activity Name</label><br>
