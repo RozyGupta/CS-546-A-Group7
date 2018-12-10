@@ -25,4 +25,5 @@ module.exports = {
   membership: getCollectionFn("membership"),
   trainer: getCollectionFn("trainer"),
   gymMember: getCollectionFn("gymMember"),
+  notice: getCollectionFn("notice"),
 };
