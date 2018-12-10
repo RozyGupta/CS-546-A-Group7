@@ -7,6 +7,7 @@ const workoutMember = require("./workoutMember");
 const membership = require("./membership");
 const trainer = require("./trainer");
 const gymMember = require("./gymMember");
+const notice = require("./notice");
 
 module.exports = {
   user: user,
@@ -17,5 +18,6 @@ module.exports = {
   workoutMember: workoutMember,
   membership: membership,
   trainer: trainer,
-  gymMember: gymMember
+  gymMember: gymMember,
+  notice:notice
 };
