@@ -244,33 +244,82 @@ router.post("/delete", authRoute("deleteWorkoutMember"), async (req, res) => {
     }
 });
 router.post("/update", authRoute("updateWorkoutMember"), async (req, res) => {
-    let activityToUpdate = req.body;
-    let activityId = activityToUpdate.activityId;
-    let level = activityToUpdate.activitylevel;
-    let description = activityToUpdate.activitydescription;
-    let startdate = activityToUpdate.activitystartdate;
-    let enddate = activityToUpdate.activityenddate;
-    let days = activityToUpdate.days;
-    let activity = activityToUpdate.activity;
-    let sets = activityToUpdate.sets;
-    let weight = activityToUpdate.weight;
-    let repetitions = activityToUpdate.repetitions;
-    let updatedActivity = await resultData.updateActivity(activityId, level, description, startdate, enddate, days, activity, sets, weight, repetitions);
-    let userId = req.cookies.userId;
-    let user = await userData.getUserById(userId);
+    try {
+        let activityToUpdate = req.body;
+        let activityId = activityToUpdate.activityId;
+        let level = activityToUpdate.activitylevel;
+        let description = activityToUpdate.activitydescription;
+        let startdate = activityToUpdate.activitystartdate;
+        let enddate = activityToUpdate.activityenddate;
+        let days = activityToUpdate.days;
+        let activity = activityToUpdate.activity;
+        let sets = activityToUpdate.sets;
+        let weight = activityToUpdate.weight;
+        let repetitions = activityToUpdate.repetitions;
 
-    let permission = false;
-    let booleanFlag = await authentication.getPermissionForRoute("updateWorkoutMember", userId)
-    if (booleanFlag) {
-        permission = true;
+        if (!activityId) {
+            res.render("updateWorkoutMember", { message: "Please provide activityId", title: "updateWorkoutMember" });
+            return;
+        }
+
+        if (!level) {
+            res.render("updateWorkoutMember", { message: "Please provide level", title: "updateWorkoutMember" });
+            return;
+        }
+
+        if (!description) {
+            res.render("updateWorkoutMember", { message: "Please provide description", title: "updateWorkoutMember" });
+            return;
+        }
+
+        if (!startdate) {
+            res.render("updateWorkoutMember", { message: "Please provide startdate", title: "updateWorkoutMember" });
+            return;
+        }
+        if (!enddate) {
+            res.render("updateWorkoutMember", { message: "Please provide enddate", title: "updateWorkoutMember" });
+            return;
+        }
+        if (!days) {
+            res.render("updateWorkoutMember", { message: "Please provide days", title: "updateWorkoutMember" });
+            return;
+        }
+        if (!activity) {
+            res.render("updateWorkoutMember", { message: "Please provide activity", title: "updateWorkoutMember" });
+            return;
+        }
+        if (!sets) {
+            res.render("updateWorkoutMember", { message: "Please provide sets", title: "updateWorkoutMember" });
+            return;
+        }
+        if (!weight) {
+            res.render("updateWorkoutMember", { message: "Please provide weight", title: "updateWorkoutMember" });
+            return;
+        }
+        if (!repetitions) {
+            res.render("updateWorkoutMember", { message: "Please provide repetitions", title: "updateWorkoutMember" });
+            return;
+        }
+        
+        let updatedActivity = await resultData.updateActivity(activityId, level, description, startdate, enddate, days, activity, sets, weight, repetitions);
+
+        let userId = req.cookies.userId;
+        let user = await userData.getUserById(userId);
+        let permission = false;
+        let booleanFlag = await authentication.getPermissionForRoute("updateWorkoutMember", userId)
+        if (booleanFlag) {
+            permission = true;
+        }
+        res.render("memberViewWorkout", {
+            message: "Activity updated Successfully",
+            title: "memberViewWorkout",
+            username: user,
+            permission: permission
+        })
     }
-    res.render("memberViewWorkout", {
-        message: "Activity updated Successfully",
-        title: "memberViewWorkout",
-        username: user,
-        permission: permission
-    })
-
+    catch (e) {
+        res.render("error", { title: "error" });
+    }
 });
 
 
