@@ -5,12 +5,13 @@ const activityData = data.activity;
 const userData = data.user;
 const resultData = data.workoutMember;
 const authentication = data.authentication;
+const xss = require("xss");
 
 const authRoute = function (moduleName) {
 
     return async function (req, res, next) {
 
-        let userId = req.cookies.userId;
+        let userId = xss(req.cookies.userId);
         try {
             if (!moduleName) {
                 throw "moduleName or UserId is empty";
@@ -34,7 +35,7 @@ const authRoute = function (moduleName) {
 
 router.get("/", async (req, res) => {
 
-    let userId = req.cookies.userId;
+    let userId = xss(req.cookies.userId);
     let permission = false;
     try {
         let booleanFlag = await authentication.getPermissionForRoute("workoutMember", userId)
@@ -53,7 +54,7 @@ router.get("/", async (req, res) => {
 router.get("/add", authRoute("addWorkoutMember"), async (req, res) => {
 
     try {
-        let userId = req.cookies.userId;
+        let userId = xss(req.cookies.userId);
         let user = await userData.getUserById(userId);
         let permission = false;
         let booleanFlag = await authentication.getPermissionForRoute("addWorkoutMember", userId)
@@ -76,7 +77,7 @@ router.get("/add", authRoute("addWorkoutMember"), async (req, res) => {
 
 router.post("/add", authRoute("addWorkoutMember"), async (req, res) => {
 
-    let user = req.body;
+    let user =xss(req.body);
     let username = user.username;
     let level = user.level;
     let description = user.description;
@@ -132,7 +133,7 @@ router.post("/add", authRoute("addWorkoutMember"), async (req, res) => {
     try {
         let postcredentials = await resultData.addActivity(level, description, startdate, enddate, days, activity, sets, weight, repetitions);
         acitivityId = postcredentials.newId;
-        let userId = req.cookies.userId;
+        let userId = xss(req.cookies.userId);
         let user = userData.getUserById(userId);
         let postuserActivity = await resultData.addUserActivity(userId, acitivityId);
         let permission = false;
@@ -154,7 +155,7 @@ router.post("/add", authRoute("addWorkoutMember"), async (req, res) => {
 router.get("/view", authRoute("viewWorkoutMember"), async (req, res) => {
 
     try {
-        let userId = req.cookies.userId;
+        let userId = xss(req.cookies.userId);
         let user = await userData.getUserById(userId);
         let permission = false;
         let booleanFlag = await authentication.getPermissionForRoute("viewWorkoutMember", userId)
@@ -181,7 +182,7 @@ router.get("/view", authRoute("viewWorkoutMember"), async (req, res) => {
 });
 
 router.post("/view", authRoute("viewWorkoutMember"), async (req, res) => {
-    let userId = req.cookies.userId;
+    let userId = xss(req.cookies.userId);
     let user = await userData.getUserById(userId);
     if (!userId) {
         res.render("memberViewWorkout", { message: "Please provide userId", title: "memberViewWorkout" });
@@ -208,7 +209,7 @@ router.post("/view", authRoute("viewWorkoutMember"), async (req, res) => {
         });
     }
     catch (e) {
-        let userId = req.cookies.userId;
+        let userId =xss(req.cookies.userId);
         let user = await userData.getUserById(userId);
         res.render("memberViewWorkout", { message: "No activities for this user", username: user, title: "memberViewWorkout" });
         return;
@@ -217,7 +218,7 @@ router.post("/view", authRoute("viewWorkoutMember"), async (req, res) => {
 
 
 router.post("/delete", authRoute("deleteWorkoutMember"), async (req, res) => {
-    let activityId = req.body.activityId;
+    let activityId = xss(req.body.activityId);
 
     if (!activityId) {
         res.render("memberViewWorkout", { message: "No activity to delete" });
@@ -226,7 +227,7 @@ router.post("/delete", authRoute("deleteWorkoutMember"), async (req, res) => {
     try {
         let postActivity = await resultData.removeActivity(activityId);
         let postuserActivity = await resultData.removeUserActivity(activityId);
-        let userId = req.cookies.userId;
+        let userId = xss(req.cookies.userId);
         let user = await userData.getUserById(userId);
         let permission = false;
         let booleanFlag = await authentication.getPermissionForRoute("deleteWorkoutMember", userId)
@@ -244,7 +245,7 @@ router.post("/delete", authRoute("deleteWorkoutMember"), async (req, res) => {
     }
 });
 router.post("/update", authRoute("updateWorkoutMember"), async (req, res) => {
-    let activityToUpdate = req.body;
+    let activityToUpdate = xss(req.body);
     let activityId = activityToUpdate.activityId;
     let level = activityToUpdate.activitylevel;
     let description = activityToUpdate.activitydescription;
@@ -256,7 +257,7 @@ router.post("/update", authRoute("updateWorkoutMember"), async (req, res) => {
     let weight = activityToUpdate.weight;
     let repetitions = activityToUpdate.repetitions;
     let updatedActivity = await resultData.updateActivity(activityId, level, description, startdate, enddate, days, activity, sets, weight, repetitions);
-    let userId = req.cookies.userId;
+    let userId = xss(req.cookies.userId);
     let user = await userData.getUserById(userId);
 
     let permission = false;

@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
 router.post('/login', async function (req, res) {
 
   let userId = undefined;
-  let userInfo = req.body;
+  let userInfo = xss(req.body);
 
   try {
 
@@ -50,8 +50,8 @@ router.post('/login', async function (req, res) {
     } else {
       let sessionId = uuidv1();
       await session.createSession("authCookie", sessionId, userId);
-      res.cookie('authCookie', sessionId);
-      res.cookie('userId', userId);
+      xss(res.cookie('authCookie', sessionId));
+      xss(res.cookie('userId', userId));
       res.redirect("/dashboard");
     }
   } catch (error) {

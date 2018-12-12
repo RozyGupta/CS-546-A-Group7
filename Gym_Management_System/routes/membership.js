@@ -3,12 +3,13 @@ const router = express.Router();
 const data = require("../data");
 const membershipData = data.membership;
 const authentication=data.authentication;
+const xss = require("xss");
 
 const authRoute = function (moduleName) {
 
     return async function (req, res, next) {
 
-        let userId = req.cookies.userId;
+        let userId = xss(req.cookies.userId);
         try {
             if (!moduleName) {
                 throw "moduleName or UserId is empty";
@@ -50,7 +51,7 @@ router.get("/add",authRoute("addMembership"),async (req, res) => {
 router.post("/add",authRoute("addMembership"),async (req, res) => {
 
     try {
-        let membership = req.body;
+        let membership = xss(req.body);
         let membershipname = membership.membershipname;
         let membershipperiod = membership.membershipperiod
         let signupfees = membership.signupfees;
@@ -97,7 +98,7 @@ router.get("/view/:id",authRoute("viewMembership"), async (req, res) => {
     
    
     try {
-        let membership = await membershipData.getMembershipById(req.params.id);
+        let membership = await membershipData.getMembershipById(xss(req.params.id));
         res.render("viewMembership", {
             membership: membership,
         });
@@ -110,7 +111,7 @@ router.get("/view/:id",authRoute("viewMembership"), async (req, res) => {
 
 router.get("/update/:id",authRoute("updateMembership"),async (req, res) => {
     try {
-        let membership = await membershipData.getMembershipById(req.params.id);
+        let membership = await membershipData.getMembershipById(xss(req.params.id));
         res.render("updateMembership", {
             membership: membership
         });
@@ -123,7 +124,7 @@ router.get("/update/:id",authRoute("updateMembership"),async (req, res) => {
 });
 router.get("/delete/:id",authRoute("deleteMembership"), async (req, res) => {
     try {
-        await membershipData.removeMembership(req.params.id);
+        await membershipData.removeMembership(xss(req.params.id));
         res.redirect("/membership");
     } catch (error) {
         res.render("viewMembership", {
