@@ -178,6 +178,7 @@ router.post("/update",authRoute("updateMembership"),async (req, res) => {
          membership: updatedMembership
         });
     } catch (error) {
+        console.log(error);
         res.render("updateMembership", {
             error: "error while updating",
             membership:membership

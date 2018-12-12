@@ -77,9 +77,9 @@ const exportedMethods = {
             } 
         });
     
-        if (updatedNotice.modifiedCount === 0) {
-          throw "Could not update task successfully";
-        }
+        // if (updatedNotice.modifiedCount === 0) {
+        //   throw "Could not update task successfully";
+        // }
         return updatedNotice;
     },
     

@@ -107,12 +107,12 @@ let exportedMethods = {
         });
 
     });
-    if (addedUser.insertedCount === 0) {
-      throw "Could not add user successfully";
-    } else {
+    // if (addedUser.insertedCount === 0) {
+    //   throw "Could not add user successfully";
+    // } else {
       return true;
 
-    }
+    
   }
 };
 
