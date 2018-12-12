@@ -3,6 +3,7 @@ const user = require("./user");
 const session = require("./session");
 const mongoCollections = require("../config/mongoCollections");
 const permission = mongoCollections.permission;
+const uuid = require('uuid/v1');
 
 let exportedMethods = {
 
@@ -64,8 +65,34 @@ let exportedMethods = {
                 throw e;
             }
         }
-    }
+    },
 
+
+async addPermission(moduleName,route,adminpermission) {
+        
+    if (!moduleName) throw "No modulename provided";
+    if (!route) throw "No route provided";
+    if (!permission) throw "No permission provided";
+    
+   
+    const permissionCollection = await permission();
+    const newpermission = {
+        _id: uuid(),
+        moduleName: moduleName,
+        route:route,
+        permission:adminpermission         
+    };
+
+    const addedPermission = await permissionCollection.insertOne(newpermission);
+    //const newId = addedPermission.insertedId;
+    
+    // return {
+    //     status: true,
+    //     addedPermission,
+    //     newId
+    // }
+    
+},
 };
 
 module.exports = exportedMethods;
