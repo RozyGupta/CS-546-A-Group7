@@ -87,7 +87,7 @@ const exportedMethods = {
         if (updatedMember.modifiedCount === 0) {
           throw "Could not update task successfully";
         }
-    
+        return updatedMember;
     },
 }
 module.exports = exportedMethods;

@@ -63,24 +63,24 @@ const exportedMethods = {
     },
 
     
-
-
     async updateNotice(noticeId,title,content,startdate,enddate,noticeFor) {
         if (!noticeId) throw "You must provide an id to update";
-        const noticeCollection = await notice();
+        const noticeCollection = await notice(); 
     
-        const finishedTask = await noticeCollection.updateOne({ _id: noticeId }, {$set: 
+        const updatedNotice = await noticeCollection.updateOne({ _id: noticeId }, 
+            {$set: 
             {   title: title,
                 content: content,
                 startdate: startdate,
                 enddate: enddate,
-                noticeFor: noticeFor
-            }
+                noticeFor:noticeFor
+            } 
         });
     
-        if (finishedTask.modifiedCount === 0) {
+        if (updatedNotice.modifiedCount === 0) {
           throw "Could not update task successfully";
         }
+        return updatedNotice;
     },
     
 }
