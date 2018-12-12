@@ -8,7 +8,7 @@ const authRoute = function (moduleName) {
 
     return async function (req, res, next) {
 
-        let userId = xss(req.cookies.userId);
+        let userId = req.cookies.userId;
         try {
             if (!moduleName) {
                 throw "moduleName or UserId is empty";
@@ -45,7 +45,7 @@ router.get("/add",authRoute("addUser"),async (req, res) => {
 });
 router.post("/add/",authRoute("addUser"), async function (req, res) {
     try {
-        let userInfo =xss(req.body);
+        let userInfo =req.body;
         if(!userInfo){
             res.render("adduser", {
                 alertMsg: "Please provide user Info",
@@ -70,7 +70,7 @@ router.get("/view/:id",authRoute("viewUser"), async (req, res) => {
     
    
     try {
-        let user = await userData.getUserById(xss(req.params.id));
+        let user = await userData.getUserById(req.params.id);
         res.render("viewUser", {
             user: user,
         });
@@ -84,7 +84,7 @@ router.get("/view/:id",authRoute("viewUser"), async (req, res) => {
 
 router.get("/update/:id",authRoute("updateUser"),async (req, res) => {
     try {
-        let user = await userData.getUserById(xss(req.params.id));
+        let user = await userData.getUserById(req.params.id);
         res.render("updateUser", {
             user: user,
         });
@@ -97,7 +97,7 @@ router.get("/update/:id",authRoute("updateUser"),async (req, res) => {
 
 router.get("/delete/:id",authRoute("deleteUser"),async (req, res) => {
     try {
-        await userData.deleteUser(xss(req.params.id));
+        await userData.deleteUser(req.params.id);
         res.redirect("/user");
     } catch (error) {
         res.render("viewUser", {
@@ -109,7 +109,7 @@ router.post("/update",authRoute("updateUser"),async (req, res) => {
     let user;
 
     try {
-        user = xss(req.body);
+        user = req.body;
         if(!user){
             res.render("adduser", {
                 alertMsg: "Please provide user Info",

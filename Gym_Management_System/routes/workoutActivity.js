@@ -6,14 +6,14 @@ const userData = data.user;
 const activityData = data.activity;
 const authentication=data.authentication;
 const url = require('url');
-const xss = require("xss");
+
 
 
 const authRoute = function (moduleName) {
 
     return async function (req, res, next) {
 
-        let userId = xss(req.cookies.userId);
+        let userId = req.cookies.userId;
         try {
             if (!moduleName) {
                 throw "moduleName or UserId is empty";
@@ -53,7 +53,7 @@ router.get("/view/",authRoute("viewWorkoutActivity"), async (req, res) => {
     try {
         let url_parts = url.parse(req.url, true);
         let query = url_parts.query;
-        let userId =xss(req.query.username);
+        let userId =req.query.username;
         let activityIds = await workoutActivityData.getAllUserActivitiesId(userId);
         let activityArray = [];
         for (let i = 0; i < activityIds.length; i++) {
@@ -73,7 +73,7 @@ router.get("/add/",authRoute("addWorkoutActivity"), async (req, res) => {
     try {
         let url_parts = url.parse(req.url, true);
         let query = url_parts.query;
-        let userId =xss(req.query.userId); 
+        let userId =req.query.userId; 
         let activity = await activityData.getAllActivities();
         res.render("addWorkoutActivity", {userId:userId,activity:activity});
         
@@ -85,7 +85,7 @@ router.get("/add/",authRoute("addWorkoutActivity"), async (req, res) => {
 
 });
 router.post("/add/",authRoute("addWorkoutActivity"),async (req, res) => {
-    let user =xss(req.body);
+    let user =req.body;
     let userId = user.userId
     let level = user.level;
     let description = user.description;
@@ -153,7 +153,7 @@ router.post("/add/",authRoute("addWorkoutActivity"),async (req, res) => {
 
 router.post("/update/",authRoute("updateWorkoutActivity"), async (req, res) => {
    try{
-    let activityToUpdate = xss(req.body);
+    let activityToUpdate = req.body;
     let activityId = activityToUpdate.activityId;
     let level = activityToUpdate.activitylevel;
     let description = activityToUpdate.activitydescription;
@@ -214,8 +214,8 @@ router.post("/update/",authRoute("updateWorkoutActivity"), async (req, res) => {
 router.get("/delete/",authRoute("deleteWorkoutActivity"), async (req, res) => {
     let url_parts = url.parse(req.url, true);
     let query = url_parts.query;
-    let userId =xss(req.query.userId);
-    let activityId= xss(req.query.activityId);
+    let userId =req.query.userId;
+    let activityId= req.query.activityId;
     if (!activityId) {
         res.render("viewWorkoutActivity", { message: "No activity to delete" });
     }

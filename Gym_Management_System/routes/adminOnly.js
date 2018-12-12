@@ -9,7 +9,7 @@ const authRoute = function (moduleName) {
     return async function (req, res, next) {
 
         let userId = req.cookies.userId;
-        console.log("userId" + userId);
+       
         try {
             if (!moduleName) {
                 throw "moduleName or UserId is empty";
