@@ -146,7 +146,7 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
         let activityId = activity.activityId;
         let activityname = activity.activityname;
         let activityDescription = activity.description;
-        let activitytrainer = activity.trainer;
+        let activitytrainer = activity.activitytrainer;
         let membershipplan = activity.membershipplan;
 
         

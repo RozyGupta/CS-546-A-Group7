@@ -84,13 +84,6 @@ async addPermission(moduleName,route,adminpermission) {
     };
 
     const addedPermission = await permissionCollection.insertOne(newpermission);
-    //const newId = addedPermission.insertedId;
-    
-    // return {
-    //     status: true,
-    //     addedPermission,
-    //     newId
-    // }
     
 },
 };
