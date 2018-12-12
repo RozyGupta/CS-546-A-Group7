@@ -35,6 +35,9 @@
                 {{#each showactivities}}
                 <tr name="row">
                     <form method="POST" action="/workoutMember/update">
+                        {{#if message}}
+                        <p class="message">{{message}}</p>
+                        {{/if }}
                         <td><input type="text" name="activityId" value={{this._id}}> </td>
                         <td><input type="text" name="activitylevel" value={{this.level}}></td>
                         <td><input type="text" name="activitydescription" value={{this.description}}></td>
