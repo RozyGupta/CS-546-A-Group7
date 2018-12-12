@@ -4,12 +4,13 @@ const data = require("../data");
 const trainerData = data.trainer;
 const userData = data.user;
 const authentication = data.authentication;
+const xss = require("xss");
 
 const authRoute = function (moduleName) {
 
     return async function (req, res, next) {
 
-        let userId = req.cookies.userId;
+        let userId = xss(req.cookies.userId);
         try {
             if (!moduleName) {
                 throw "moduleName or UserId is empty";
@@ -33,7 +34,7 @@ const authRoute = function (moduleName) {
 
 router.get("/", authRoute("trainer"), async (req, res) => {
 
-    let userId = req.cookies.userId;
+    let userId = xss(req.cookies.userId);
 
     try {
         let permission = false;
@@ -42,7 +43,6 @@ router.get("/", authRoute("trainer"), async (req, res) => {
             permission = true;
         }
         let trainer = await trainerData.getAllTrainers();
-        // let trainerList = await userData.getUserNameByRole("Trainer");
         
         res.render("trainer", {
             trainer: trainer,
@@ -54,16 +54,14 @@ router.get("/", authRoute("trainer"), async (req, res) => {
 });
 router.get("/add", authRoute("addTrainer"), async (req, res) => {
 
-    //let trainerList = await userData.getUserNameByRole("TRAINER");
     res.render("addTrainer", {
-        //trainerList: trainerList
     });
 
 });
 router.post("/add", authRoute("addTrainer"), async (req, res) => {
 
     try {
-        let trainer = req.body;
+        let trainer = xss(req.body);
         let trainername = trainer.trainername;
         let certifications = trainer.certifications
         let biography = trainer.biography;
@@ -101,14 +99,14 @@ router.post("/add", authRoute("addTrainer"), async (req, res) => {
 });
 router.get("/view/:id", authRoute("viewTrainer"), async (req, res) => {
 
-    let userId = req.cookies.userId;
+    let userId = xss(req.cookies.userId);
     let permission = false;
     try {
         let booleanFlag = await authentication.getPermissionForRoute("viewTrainer", userId)
         if (booleanFlag) {
             permission = true;
         }
-        let trainer = await trainerData.getTrainerById(req.params.id);
+        let trainer = await trainerData.getTrainerById(xss(req.params.id));
         res.render("viewTrainer", {
             trainer: trainer,
             permission: permission
@@ -121,7 +119,7 @@ router.get("/view/:id", authRoute("viewTrainer"), async (req, res) => {
 });
 router.get("/update/:id", authRoute("updateTrainer"), async (req, res) => {
     try {
-        let trainer = await trainerData.getTrainerById(req.params.id);
+        let trainer = await trainerData.getTrainerById(xss(req.params.id));
 
         res.render("updateTrainer", {
             trainer: trainer
@@ -135,7 +133,7 @@ router.get("/update/:id", authRoute("updateTrainer"), async (req, res) => {
 });
 router.get("/delete/:id", authRoute("deleteTrainer"), async (req, res) => {
     try {
-        await trainerData.removeTrainer(req.params.id);
+        await trainerData.removeTrainer(xss(req.params.id));
         res.redirect("/trainer");
     } catch (error) {
         res.render("viewTrainer", {
@@ -147,13 +145,34 @@ router.post("/update", authRoute("updateTrainer"), async (req, res) => {
     let trainer;
 
     try {
-        trainer = req.body;
+        trainer = xss(req.body);
 
         let trainerId = trainer.trainerId;
         let trainername = trainer.trainername;
         let certifications = trainer.certifications;
         let biography = trainer.biography;
+        if (!trainername) {
+            res.render("updateTrainer", {
+                alertMsg: "Please provide trainer name",
+                title: "updateTrainer"
+            });
+            return;
+        }
+        if (!certifications) {
+            res.render("updateTrainer", {
+                alertMsg: "Please provide certifications",
+                title: "updateTrainer"
+            });
+            return;
+        }
 
+        if (!biography) {
+            res.render("updateTrainer", {
+                alertMsg: "Please provide biography",
+                title: "updateTrainer"
+            });
+            return;
+        }
         let updateTrainer = {
             trainerId: trainerId,
             trainername: trainername,
@@ -169,7 +188,6 @@ router.post("/update", authRoute("updateTrainer"), async (req, res) => {
         });
     } catch (error) {
 
-        //let trainerList = await userData.getUserNameByRole("TRAINER");
         res.render("updateTrainer", {
             trainer: trainer,
             error: "error while updating"

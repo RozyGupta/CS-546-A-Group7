@@ -4,12 +4,13 @@ const data = require("../data");
 const gymMemberData = data.gymMember;
 const authentication=data.authentication;
 const noticeData=data.notice;
+const xss = require("xss");
 
 const authRoute = function (moduleName) {
 
     return async function (req, res, next) {
 
-        let userId = req.cookies.userId;
+        let userId = xss(req.cookies.userId);
         try {
             if (!moduleName) {
                 throw "moduleName or UserId is empty";
@@ -52,7 +53,7 @@ router.get("/add",authRoute("addGymMember"),async (req, res) => {
 router.post("/add",authRoute("addGymMember"),async (req, res) => {
 
     try {
-        let member = req.body;
+        let member =xss( req.body);
         let membername = member.membername;
         let memberaddress = member.memberaddress
         let memberemail = member.memberemail;
@@ -139,7 +140,7 @@ router.get("/view/:id",authRoute("viewGymMember"), async (req, res) => {
     
    
     try {
-        let member = await gymMemberData.getGymMemberById(req.params.id);
+        let member = await gymMemberData.getGymMemberById(xss(req.params.id));
         res.render("viewGymMember", {
             member: member,
         });
@@ -151,7 +152,7 @@ router.get("/view/:id",authRoute("viewGymMember"), async (req, res) => {
 });
 router.get("/update/:id",authRoute("updateGymMember"),async (req, res) => {
     try {
-        let member = await gymMemberData.getGymMemberById(req.params.id);
+        let member = await gymMemberData.getGymMemberById(xss(req.params.id));
         res.render("updateGymMember", {
             member: member
         });
@@ -164,7 +165,7 @@ router.get("/update/:id",authRoute("updateGymMember"),async (req, res) => {
 });
 router.get("/delete/:id",authRoute("deleteGymMember"), async (req, res) => {
     try {
-        await gymMemberData.removeGymMember(req.params.id);
+        await gymMemberData.removeGymMember(xss(req.params.id));
         res.redirect("/gymMember");
     } catch (error) {
         res.render("viewGymMember", {
@@ -177,7 +178,7 @@ router.post("/update",authRoute("updateGymMember"),async (req, res) => {
     let member;
 
     try {
-        member = req.body;
+        member = xss(req.body);
         let memberId = member.memberId;
         let membername = member.membername;
         let memberaddress = member.memberaddress
