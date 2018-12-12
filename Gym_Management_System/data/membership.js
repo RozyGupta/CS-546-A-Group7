@@ -65,7 +65,7 @@ const exportedMethods = {
         if (updatedMembership.modifiedCount === 0) {
           throw "Could not update task successfully";
         }
-    
+        return updatedMembership;
     },
     
 }

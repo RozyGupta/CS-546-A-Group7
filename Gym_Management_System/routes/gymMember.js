@@ -253,13 +253,16 @@ router.post("/update",authRoute("updateGymMember"),async (req, res) => {
         }
         let bmi = memberweight/(memberheight*memberheight);
         await gymMemberData.updateGymMember(memberId,membername,memberaddress,memberemail,membermobileno,memberdob,membergender,memberusername,memberheight,memberweight,bmi);
-         res.render("viewGymMember", {
-         msg: "Activity updated Successfully"
+        let updatedGymMember = await gymMemberData.getGymMemberById(memberId);
+        res.render("viewGymMember", {
+         msg: "Activity updated Successfully",
+         member:updatedGymMember
         });
     } catch (error) {
         console.log(error)
         res.render("updateGymMember", {
-            error: "error while updating"
+            error: "error while updating",
+            member:member
         });
 
     }

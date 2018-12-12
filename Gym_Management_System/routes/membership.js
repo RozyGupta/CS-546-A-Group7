@@ -169,14 +169,17 @@ router.post("/update",authRoute("updateMembership"),async (req, res) => {
                 title: "updateMembership"
             });
             return;
-        }
-         await membershipData.updateMembership(membershipId,membershipname,membershipperiod,signupfees,services);
-         res.render("viewMembership", {
-         msg: "Activity updated Successfully"
+        } 
+        await membershipData.updateMembership(membershipId,membershipname,membershipperiod,signupfees,services);
+        const updatedMembership = await membershipData.getMembershipById(membershipId);
+        res.render("viewMembership", {
+         msg: "Activity updated Successfully",
+         membership: updatedMembership
         });
     } catch (error) {
         res.render("updateMembership", {
-            error: "error while updating"
+            error: "error while updating",
+            membership:membership
         });
 
     }
