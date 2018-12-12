@@ -4,13 +4,13 @@ const data = require("../data");
 const noticeData = data.notice;
 const userData = data.user;
 const authentication=data.authentication;
-const xss = require("xss");
+
 
 const authRoute = function (moduleName) {
 
     return async function (req, res, next) {
 
-        let userId = xss(req.cookies.userId);
+        let userId = req.cookies.userId;
         try {
             if (!moduleName) {
                 throw "moduleName or UserId is empty";
@@ -53,7 +53,7 @@ router.get("/add", authRoute("addNotice"),async (req, res) => {
 router.post("/add",authRoute("addNotice"),async (req, res) => {
 
     try {
-        let notice = xss(req.body);
+        let notice = req.body;
         let title = notice.title;
         let content = notice.content
         let startdate = notice.startdate;
@@ -111,7 +111,7 @@ router.get("/view/:id", authRoute("viewNotice"),async (req, res) => {
   
     try {
         
-        let notice = await noticeData.getNoticesById(xss(req.params.id));
+        let notice = await noticeData.getNoticesById(req.params.id);
         res.render("viewNotice", {
             notice: notice,
         });
@@ -124,7 +124,7 @@ router.get("/view/:id", authRoute("viewNotice"),async (req, res) => {
 
 router.get("/update/:id",authRoute("updateNotice"), async (req, res) => {
     try {
-        let notice = await noticeData.getNoticesById(xss(req.params.id));
+        let notice = await noticeData.getNoticesById(req.params.id);
         
         res.render("updateNotice",{notice:notice});
 
@@ -137,7 +137,7 @@ router.get("/update/:id",authRoute("updateNotice"), async (req, res) => {
 
 router.get("/delete/:id",authRoute("deleteNotice"), async (req, res) => {
     try {
-        await noticeData.removeNotice(xss(req.params.id));
+        await noticeData.removeNotice(req.params.id);
         res.redirect("/notice");
     } catch (error) {
         res.render("viewNotice", {
@@ -149,7 +149,7 @@ router.get("/delete/:id",authRoute("deleteNotice"), async (req, res) => {
 router.post("/update",authRoute("updateNotice"), async (req, res) => {
     let notice;
     try {
-        notice =xss(req.body);
+        notice =req.body;
         let noticeId = notice.noticeId;
         console.log(noticeId);
         let title = notice.title;

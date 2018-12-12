@@ -27,7 +27,7 @@ const userAuth = function (req, res, next) {
 router.get('/', userAuth,async (req, res) => {
    
     try {
-        let clientSessionId=xss(req.cookies.authCookie);
+        let clientSessionId=req.cookies.authCookie;
         let userId = await session.getSessionById(clientSessionId);
         if (!userId) throw "Unauthorize access";
         userdetail = await user.getUserById(userId);
@@ -50,7 +50,7 @@ router.get('/', userAuth,async (req, res) => {
 
 
 const createUserAuth = async function (req, res, next) {
-    let userId = xss(req.cookies.userId);
+    let userId = req.cookies.userId;
     try {
         role = await users.getRole(userId);
         if (!role) {

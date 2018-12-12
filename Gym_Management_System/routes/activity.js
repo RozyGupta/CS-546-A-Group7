@@ -4,13 +4,12 @@ const data = require("../data");
 const activityData = data.activity;
 const userData = data.user;
 const authentication=data.authentication;
-const xss = require("xss");
 
 const authRoute = function (moduleName) {
 
     return async function (req, res, next) {
 
-        let userId = xss(req.cookies.userId);
+        let userId = req.cookies.userId;
         try {
             if (!moduleName) {
                 throw "moduleName or UserId is empty";
@@ -54,7 +53,7 @@ router.get("/add", authRoute("addActivity"),async (req, res) => {
 router.post("/add",authRoute("addActivity"),async (req, res) => {
 
     try {
-        let activity = xss(req.body);
+        let activity = req.body;
         let activityname = activity.activityname;
         let activitytrainer = activity.activitytrainer
         let membershipplan = activity.membershipplan;
@@ -102,7 +101,7 @@ router.get("/view/:id",authRoute("viewActivity"), async (req, res) => {
     
     try {
        
-        let activity = await activityData.getActivityById(xss(req.params.id));
+        let activity = await activityData.getActivityById(req.params.id);
         res.render("viewActivity", {
             activity: activity,
         });
@@ -115,7 +114,7 @@ router.get("/view/:id",authRoute("viewActivity"), async (req, res) => {
 });
 router.get("/update/:id",authRoute("updateActivity"),async (req, res) => {
     try {
-        let activity = await activityData.getActivityById(xss(req.params.id));
+        let activity = await activityData.getActivityById(req.params.id);
         let trainerList = await userData.getUserNameByRole("TRAINER");
         res.render("updateActivity", {
             activity: activity,
@@ -130,7 +129,7 @@ router.get("/update/:id",authRoute("updateActivity"),async (req, res) => {
 });
 router.get("/delete/:id",authRoute("deleteActivity"), async (req, res) => {
     try {
-        await activityData.removeActivity(xss(req.params.id));
+        await activityData.removeActivity(req.params.id);
         res.redirect("/activity");
     } catch (error) {
         res.render("viewActivity", {
@@ -142,7 +141,7 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
     let activity;
 
     try {
-        activity = xss(req.body);
+        activity = req.body;
 
         let activityId = activity.activityId;
         let activityname = activity.activityname;
