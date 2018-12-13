@@ -4,6 +4,8 @@ const data = require("../data");
 const activityData = data.activity;
 const userData = data.user;
 const authentication=data.authentication;
+const trainerData =data.trainer;
+const xss =require("xss");
 
 const authRoute = function (moduleName) {
 
@@ -43,8 +45,7 @@ router.get("/",authRoute("activity"), async (req, res) => {
     } 
 });
 router.get("/add", authRoute("addActivity"),async (req, res) => {
-
-    let trainerList = await userData.getUserNameByRole("TRAINER");
+    let trainerList = await trainerData.getAllTrainers();
     res.render("addActivity", {
         trainerList: trainerList
     });
@@ -54,36 +55,38 @@ router.post("/add",authRoute("addActivity"),async (req, res) => {
 
     try {
         let activity = req.body;
-        let activityname = activity.activityname;
-        let activitytrainer = activity.activitytrainer
-        let membershipplan = activity.membershipplan;
-        let activityDescription = activity.activityDescription;
+        let activityname = xss(activity.activityname);
+        let activitytrainer = xss(activity.activitytrainer);
+        let membershipplan = xss(activity.membershipplan);
+        let activityDescription = xss(activity.activityDescription);
+  
 
         if (!activityname) {
             res.render("addActivity", {
                 alertMsg: "Please provide activity name",
-                title: "addActivity"
+                title: "addActivity"    
             });
             return;
         }
         if (!activitytrainer) {
+
             res.render("addActivity", {
                 alertMsg: "Please provide activity trainer name",
-                title: "addActivity"
+                title: "addActivity"      
             });
             return;
         }
         if (!membershipplan) {
             res.render("addActivity", {
                 alertMsg: "Please provide membershipplan",
-                title: "addActivity"
+                title: "addActivity"  
             });
             return;
         }
         if (!activityDescription) {
             res.render("addActivity", {
-                alertMsg: "Please provide member name",
-                title: "addActivity"
+                alertMsg: "Please provide activity description",
+                title: "addActivity"   
             });
             return;
         }
@@ -115,7 +118,7 @@ router.get("/view/:id",authRoute("viewActivity"), async (req, res) => {
 router.get("/update/:id",authRoute("updateActivity"),async (req, res) => {
     try {
         let activity = await activityData.getActivityById(req.params.id);
-        let trainerList = await userData.getUserNameByRole("TRAINER");
+        let trainerList = await trainerData.getAllTrainers();
         res.render("updateActivity", {
             activity: activity,
             trainerList: trainerList
@@ -143,38 +146,42 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
     try {
         activity = req.body;
 
-        let activityId = activity.activityId;
-        let activityname = activity.activityname;
-        let activityDescription = activity.description;
-        let activitytrainer = activity.activitytrainer;
-        let membershipplan = activity.membershipplan;
+        let activityId = xss(activity.activityId);
+        let activityname = xss(activity.activityname);
+        let activityDescription = xss(activity.description);
+        let activitytrainer = xss(activity.activitytrainer);
+        let membershipplan = xss(activity.membershipplan);
 
         
         if (!activityname) {
             res.render("updateActivity", {
                 alertMsg: "Please provide activity name",
-                title: "updateActivity"
+                title: "updateActivity",
+                activity:activity
             });
             return;
         }
         if (!activitytrainer) {
             res.render("updateActivity", {
                 alertMsg: "Please provide activity trainer name",
-                title: "updateActivity"
+                title: "updateActivity",
+                activity:activity
             });
             return;
         }
         if (!membershipplan) {
             res.render("updateActivity", {
                 alertMsg: "Please provide membershipplan",
-                title: "updateActivity"
+                title: "updateActivity",
+                activity:activity
             });
             return;
         }
         if (!activityDescription) {
             res.render("updateActivity", {
                 alertMsg: "Please provide member name",
-                title: "updateActivity"
+                title: "updateActivity",
+                activity:activity
             });
             return;
         }
@@ -195,7 +202,7 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
         });
     } catch (error) {
 
-        let trainerList = await userData.getUserNameByRole("TRAINER");
+        let trainerList = await trainerData.getAllTrainers();
         res.render("updateActivity", {
             activity: activity,
             trainerList: trainerList,

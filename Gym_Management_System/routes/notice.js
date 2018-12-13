@@ -4,6 +4,7 @@ const data = require("../data");
 const noticeData = data.notice;
 const userData = data.user;
 const authentication=data.authentication;
+const xss =require("xss");
 
 
 const authRoute = function (moduleName) {
@@ -54,11 +55,11 @@ router.post("/add",authRoute("addNotice"),async (req, res) => {
 
     try {
         let notice = req.body;
-        let title = notice.title;
-        let content = notice.content
-        let startdate = notice.startdate;
-        let enddate = notice.enddate;
-        let noticeFor = notice.noticeFor;
+        let title = xss(notice.title);
+        let content = xss(notice.content);
+        let startdate = xss(notice.startdate);
+        let enddate = xss(notice.enddate);
+        let noticeFor = xss(notice.noticeFor);
 
 
         if (!title) {
@@ -150,47 +151,51 @@ router.post("/update",authRoute("updateNotice"), async (req, res) => {
     let notice;
     try {
         notice =req.body;
-        let noticeId = notice.noticeId;
-        console.log(noticeId);
-        let title = notice.title;
-        let content = notice.content;
-        let startdate = notice.startdate;
-        let enddate = notice.enddate;
-        let noticeFor = notice.noticeFor;
+        let noticeId = xss(notice.noticeId);
+        let title = xss(notice.title);
+        let content = xss(notice.content);
+        let startdate = xss(notice.startdate);
+        let enddate = xss(notice.enddate);
+        let noticeFor = xss(notice.noticeFor);
 
        
         if (!title) {
             res.render("updateNotice", {
                 alertMsg: "Please provide notice title",
-                title: "updateNotice"
+                title: "updateNotice",
+                notice:notice
             });
             return;
         }
         if (!content) {
             res.render("updateNotice", {
                 alertMsg: "Please provide notice content name",
-                title: "updateNotice"
+                title: "updateNotice",
+                notice:notice
             });
             return;
         }
         if (!startdate) {
             res.render("addNotice", {
                 alertMsg: "Please provide notice startdate",
-                title: "addNotice"
+                title: "addNotice",
+                notice:notice
             });
             return;
         }
         if (!enddate) {
             res.render("updateNotice", {
                 alertMsg: "Please provide notice enddate",
-                title: "updateNotice"
+                title: "updateNotice",
+                notice:notice
             });
             return;
         }
         if (!noticeFor) {
             res.render("updateNotice", {
                 alertMsg: "Please provide notice for ",
-                title: "updateNotice"
+                title: "updateNotice",
+                notice:notice
             });
             return;
         }
@@ -203,7 +208,6 @@ router.post("/update",authRoute("updateNotice"), async (req, res) => {
         });
 
     }catch (error) {
-        console.log(error)
         res.render("updateNotice", {
             error: "error while updating",
             notice:notice

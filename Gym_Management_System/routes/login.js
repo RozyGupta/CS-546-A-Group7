@@ -6,7 +6,7 @@ const session = data.session;
 const bodyParser = require('body-parser');
 const uuidv1 = require('uuid/v1');
 const cookieParser = require("cookie-parser");
-
+const xss =require("xss");
 router.use(cookieParser());
 router.use(bodyParser.json());
 

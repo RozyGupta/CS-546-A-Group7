@@ -3,10 +3,8 @@
       <div class="jumbotron" id="head-doc">
          <header>
             <h1>{{trainer.trainername}} Trainer</h1>
-            {{#if permission}}
             <p id="editOption"><a href="/trainer/update/{{trainer._id}}"><img src="../../public/images/Editing-edit-icon.png"></a>
                | <a href="/trainer/delete/{{trainer._id}}"><img src="../../public/images/delete.png"></a></p>
-            {{/if}}
          </header>
          {{#if msg}}
          <p class="successMsg">{{msg}}</p>

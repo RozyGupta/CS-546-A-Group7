@@ -18,14 +18,16 @@
             <div id="inputDiv">
                <label for="activitytrainer">Activity Trainer</label><br>
                <select id="activitytrainer"  name="activitytrainer">
+                   <option value="" <option value="" selected disabled hidden></option>></option>
                   {{#each trainerList}}
-                     <option value={{this}}>{{this}}</option>
+                     <option value={{this.trainername}}>{{this.trainername}}</option>
                   {{/each}}
                 </select>
             </div>
             <div id="inputDiv">
                <label for="membershipplan">Membership Plan</label><br>
                <select id="membershipplan" value="{{activity.membershipplan}}" name="membershipplan">
+                   <option value="" <option value="" selected disabled hidden></option>></option>
                   <option name="membershipplan" value="Gold">Gold</option>
                   <option name="membershipplan" value="Platinum">Platinum</option>
                   <option name="membershipplan" value="Diamond">Diamond</option>

@@ -5,7 +5,7 @@ const activityData = data.activity;
 const userData = data.user;
 const resultData = data.workoutMember;
 const authentication = data.authentication;
-
+const xss =require("xss");
 
 const authRoute = function (moduleName) {
 
@@ -78,16 +78,16 @@ router.get("/add", authRoute("addWorkoutMember"), async (req, res) => {
 router.post("/add", authRoute("addWorkoutMember"), async (req, res) => {
 
     let user = req.body;
-    let username = user.username;
-    let level = user.level;
-    let description = user.description;
-    let startdate = user.startdate;
-    let enddate = user.enddate;
-    let days = user.days;
-    let activity = user.activity;
-    let sets = user.sets;
-    let weight = user.weight;
-    let repetitions = user.repetitions;
+    let username = xss(user.username);
+    let level = xss(user.level);
+    let description = xss(user.description);
+    let startdate = xss(user.startdate);
+    let enddate = xss(user.enddate);
+    let days = xss(user.days);
+    let activity = xss(user.activity);
+    let sets = xss(user.sets);
+    let weight = xss(user.weight);
+    let repetitions = xss(user.repetitions);
 
 
     if (!level) {
@@ -263,59 +263,59 @@ router.post("/update", authRoute("updateWorkoutMember"), async (req, res) => {
 
     try {
         let activityToUpdate = req.body;
-        let activityId = activityToUpdate.activityId;
-        let level = activityToUpdate.activitylevel;
-        let description = activityToUpdate.activitydescription;
-        let startdate = activityToUpdate.activitystartdate;
-        let enddate = activityToUpdate.activityenddate;
-        let days = activityToUpdate.days;
-        let activity = activityToUpdate.activity;
-        let sets = activityToUpdate.sets;
-        let weight = activityToUpdate.weight;
-        let repetitions = activityToUpdate.repetitions;
+        let activityId = xss(activityToUpdate.activityId);
+        let level = xss(activityToUpdate.activitylevel);
+        let description = xss(activityToUpdate.activitydescription);
+        let startdate = xss(activityToUpdate.activitystartdate);
+        let enddate = xss(activityToUpdate.activityenddate);
+        let days = xss(activityToUpdate.days);
+        let activity = xss(activityToUpdate.activity);
+        let sets = xss(activityToUpdate.sets);
+        let weight = xss(activityToUpdate.weight);
+        let repetitions = xss(activityToUpdate.repetitions);
 
 
         if (!activityId) {
-            res.render("updateWorkoutMember", { message: "Please provide activityId", title: "updateWorkoutMember" });
+            res.render("updateWorkoutMember", { message: "Please provide activityId", title: "updateWorkoutMember",activityToUpdate:activityToUpdate });
             return;
         }
 
         if (!level) {
-            res.render("updateWorkoutMember", { message: "Please provide level", title: "updateWorkoutMember" });
+            res.render("updateWorkoutMember", { message: "Please provide level", title: "updateWorkoutMember",activityToUpdate:activityToUpdate });
             return;
         }
 
         if (!description) {
-            res.render("updateWorkoutMember", { message: "Please provide description", title: "updateWorkoutMember" });
+            res.render("updateWorkoutMember", { message: "Please provide description", title: "updateWorkoutMember",activityToUpdate:activityToUpdate });
             return;
         }
 
         if (!startdate) {
-            res.render("updateWorkoutMember", { message: "Please provide startdate", title: "updateWorkoutMember" });
+            res.render("updateWorkoutMember", { message: "Please provide startdate", title: "updateWorkoutMember",activityToUpdate:activityToUpdate });
             return;
         }
         if (!enddate) {
-            res.render("updateWorkoutMember", { message: "Please provide enddate", title: "updateWorkoutMember" });
+            res.render("updateWorkoutMember", { message: "Please provide enddate", title: "updateWorkoutMember",activityToUpdate:activityToUpdate });
             return;
         }
         if (!days) {
-            res.render("updateWorkoutMember", { message: "Please provide days", title: "updateWorkoutMember" });
+            res.render("updateWorkoutMember", { message: "Please provide days", title: "updateWorkoutMember",activityToUpdate:activityToUpdate });
             return;
         }
         if (!activity) {
-            res.render("updateWorkoutMember", { message: "Please provide activity", title: "updateWorkoutMember" });
+            res.render("updateWorkoutMember", { message: "Please provide activity", title: "updateWorkoutMember",activityToUpdate:activityToUpdate });
             return;
         }
         if (!sets) {
-            res.render("updateWorkoutMember", { message: "Please provide sets", title: "updateWorkoutMember" });
+            res.render("updateWorkoutMember", { message: "Please provide sets", title: "updateWorkoutMember",activityToUpdate:activityToUpdate });
             return;
         }
         if (!weight) {
-            res.render("updateWorkoutMember", { message: "Please provide weight", title: "updateWorkoutMember" });
+            res.render("updateWorkoutMember", { message: "Please provide weight", title: "updateWorkoutMember",activityToUpdate:activityToUpdate });
             return;
         }
         if (!repetitions) {
-            res.render("updateWorkoutMember", { message: "Please provide repetitions", title: "updateWorkoutMember" });
+            res.render("updateWorkoutMember", { message: "Please provide repetitions", title: "updateWorkoutMember",activityToUpdate:activityToUpdate });
             return;
         }
         
