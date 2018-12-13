@@ -4,7 +4,7 @@ const data = require("../data");
 const gymMemberData = data.gymMember;
 const authentication=data.authentication;
 const noticeData=data.notice;
-
+const xss =require("xss");
 
 const authRoute = function (moduleName) {
 
@@ -54,19 +54,20 @@ router.post("/add",authRoute("addGymMember"),async (req, res) => {
 
     try {
         let member = req.body;
-        let membername = member.membername;
-        let memberaddress = member.memberaddress
-        let memberemail = member.memberemail;
-        let membermobileno = member.membermobileno;
-        let memberdob = member.memberdob;
-        let membergender = member.membergender;
-        let memberusername = member.memberusername;
-        let memberheight = member.memberheight;
-        let memberweight = member.memberweight;
+        let membername = xss(member.membername);
+        let memberaddress = xss(member.memberaddress);
+        let memberemail = xss(member.memberemail);
+        let membermobileno = xss(member.membermobileno);
+        let memberdob = xss(member.memberdob);
+        let membergender = xss(member.membergender);
+        let memberusername = xss(member.memberusername);
+        let memberheight = xss(member.memberheight);
+        let memberweight = xss(member.memberweight);
         if (!membername) {
             res.render("addGymMember", {
                 alertMsg: "Please provide name",
                 title: "addGymMember"
+               
             });
             return;
         }
@@ -74,6 +75,7 @@ router.post("/add",authRoute("addGymMember"),async (req, res) => {
             res.render("addGymMember", {
                 alertMsg: "Please provide address",
                 title: "addGymMember"
+                
             });
             return;
         }
@@ -88,6 +90,7 @@ router.post("/add",authRoute("addGymMember"),async (req, res) => {
             res.render("addGymMember", {
                 alertMsg: "Please provide mobileno",
                 title: "addGymMember"
+               
             });
             return;
         }
@@ -131,6 +134,7 @@ router.post("/add",authRoute("addGymMember"),async (req, res) => {
         res.redirect("/gymMember");
 
     } catch (error) {
+        console.log(error)
         res.render("addGymMember", {
             alertMsg: "error while adding member"
         });
@@ -179,76 +183,85 @@ router.post("/update",authRoute("updateGymMember"),async (req, res) => {
 
     try {
         member = req.body;
-        let memberId = member.memberId;
-        let membername = member.membername;
-        let memberaddress = member.memberaddress
-        let memberemail = member.memberemail;
-        let membermobileno = member.membermobileno;
-        let memberdob = member.memberdob;
-        let membergender = member.membergender;
-        let memberusername = member.memberusername;
-        let memberheight = member.memberheight;
-        let memberweight = member.memberweight;
+        let memberId = xss(member.memberId);
+        let membername = xss(member.membername);
+        let memberaddress = xss(member.memberaddress);
+        let memberemail = xss(member.memberemail);
+        let membermobileno = xss(member.membermobileno);
+        let memberdob = xss(member.memberdob);
+        let membergender = xss(member.membergender);
+        let memberusername =xss( member.memberusername);
+        let memberheight = xss(member.memberheight);
+        let memberweight = xss(member.memberweight);
         if (!membername) {
             res.render("updateGymMember", {
                 alertMsg: "Please provide name",
-                title: "updateGymMember"
+                title: "updateGymMember",
+                member:member
             });
             return;
         }
         if (!memberaddress) {
             res.render("updateGymMember", {
                 alertMsg: "Please provide address",
-                title: "updateGymMember"
+                title: "updateGymMember",
+                member:member
             });
             return;
         }
         if (!memberemail) {
             res.render("updateGymMember", {
                 alertMsg: "Please provide email",
-                title: "updateGymMember"
+                title: "updateGymMember",
+                member:member
             });
             return;
         }
         if (!membermobileno) {
             res.render("updateGymMember", {
                 alertMsg: "Please provide mobileno",
-                title: "updateGymMember"
+                title: "updateGymMember",
+                member:member
             });
             return;
         }
         if (!memberdob) {
             res.render("updateGymMember", {
                 alertMsg: "Please provide date of birth",
-                title: "updateGymMember"
+                title: "updateGymMember",
+                member:member
             });
             return;
         }
         if (!membergender) {
             res.render("updateGymMember", {
                 alertMsg: "Please provide gender",
-                title: "updateGymMember"
+                title: "updateGymMember",
+                member:member
             });
             return;
         }
         if (!memberusername) {
             res.render("updateGymMember", {
                 alertMsg: "Please provide username",
-                title: "updateGymMember"
+                title: "updateGymMember",
+                member:member
             });
             return;
         }
         if (!memberheight) {
             res.render("updateGymMember", {
                 alertMsg: "Please provide height",
-                title: "updateGymMember"
+                title: "updateGymMember",
+                member:member
             });
             return;
         }
         if (!memberweight) {
             res.render("updateGymMember", {
                 alertMsg: "Please provide weight",
-                title: "updateGymMember"
+                title: "updateGymMember",
+                member:member
             });
             return;
         }

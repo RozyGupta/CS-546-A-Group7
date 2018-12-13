@@ -14,7 +14,7 @@ const exportedMethods = {
         if (!memberusername) throw "No member username provided";
         if (!memberheight) throw "No member height provided";
         if (!memberweight) throw "No member weight provided";
-        if (!bmi) throw "No member bmi provided";
+       
         
         const gymMemberCollection = await gymMember();
         const newgymmember = {

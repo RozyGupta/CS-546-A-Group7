@@ -8,7 +8,9 @@
             {{#if error}}
             <p class="alertMsg">*{{error}}</p>
             {{/if}}
-            <form id="createActivity-form" action="/trainer/update" method="POST">
+            <p>{{alertMsg}}</p>
+            <form id="createTrainer-form" action="/trainer/update" method="POST">
+             
                 <div id="inputDiv">
                     <label for="trainer"> Trainer Name</label><br>
                     <input class="major" type="text" value="{{trainer.trainername}}" name="trainername">

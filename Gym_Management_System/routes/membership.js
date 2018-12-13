@@ -3,7 +3,7 @@ const router = express.Router();
 const data = require("../data");
 const membershipData = data.membership;
 const authentication=data.authentication;
-
+const xss =require("xss");
 
 const authRoute = function (moduleName) {
 
@@ -49,39 +49,44 @@ router.get("/add",authRoute("addMembership"),async (req, res) => {
 });
 
 router.post("/add",authRoute("addMembership"),async (req, res) => {
+    
 
     try {
         let membership = req.body;
-        let membershipname = membership.membershipname;
-        let membershipperiod = membership.membershipperiod
-        let signupfees = membership.signupfees;
-        let services = membership.services;
-
+        let membershipname = xss(membership.membershipname);
+        let membershipperiod = xss(membership.membershipperiod);
+        let signupfees = xss(membership.signupfees);
+        let services =xss(membership.services);
+       
         if (!membershipname) {
             res.render("addMembership", {
                 alertMsg: "Please provide membership name",
-                title: "addMembership"
+                title: "addMembership",
+            
             });
             return;
         }
         if (!membershipperiod) {
             res.render("addMembership", {
                 alertMsg: "Please provide membership period",
-                title: "addMembership"
+                title: "addMembership",
+            
             });
             return;
         }
         if (!signupfees) {
             res.render("addMembership", {
                 alertMsg: "Please provide signup fees",
-                title: "addMembership"
+                title: "addMembership",
+              
             });
             return;
         }
         if (!services) {
             res.render("addMembership", {
                 alertMsg: "Please provide services name",
-                title: "addMembership"
+                title: "addMembership",
+             
             });
             return;
         }
@@ -90,7 +95,8 @@ router.post("/add",authRoute("addMembership"),async (req, res) => {
 
     } catch (error) {
         res.render("addMembership", {
-            alertMsg: "error while adding activity"
+            alertMsg: "error while adding membership",
+           
         });
     }
 });
@@ -138,36 +144,40 @@ router.post("/update",authRoute("updateMembership"),async (req, res) => {
     try {
         membership = req.body;
 
-        let membershipId = membership.membershipId;
-        let membershipname = membership.membershipname;
-        let membershipperiod = membership.membershipperiod;
-        let signupfees = membership.signupfees;
-        let services = membership.services;
+        let membershipId = xss(membership.membershipId);
+        let membershipname = xss(membership.membershipname);
+        let membershipperiod = xss(membership.membershipperiod);
+        let signupfees = xss(membership.signupfees);
+        let services = xss(membership.services);
         if (!membershipname) {
             res.render("updateMembership", {
                 alertMsg: "Please provide membership name",
-                title: "updateMembership"
+                title: "updateMembership",
+                membership:membership
             });
             return;
         }
         if (!membershipperiod) {
             res.render("updateMembership", {
                 alertMsg: "Please provide membership period",
-                title: "updateMembership"
+                title: "updateMembership",
+                membership:membership
             });
             return;
         }
         if (!signupfees) {
             res.render("updateMembership", {
                 alertMsg: "Please provide signup fees",
-                title: "updateMembership"
+                title: "updateMembership",
+                membership:membership
             });
             return;
         }
         if (!services) {
             res.render("updateMembership", {
                 alertMsg: "Please provide services name",
-                title: "updateMembership"
+                title: "updateMembership",
+                membership:membership
             });
             return;
         } 

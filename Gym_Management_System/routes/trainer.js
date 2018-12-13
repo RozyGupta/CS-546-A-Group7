@@ -4,6 +4,7 @@ const data = require("../data");
 const trainerData = data.trainer;
 const userData = data.user;
 const authentication = data.authentication;
+const xss =require("xss");
 
 
 const authRoute = function (moduleName) {
@@ -62,9 +63,9 @@ router.post("/add", authRoute("addTrainer"), async (req, res) => {
 
     try {
         let trainer = req.body;
-        let trainername = trainer.trainername;
-        let certifications = trainer.certifications
-        let biography = trainer.biography;
+        let trainername = xss(trainer.trainername);
+        let certifications = xss(trainer.certifications);
+        let biography = xss(trainer.biography);
 
         if (!trainername) {
             res.render("addTrainer", {
@@ -98,18 +99,10 @@ router.post("/add", authRoute("addTrainer"), async (req, res) => {
     }
 });
 router.get("/view/:id", authRoute("viewTrainer"), async (req, res) => {
-
-    let userId = req.cookies.userId;
-    let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("viewTrainer", userId)
-        if (booleanFlag) {
-            permission = true;
-        }
         let trainer = await trainerData.getTrainerById(req.params.id);
         res.render("viewTrainer", {
-            trainer: trainer,
-            permission: permission
+            trainer: trainer 
         });
     } catch (e) {
         res.status(404).render("trainer", {
@@ -147,21 +140,23 @@ router.post("/update", authRoute("updateTrainer"), async (req, res) => {
     try {
         trainer = req.body;
 
-        let trainerId = trainer.trainerId;
-        let trainername = trainer.trainername;
-        let certifications = trainer.certifications;
-        let biography = trainer.biography;
+        let trainerId = xss(trainer.trainerId);
+        let trainername = xss(trainer.trainername);
+        let certifications = xss(trainer.certifications);
+        let biography = xss(trainer.biography);
         if (!trainername) {
             res.render("updateTrainer", {
                 alertMsg: "Please provide trainer name",
-                title: "updateTrainer"
+                title: "updateTrainer",
+                trainer:trainer
             });
             return;
         }
         if (!certifications) {
             res.render("updateTrainer", {
                 alertMsg: "Please provide certifications",
-                title: "updateTrainer"
+                title: "updateTrainer",
+                trainer:trainer
             });
             return;
         }
@@ -169,7 +164,8 @@ router.post("/update", authRoute("updateTrainer"), async (req, res) => {
         if (!biography) {
             res.render("updateTrainer", {
                 alertMsg: "Please provide biography",
-                title: "updateTrainer"
+                title: "updateTrainer",
+                trainer:trainer
             });
             return;
         }
@@ -187,7 +183,6 @@ router.post("/update", authRoute("updateTrainer"), async (req, res) => {
             msg: "Activity updated Successfully"
         });
     } catch (error) {
-
         res.render("updateTrainer", {
             trainer: trainer,
             error: "error while updating"
