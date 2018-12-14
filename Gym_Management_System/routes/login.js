@@ -28,7 +28,6 @@ router.post('/login', async function (req, res) {
 
   let userId = undefined;
   let userInfo = req.body;
-
   try {
 
     if (!userInfo) {
