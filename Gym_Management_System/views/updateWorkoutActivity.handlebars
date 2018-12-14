@@ -2,13 +2,14 @@
     <div class="container-fluid">
         <div class="jumbotron" id="head-doc">
             <header>
-                <h1>Create Workout</h1>
-                <h2>{{userName}}</h2>
+                <h1>Update Workout</h1>
+                <h2>{{userName}}'s Workout</h2>
             </header>
-            <form id="add-activity" action="/workoutActivity/add/" method="POST">
+            <p class="alertMsg">*{{message}}</p>
+            <form id="update-workoutActivity" action="/workoutActivity/update/" method="POST">
                 <div id="inputDiv">
                     <label for="activityname">Activities</label><br>
-                    <select id="activityname" name="activityname">
+                    <select id="activityname" value={{workoutActivity.activity}} name="activityname">
                         {{#each activity}}
                         <option name="activityname" value={{this.activityname}}>{{{this.activityname}}}</option>
                         {{/each}}
@@ -17,7 +18,7 @@
                 <div class="row" id="inputDiv">
                     <div class="col-sm-4">
                         <label for="level">Level</label><br>
-                        <select id="level" name="level">
+                        <select value={{workoutActivity.level}} id="level" name="level">
                             <option name="level" value=low>Low</option>
                             <option name="level" value=Medium>Medium</option>
                             <option name="level" value=High>High</option>
@@ -25,11 +26,11 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="startdate">Start Date </label><br>
-                        <input type="date" id="startdate" name="startdate">
+                        <input value={{workoutActivity.startdate}} type="date" id="startdate" name="startdate">
                     </div>
                     <div class="col-sm-4">
                         <label for="enddate">End Date</label><br>
-                        <input type="date" id="enddate" name="enddate" />
+                        <input value={{workoutActivity.enddate}} type="date" id="enddate" name="enddate" />
                     </div>
                 </div>
                 <div class="checkBox" id="inputDiv">
@@ -44,26 +45,26 @@
                 <div class="row" id="inputDiv">
                     <div class="col-sm-4">
                         <label for="sets"> Sets </label><br>
-                        <input type="text" id="sets" name="sets" />
+                        <input value={{workoutActivity.sets}} type="text" id="sets" name="sets" />
                     </div>
                     <div class="col-sm-4">
                         <label for="weight"> Weight(kg)</label><br>
-                        <input type="text" id="weight" name="weight" />
+                        <input value={{workoutActivity.weight}} type="text" id="weight" name="weight" />
                     </div>
                     <div class="col-sm-4">
                         <label for="repetitions"> Repetitions</label><br>
-                        <input type="text" id="repetitions" name="repetitions" />
+                        <input value={{workoutActivity.repetitions}} type="text" id="repetitions" name="repetitions" />
                     </div>
                 </div>
                 <div id="inputDiv">
                     <label for="description">Description </label><br>
-                    <textarea id="description" name="description"></textarea>
-                </div>
-                <input type="hidden" value={{userId}} name="userId">
+                    <textarea id="description" name="description">{{workoutActivity.description}} </textarea> </div>
+                        <input type="hidden" value={{userId}} name="userId">
+                        <input type="hidden" value={{workoutActivity._id}} name="workoutActivityId">
                 <div class="centered">
                     <div class="row">
-                        <div class="col-sm-6"><input type="submit" value="Create Workout"></div>
-                        <div class="col-sm-6"> <input type="button" onclick="window.location.href='/activity'" id="cancel"
+                        <div class="col-sm-6"><input type="submit" value="Update Workout"></div>
+                        <div class="col-sm-6"> <input type="button" onclick="window.location.href='../'" id="cancel"
                                 value="Cancel"></div>
                     </div>
                 </div>

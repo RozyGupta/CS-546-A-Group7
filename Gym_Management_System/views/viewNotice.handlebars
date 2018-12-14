@@ -3,10 +3,11 @@
       <div class="jumbotron" id="head-doc">
          <header>
             <h1> Notice</h1>
-               <p id="editOption"><a  href="/notice/update/{{notice._id}}"><img src="../../public/images/Editing-edit-icon.png"></a> | <a href="/notice/delete/{{notice._id}}"><img src="../../public/images/delete.png"></a></p>
+            <p id="editOption"><a href="/notice/update/{{notice._id}}"><img src="../../public/images/Editing-edit-icon.png"></a>
+               | <a href="/notice/delete/{{notice._id}}"><img src="../../public/images/delete.png"></a></p>
          </header>
          {{#if msg}}
-            <p class="successMsg">{{msg}}</p>
+         <p class="successMsg">{{msg}}</p>
          {{/if}}
          <div class="row">
             <div class="col-sm-9">
@@ -14,13 +15,12 @@
                   <h4>Title</h4>
                   <p>{{notice.title}}</p>
                </div>
-            </div>
-            <div class="col-sm-3"></div>
                <div class="view" id="content">
                   <h4>Content</h4>
                   <p>{{notice.content}}</p>
                </div>
             </div>
+            <div class="col-sm-3">
                <div class="view" id="startdate">
                   <h4>StartDate</h4>
                   <p>{{notice.startdate}}</p>

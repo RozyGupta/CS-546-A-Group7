@@ -9,20 +9,23 @@
                 <div class="row">
                     {{#if memberships}}
                     {{#each memberships}}
-                    <div class="col-sm-3" id="activity">
+                    <div class="col-sm-3" id="membership">
+                        <div class="decorative">
                         <a href="/membership/view/{{this._id}}">
+                            <p>${{this.signupfees}}</p>
                             <p id="membershipname">{{this.membershipname}}</p>
                             <hr>
-                            <img src="../public/images/abs.jpg">
+                            <p id="duration">{{this.membershipperiod}} Days</p>
                         </a>
-                    </div>
-                    {{/each}}
-                    {{/if }} 
-                        <div class="col-sm-3" id="add">
-                            <a href="membership/add"><img src="../public/images/add.png"></a>
                         </div>
+                    </div>
+                {{/each}}
+                {{/if }}
+                <div class="col-sm-3" id="add">
+                    <a href="membership/add"><img src="../public/images/add.png"></a>
                 </div>
-            </main>
         </div>
+        </main>
     </div>
+</div>
 </div>

@@ -60,3 +60,97 @@ input[type="submit"]{
     margin-left: 200pts;
     
 }
+.content {
+    font-family: 'Montserrat', sans-serif !important;
+
+}
+#head-doc {
+    padding-top:0px !important;
+    
+}
+header{
+    padding-top:20px;
+    padding-bottom:2px;
+}
+
+header h1{
+    font-size:300% !important;
+    font-family: 'Montserrat', sans-serif !important;
+    text-shadow:none;
+}
+.alertMsg{
+    color:red !important;
+    padding:0px;
+    margin:0px;
+    background-color:transparent !important ;
+    text-align: center;
+    font-size:100% !important;
+}
+.successMsg{
+    color:rgb(6, 218, 87) !important;
+    padding:0px;
+    margin:0px;
+    background-color:transparent !important ;
+    text-align: center;
+    font-size:100% !important;
+}
+#inputDiv{
+
+    margin-left:0px;
+    margin-right:0px;
+    margin-bottom: 1.5%;
+}
+#inputDiv label{
+    font-weight: normal !important;
+    font-size:70%;
+}
+#inputDiv input:focus,select:focus,textArea:focus{
+    outline:none;
+    border-bottom:1px solid darkgoldenrod !important;
+}
+#inputDiv select{
+   padding:3px !important;
+}
+#inputDiv input,select{
+    
+    width:100% !important;
+    padding:1px;
+    border-color:transparent;
+    border-bottom: 1px solid lightgrey;
+    
+}
+#inputDiv .col-sm-6{
+    padding:0px;
+    margin:0px;
+    padding-right:5%;
+    
+   
+}
+#inputDiv .col-sm-4{
+    padding:0px;
+  margin:0px;
+   padding-right:5%;
+  
+}
+.jumbotron{
+    background-color:transparent !important;
+    
+}
+#cancel{
+    background-color:darkgray
+}
+.centered {
+    position:absolute;
+    left: 40%;
+    
+
+}
+
+#createUser-form input[type="submit"],[type="button"]{
+    width:200px !important;
+    background-color:forestgreen;
+    color:white;
+    padding:10px;
+    margin:2%;
+    border-radius:25px;
+}

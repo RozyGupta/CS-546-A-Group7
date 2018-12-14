@@ -62,6 +62,17 @@ const exportedMethods = {
         }
 
     },
+    async getUserIdByActivityId(activityId) {
+        if (!activityId) throw "No activityId provided!";
+        const userWorkoutCollection = await userWorkout();
+        try{
+            const userWorkout = await userWorkoutCollection.findOne({activityId:activityId});
+            return userWorkout.userId;
+        }
+        catch(error){
+            console.log((error));
+        }
+    },
 
     async removeActivity(activityId) {
         if (!activityId) throw "You must provide an id to delete";
@@ -118,6 +129,13 @@ const exportedMethods = {
         if (task === null) throw `No task with id of ${id}`;
 
         return acitivities;
+
+    },
+    async getActivityById(acitivityid) {
+        if (!acitivityid) throw "You must provide an id to search for";
+        const workoutActivityCollection = await workoutActivity();
+        const activity = await workoutActivityCollection.findOne({ _id: acitivityid });
+        return activity;
 
     },
 

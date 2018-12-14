@@ -1,5 +1,5 @@
 const userRoutes = require("./user");
-const adminOnlyRoutes = require("./adminOnly");
+const signUpRoutes = require("./signUp");
 const dashboard = require("./dashboard");
 const loginRoutes = require("./login");
 const workoutActivityRoutes = require("./workoutActivity");
@@ -20,6 +20,7 @@ const constructorMethod = app => {
   app.use(bodyParser.json());
   try {
 
+    app.use("/signUp", signUpRoutes);
     app.use("/", loginRoutes);
     app.use("/dashboard", dashboard);
     app.use("/user", userRoutes);
@@ -29,8 +30,11 @@ const constructorMethod = app => {
     app.use("/user/update", userRoutes);
     app.use("/workoutActivity", workoutActivityRoutes);
     app.use("/workoutActivity/view/", workoutActivityRoutes);
+    app.use("/workoutActivity/view/:id", workoutActivityRoutes);
     app.use("/workoutActivity/add/", workoutActivityRoutes);
-    app.use("/workoutActivity/delete/", workoutActivityRoutes);
+    app.use("/workoutActivity/add/:id", workoutActivityRoutes);
+    app.use("/workoutActivity/delete/:id", workoutActivityRoutes);
+    app.use("/workoutActivity/update/:id", workoutActivityRoutes);
     app.use("/workoutActivity/update/", workoutActivityRoutes);
     app.use("/activity", activityRoutes);
     app.use("/activity/add", activityRoutes);
@@ -61,10 +65,10 @@ const constructorMethod = app => {
     app.use("/notice/view", noticeRoutes);
     app.use("/notice/delete", noticeRoutes);
     app.use("/notice/update", noticeRoutes);
-    app.use("/adminOnly",adminOnlyRoutes);
-    app.use("/adminOnly/add",adminOnlyRoutes);
+
   }
   catch (error) {
+    console.log(error);
     app.use("*", (req, res) => {
       res.redirect("/");
     });

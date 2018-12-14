@@ -99,8 +99,15 @@ router.post("/add", authRoute("addTrainer"), async (req, res) => {
     }
 });
 router.get("/view/:id", authRoute("viewTrainer"), async (req, res) => {
+
+    let userId =   (req.cookies.userId);
+    let permission = false;
     try {
-        let trainer = await trainerData.getTrainerById(req.params.id);
+        let booleanFlag = await authentication.getPermissionForRoute("viewTrainer", userId)
+        if (booleanFlag) {
+            permission = true;
+        }
+        let trainer = await trainerData.getTrainerById(  (req.params.id));
         res.render("viewTrainer", {
             trainer: trainer 
         });

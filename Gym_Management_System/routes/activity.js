@@ -144,11 +144,7 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
     let activity;
 
     try {
-        activity = req.body;
-
-        let activityId = xss(activity.activityId);
         let activityname = xss(activity.activityname);
-        let activityDescription = xss(activity.description);
         let activitytrainer = xss(activity.activitytrainer);
         let membershipplan = xss(activity.membershipplan);
 

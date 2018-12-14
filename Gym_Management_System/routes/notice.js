@@ -11,11 +11,7 @@ const authRoute = function (moduleName) {
 
     return async function (req, res, next) {
 
-        let userId = req.cookies.userId;
         try {
-            if (!moduleName) {
-                throw "moduleName or UserId is empty";
-            } else {
                 let booleanFlag = await authentication.getPermissionForRoute(moduleName, userId)
                 if (booleanFlag) {
                     next();
@@ -26,7 +22,7 @@ const authRoute = function (moduleName) {
                         error: "Page Not available"
                     });
                 }
-            }
+            
         } catch (err) {
             res.render("error", { title: "error" });
         }

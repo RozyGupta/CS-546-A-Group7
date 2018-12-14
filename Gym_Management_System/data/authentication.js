@@ -2,8 +2,9 @@ const bcrypt = require("bcrypt");
 const user = require("./user");
 const session = require("./session");
 const mongoCollections = require("../config/mongoCollections");
-const permission = mongoCollections.permission;
 const uuid = require('uuid/v1');
+const permission = mongoCollections.permission;
+
 
 let exportedMethods = {
 
@@ -20,12 +21,11 @@ let exportedMethods = {
                 let compareToMatch = false;
 
                 compareToMatch = await bcrypt.compare(password, hashedPassword);
-                
-                if (compareToMatch){
-                    userId=(await user.getUserByUsername(username))._id;
+
+                if (compareToMatch) {
+                    userId = (await user.getUserByUsername(username))._id;
                     return userId;
-                }
-                else return undefined;
+                } else return undefined;
 
             } catch (e) {
                 console.log("Error while comparing the password: " + e);
@@ -42,7 +42,7 @@ let exportedMethods = {
                 return userId;
             } catch (e) {
                 console.log("Error while authenticating session: " + e);
-                
+
             }
         }
     },
@@ -51,14 +51,14 @@ let exportedMethods = {
         else if (userId == null) throw "userId in data is empty";
         else {
             try {
-                let role=(await user.getUserById(userId)).role;
+                let role = (await user.getUserById(userId)).role;
                 return permission().then(permissionCollection => {
                     return permissionCollection.findOne({
-                        permission:role,
+                        permission: role,
                         moduleName: moduleName
                     }).then(permission => {
                         if (!permission) return false;
-                        else return true; 
+                        else return true;
                     });
                 });
             } catch (e) {

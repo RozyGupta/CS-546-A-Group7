@@ -9,11 +9,10 @@
                 <div class="row">
                     {{#if notice}}
                     {{#each notice}}
-                    <div class="col-sm-3" id="activity">
+                    <div class="col-sm-3" id="notice">
                         <a href="/notice/view/{{this._id}}">
-                            <p id="title">{{this.title}}</p>
+                           {{this.title}}
                             <hr>
-                            <img src="../public/images/abs.jpg">
                         </a>
                     </div>
                     {{/each}}

@@ -52,6 +52,7 @@ router.get("/",authRoute("addWorkoutActivity"), async (req, res) => {
 router.get("/view/",authRoute("viewWorkoutActivity"), async (req, res) => {
 
     try {
+
         let url_parts = url.parse(req.url, true);
         let query = url_parts.query;
         let userId =req.query.username;
@@ -61,8 +62,10 @@ router.get("/view/",authRoute("viewWorkoutActivity"), async (req, res) => {
             let activity = await workoutActivityData.getAllActivitiesById(activityIds[i]);
             activityArray.push(activity);
         }
-        
-        res.render("viewWorkoutActivity", { showactivities: activityArray, userId: userId});
+        let user=await userData.getUserById(userId);
+        let userName=user.firstname+" "+user.lastname;
+        res.render( "viewWorkoutActivity",{layout:"default",
+            showactivities: activityArray, userName: userName,userId:userId});
     }
     catch (e) {
         let user = await userData.getAllUsers();
@@ -70,13 +73,35 @@ router.get("/view/",authRoute("viewWorkoutActivity"), async (req, res) => {
         return;
     }
 });
-router.get("/add/",authRoute("addWorkoutActivity"), async (req, res) => {
+router.get("/view/:id",authRoute("viewWorkoutActivity"), async (req, res) => {
+
     try {
-        let url_parts = url.parse(req.url, true);
-        let query = url_parts.query;
-        let userId =req.query.userId; 
+            
+            let activityId=req.params.id;
+            let activity = await workoutActivityData.getActivityById(activityId);
+            let userId=await workoutActivityData.getUserIdByActivityId(activityId);
+            let user=await userData.getUserById(userId);
+            let userName=user.firstname;
+            res.render( "viewWorkout",{
+                activity:activity,
+                userName:userName
+            
+            })
+    }
+    catch (e) {
+        let user = await userData.getUserById(req.param.id);
+        res.render("viewWorkoutActivity", { message: "No activities for this user", username: user, title: "viewWorkoutActivity" });
+        return;
+    }
+});
+router.get("/add/:id",authRoute("addWorkoutActivity"), async (req, res) => {
+    try {
+        
+        let userId =  (req.params.id); 
         let activity = await activityData.getAllActivities();
-        res.render("addWorkoutActivity", {userId:userId,activity:activity});
+        let user=await userData.getUserById(userId);
+        let userName=user.firstname+" "+user.lastname; 
+        res.render("addWorkoutActivity", {userName:userName,activity:activity,userId:userId});
         
     }
     catch (e) {
@@ -142,29 +167,47 @@ router.post("/add/",authRoute("addWorkoutActivity"),async (req, res) => {
     try {
         let postcredentials = await workoutActivityData.addActivity(level, description, startdate, enddate, days, activity, sets, weight, repetitions);
         acitivityId = postcredentials.newId;
+        let users = await userData.getAllUsers();
         let postuserActivity = await workoutActivityData.addUserActivity(userId, acitivityId);
-        res.render("addworkoutActivity", {activity:allActivities,message: "Activity added successfully!" });
+        res.redirect("workoutActivity", {activity:allActivities,message: "Activity added successfully!",username:users });
     }
     catch (e) {
+        console.log(e);
         res.render("error", { title: "error" });
         return;
     }
 });
-
+router.get("/update/:id",authRoute("updateWorkoutActivity"), async (req, res) => {
+    
+    try{
+        let activityId =   (req.params.id);
+        let workoutActivity = await workoutActivityData.getActivityById(activityId);
+        let userId=await workoutActivityData.getUserIdByActivityId(activityId);
+        let user=await userData.getUserById(userId);
+        let userName=user.firstname;
+        let activity = await activityData.getAllActivities();
+        res.render("updateWorkoutActivity",{workoutActivity:workoutActivity,activity:activity,userName:userName,title: "updateWorkoutActivity"})
+    }
+    catch(e){
+        res.render("error", { title: "error" });
+    }
+ 
+});
 
 router.post("/update/",authRoute("updateWorkoutActivity"), async (req, res) => {
    try{
-    let activityToUpdate = req.body;
-    let activityId = xss(activityToUpdate.activityId);
-    let level = xss(activityToUpdate.activitylevel);
-    let description = xss(activityToUpdate.activitydescription);
-    let startdate = xss(activityToUpdate.activitystartdate);
-    let enddate = xss(activityToUpdate.activityenddate);
-    let days = xss(activityToUpdate.days);
-    let activity = xss(activityToUpdate.activity);
-    let sets = xss(activityToUpdate.sets);
-    let weight = xss(activityToUpdate.weight);
-    let repetitions = xss(activityToUpdate.repetitions);
+    let allActivities = await activityData.getAllActivities();
+    let activityToUpdate =   (req.body);
+    let activityId = activityToUpdate.workoutActivityId;
+    let level = activityToUpdate.level;
+    let description = activityToUpdate.description;
+    let startdate = activityToUpdate.startdate;
+    let enddate = activityToUpdate.enddate;
+    let days = activityToUpdate.days;
+    let activity = activityToUpdate.activityname;
+    let sets = activityToUpdate.sets;
+    let weight = activityToUpdate.weight;
+    let repetitions = activityToUpdate.repetitions;
     if (!level) {
         res.render("updateWorkoutActivity", { activity:allActivities, message: "Please provide level", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate});
         return;
@@ -204,27 +247,26 @@ router.post("/update/",authRoute("updateWorkoutActivity"), async (req, res) => {
         return;
     }
     let updatedActivity = await workoutActivityData.updateActivity(activityId,level,description,startdate,enddate,days,activity,sets,weight,repetitions);
-    res.render("viewWorkoutActivity",{message:"Activity updated Successfully",title: "viewWorkoutActivity"})
+    res.redirect("./view/"+activityId);
     }
     catch(e){
+        console.log(e);
         res.render("error", { title: "error" });
     }
  
 });
 
-router.get("/delete/",authRoute("deleteWorkoutActivity"), async (req, res) => {
-    let url_parts = url.parse(req.url, true);
-    let query = url_parts.query;
-    let userId =req.query.userId;
-    let activityId= req.query.activityId;
-    if (!activityId) {
-        res.render("viewWorkoutActivity", { message: "No activity to delete" });
-    }
-   
+router.get("/delete/:id",authRoute("deleteWorkoutActivity"), async (req, res) => {
     try {
+        let activityId =   (req.params.id);
+        let userId=await workoutActivityData.getUserIdByActivityId(activityId);
+        
+        if (!activityId) {
+            res.render("viewWorkoutActivity", { message: "No activity to delete" });
+        }
         let postActivity = await workoutActivityData.removeActivity(activityId);
         let postuserActivity = await workoutActivityData.removeUserActivity(activityId);
-        res.render("viewWorkoutActivity", { message: "Activity deleted successfully!", userId: userId });
+        res.redirect("/workoutActivity");
     }
     catch (e) {
         res.render("error", { title: "error" });
