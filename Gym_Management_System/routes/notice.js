@@ -31,11 +31,12 @@ const authRoute = function (moduleName) {
 
 router.get("/", authRoute("notice"),async (req, res) => {
     try {
-       let notice = await noticeData.getAllNotices();
+      let notice = await noticeData.getAllNotices();
         res.render("notice", {
             notice: notice
         });
     }catch(error){
+        console.log(error);
         res.render("error", { title: "error" });
     }  
 });
@@ -204,6 +205,7 @@ router.post("/update",authRoute("updateNotice"), async (req, res) => {
         });
 
     }catch (error) {
+        console.log(error);
         res.render("updateNotice", {
             error: "error while updating",
             notice:notice
