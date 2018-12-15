@@ -1,14 +1,16 @@
 <div class="content">
-   <div class="container-fluid">
-      <div class="jumbotron" id="head-doc">
-         <header>
-            <h1>New User</h1>
-         </header>
-         <form id="createUser-form" action="/user/add" method="POST">
-          {{#if alertMsg}}
-            <p class="alertMsg">{{alertMsg}}</p>
-            {{/if }}
-           <div id="inputDiv">
+    <div class="container-fluid">
+        <div class="jumbotron" id="head-doc">
+            <header>
+                <h1>New User</h1>
+            </header>
+            <form id="createUser-form" action="/user/add" method="POST">
+                <div class="alertMsg" id="error" hidden></div>
+                {{#if alertMsg}}
+                <p class="alertMsg">{{alertMsg}}</p>
+                {{/if }}
+
+                <div id="inputDiv">
                     <label for="email"> Email</label><br>
                     <input class="major" type="email" id="email" name="email" />
                 </div>
@@ -84,13 +86,16 @@
                         <input type="password" id="confirmPassword" name="confirmPassword" />
                     </div>
                 </div>
-            <div class="centered">
-               <div class="row">
-                  <div class="col-sm-6"><input type="submit" value="Create User"></div>
-                  <div class="col-sm-6"> <input type="button" onclick="window.location.href='/user'" id="cancel" value="Cancel"></div>
-               </div>
-            </div>
-         </form>
-      </div>
-   </div>
+
+                <div class="centered">
+                    <div class="row">
+                        <div class="col-sm-6"><input type="submit" value="Create User"></div>
+                        <div class="col-sm-6"> <input type="button" onclick="window.location.href='/user'" id="cancel"
+                                value="Cancel"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
+<script src="/public/form.js/"></script>
