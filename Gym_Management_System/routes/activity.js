@@ -35,13 +35,19 @@ const authRoute = function (moduleName) {
 }
 
 router.get("/",authRoute("activity"), async (req, res) => {
-
+    let userID =   (req.cookies.userId);
+    let permission = false;
     try {
+        let booleanFlag = await authentication.getPermissionForRoute("activity", userID)
+        if (booleanFlag) {
+            permission = true;
+        }
         let layout = await authentication.getLayout(req.cookies.userId);
         let activity = await activityData.getAllActivities();
         res.render("activity", {
             activity: activity,
-            layout:layout
+            layout:layout,
+            permission:permission
         });
     }catch(error){
         res.render("error", { title: "error" });
@@ -111,24 +117,38 @@ router.post("/add",authRoute("addActivity"),async (req, res) => {
     }
 });
 router.get("/view/:id",authRoute("viewActivity"), async (req, res) => {
-    
-    
+    let layout = await authentication.getLayout(req.cookies.userId);
+    let userID =   (req.cookies.userId);
+    let permission = false;
     try {
-        let layout = await authentication.getLayout(req.cookies.userId);
+        let booleanFlag = await authentication.getPermissionForRoute("viewActivity", userID)
+        if (booleanFlag) {
+            permission = true;
+        }
+       
         let activity = await activityData.getActivityById(req.params.id);
         res.render("viewActivity", {
             activity: activity,
-            layout:layout
+            layout:layout,
+            permission:permission
         });
     } catch (e) {
-
+        
         res.status(404).render("activity", {
-            errorMessage: "Activity Not Found"
+            errorMessage: "Activity Not Found",
+            layout:layout,
+            permission:permission
         })
     }
 });
 router.get("/update/:id",authRoute("updateActivity"),async (req, res) => {
+    let userID =   (req.cookies.userId);
+    let permission = false;
     try {
+        let booleanFlag = await authentication.getPermissionForRoute("viewUser", userID)
+        if (booleanFlag) {
+            permission = true;
+        }
         let layout = await authentication.getLayout(req.cookies.userId);
         let activity = await activityData.getActivityById(req.params.id);
         let trainerList = await trainerData.getAllTrainers();
@@ -140,19 +160,26 @@ router.get("/update/:id",authRoute("updateActivity"),async (req, res) => {
 
     } catch (e) {
         res.status(404).render("activity", {
-            errorMessage: "Activity Not Found"
+            errorMessage: "Activity Not Found",
+            permission:permission
         })
     }
 });
 router.get("/delete/:id",authRoute("deleteActivity"), async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
+    let userID =   (req.cookies.userId);
+    let permission = false;
     try {
-       
+        let booleanFlag = await authentication.getPermissionForRoute("viewActivity", userID)
+        if (booleanFlag) {
+            permission = true;
+        }   
         await activityData.removeActivity(req.params.id);
         res.redirect("/activity");
     } catch (error) {
         res.render("viewActivity", {
             alertMsg: "error while deleting",
+            permission:permission,
             layout:layout
         });
     }
@@ -160,7 +187,13 @@ router.get("/delete/:id",authRoute("deleteActivity"), async (req, res) => {
 router.post("/update",authRoute("updateActivity"), async (req, res) => {
     let activity;
     let layout = await authentication.getLayout(req.cookies.userId);
+    let userID =   (req.cookies.userId);
+    let permission = false;
     try {
+        let booleanFlag = await authentication.getPermissionForRoute("viewActivity", userID)
+        if (booleanFlag) {
+            permission = true;
+        }
         let activityname = xss(activity.activityname);
         let activitytrainer = xss(activity.activitytrainer);
         let membershipplan = xss(activity.membershipplan);
@@ -216,7 +249,8 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
         res.render("viewActivity", {
             activity: updatedActivity,
             msg: "Activity updated Successfully",
-            layout:layout
+            layout:layout,
+            permission:permission
         });
     } catch (error) {
 

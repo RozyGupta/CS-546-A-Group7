@@ -20,9 +20,11 @@
                     </div>
                     {{/each}}
                     {{/if }}
-                        <div class="col-sm-3" id="add">
-                            <a href="activity/add"><img src="../public/images/add.png"></a>
-                        </div>
+                    {{#if permission}}
+                    <div class="col-sm-3" id="add">
+                        <a href="activity/add"><img src="../public/images/add.png"></a>
+                    </div>
+                    {{/if }}
                 </div>
             </main>
         </div>

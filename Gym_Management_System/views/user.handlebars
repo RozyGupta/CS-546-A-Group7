@@ -3,7 +3,9 @@
             <div class="jumbotron" id="head-doc">
                <header>
                   <h1>User Module</h1>
+                   {{#if permission}}
                       <p id="addOption"><a  href="/user/add"><img src="../public/images/add.png">New User</a></p>
+                  {{/if}}
                </header>
                <main>
                 <p>{{message}}</p>

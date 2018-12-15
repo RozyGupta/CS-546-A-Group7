@@ -6,9 +6,9 @@
             </header>
             <main>
                 <p>{{message}}</p>
-                
+                 {{#if permission}}
                 <p id="addOption"><a href="/gymMember/add"><img src="../public/images/add.png">Add Member Stats</a></p>
-   
+                {{/if}}
                 <table class="table" id="gymMember">
                     <thead class="thead-dark">
                         <tr>
