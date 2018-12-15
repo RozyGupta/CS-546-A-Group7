@@ -69,6 +69,7 @@ router.post("/add", authRoute("addTrainer"), async (req, res) => {
     try {
         let trainer = req.body;
         let trainername = xss(trainer.trainername);
+        console.log(trainername);
         let certifications = xss(trainer.certifications);
         let biography = xss(trainer.biography);
 

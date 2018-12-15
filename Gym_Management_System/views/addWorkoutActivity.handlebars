@@ -8,7 +8,8 @@
             <form id="add-activity" action="/workoutActivity/add/" method="POST">
                 <div id="inputDiv">
                     <label for="activityname">Activities</label><br>
-                    <select id="activityname" name="activityname">
+                    <select id="activityname" name="activityname" required>
+                         <option value="" <option value="" selected disabled hidden></option>></option>
                         {{#each activity}}
                         <option name="activityname" value={{this.activityname}}>{{{this.activityname}}}</option>
                         {{/each}}
@@ -17,7 +18,8 @@
                 <div class="row" id="inputDiv">
                     <div class="col-sm-4">
                         <label for="level">Level</label><br>
-                        <select id="level" name="level">
+                        <select id="level" name="level" required>
+                             <option value="" <option value="" selected disabled hidden></option>></option>
                             <option name="level" value=low>Low</option>
                             <option name="level" value=Medium>Medium</option>
                             <option name="level" value=High>High</option>
@@ -25,16 +27,16 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="startdate">Start Date </label><br>
-                        <input type="date" id="startdate" name="startdate">
+                        <input type="date" id="startdate" name="startdate" required>
                     </div>
                     <div class="col-sm-4">
                         <label for="enddate">End Date</label><br>
-                        <input type="date" id="enddate" name="enddate" />
+                        <input type="date" id="enddate" name="enddate" required/>
                     </div>
                 </div>
                 <div class="checkBox" id="inputDiv">
                     <label for="days">Days</label>
-                    <label><input type="checkbox" name="days" value="Monday">Monday</label>
+                    <label><input type="checkbox" name="days" value="Monday" >Monday</label>
                     <label><input type="checkbox" name="days" value="Tuesday">Tuesday</label>
                     <label><input type="checkbox" name="days" value="Wednesday">Wednesday</label>
                     <label><input type="checkbox" name="days" value="Thursday">Thursday</label>
@@ -44,20 +46,20 @@
                 <div class="row" id="inputDiv">
                     <div class="col-sm-4">
                         <label for="sets"> Sets </label><br>
-                        <input type="text" id="sets" name="sets" />
+                        <input type="number" id="sets" name="sets" min = "1" required/>
                     </div>
                     <div class="col-sm-4">
                         <label for="weight"> Weight(kg)</label><br>
-                        <input type="text" id="weight" name="weight" />
+                        <input type="number" id="weight" name="weight" min ="1" step="0.001" required/>
                     </div>
                     <div class="col-sm-4">
                         <label for="repetitions"> Repetitions</label><br>
-                        <input type="text" id="repetitions" name="repetitions" />
+                        <input type="number" id="repetitions" name="repetitions" min = "0" required/>
                     </div>
                 </div>
                 <div id="inputDiv">
                     <label for="description">Description </label><br>
-                    <textarea id="description" name="description"></textarea>
+                    <textarea id="description" name="description" required></textarea>
                 </div>
                 <input type="hidden" value={{userId}} name="userId">
                 <div class="centered">

@@ -13,28 +13,29 @@
          <form id="updateNotice-form" action="/notice/update" method="POST">
             <div id="inputDiv">
                <label for="title"> Notice Title</label><br>
-               <input class="major" type="text" name="title" value={{notice.title}}>
+               <input class="major" type="text" name="title" value={{notice.title}} required>
             </div>
             <div id="inputDiv">
                <label for="content">Notice Content</label><br>
-               <input class="major" type="text" name="content" value={{notice.content}}>
+               <input class="major" type="text" name="content" value={{notice.content}} required>
 
             </div>
             <div id="inputDiv">
                <label for="startdate">Notice StartDate</label><br>
-               <input class="major" type="date" name="startdate" value={{notice.startdate}}>
+               <input class="major" type="date" name="startdate" value={{notice.startdate}} required>
             </div>
 
 
             <div id="inputDiv">
                <label for="enddate">Notice EndDate</label><br>
-               <input class="major" type="date" name="enddate" value={{notice.enddate}}>
+               <input class="major" type="date" name="enddate" value={{notice.enddate}} required>
             </div>
 
 
             <div id="inputDiv">
                <label for="noticeFor">Notice For</label><br>
-               <select id="noticeFor" name="noticeFor">
+               <select id="noticeFor" name="noticeFor" required>
+                  <option value="" <option value="" selected disabled hidden></option></option>
                   <option value={{notice.noticeFor}} selected>{{notice.noticeFor}}</option>
                   <option name="noticeFor" value="Admin">Admin</option>
                   <option name="noticeFor" value="Trainer">Trainer</option>
@@ -44,15 +45,9 @@
             <input type="hidden" name="noticeId" value={{notice._id}}>
             <div class="centered">
                <div class="row">
-<<<<<<< HEAD
-                  <div class="col-sm-6"><input type="submit" value="Update"></div>
-                  <div class="col-sm-6"> <input type="button" onclick="window.location.href='notice/view/{{notice._id}}'"
-                        id="cancel" value="Cancel"></div>
-=======
                   <div class="col-sm-6"><input type="submit"  value="Update"></div>
                   <div class="col-sm-6"> <input type="button" onclick="window.location.href='/notice/view/{{notice._id}}'"
                                 id="cancel" value="Cancel"></div>
->>>>>>> 933b4d968e7cb615edabd892726e590d93177ed1
                </div>
             </div>
          </form>
