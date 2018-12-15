@@ -4,6 +4,7 @@ const data = require("../data");
 const gymMemberData = data.gymMember;
 const authentication=data.authentication;
 const noticeData=data.notice;
+const userData = data.user;
 const xss =require("xss");
 
 const authRoute = function (moduleName) {
@@ -34,8 +35,11 @@ const authRoute = function (moduleName) {
 router.get("/",authRoute("gymMember"), async (req, res) => {
 
     try {
-        
-        let gymMember = await gymMemberData.getAllGymMembers();
+        let userstats = await gymMemberData.getAllGymMembersStats();
+        console.log(userstats);
+        let userid = userstats.userId;
+        let gymMember = await gymMemberData.getGymMemberById(userid);
+        console.log(gymMember)
         res.render("gymMember", {
             gymMember: gymMember,
         });
@@ -46,7 +50,8 @@ router.get("/",authRoute("gymMember"), async (req, res) => {
 
 
 router.get("/add",authRoute("addGymMember"),async (req, res) => {
-    res.render("addGymMember");
+    let membernames = await userData.getUserNameByRole("gymMember");
+    res.render("addGymMember",{membernames:membernames});
 
 });
 
@@ -55,66 +60,9 @@ router.post("/add",authRoute("addGymMember"),async (req, res) => {
     try {
         let member = req.body;
         let membername = xss(member.membername);
-        let memberaddress = xss(member.memberaddress);
-        let memberemail = xss(member.memberemail);
-        let membermobileno = xss(member.membermobileno);
-        let memberdob = xss(member.memberdob);
-        let membergender = xss(member.membergender);
-        let memberusername = xss(member.memberusername);
         let memberheight = xss(member.memberheight);
         let memberweight = xss(member.memberweight);
-        if (!membername) {
-            res.render("addGymMember", {
-                alertMsg: "Please provide name",
-                title: "addGymMember"
-               
-            });
-            return;
-        }
-        if (!memberaddress) {
-            res.render("addGymMember", {
-                alertMsg: "Please provide address",
-                title: "addGymMember"
-                
-            });
-            return;
-        }
-        if (!memberemail) {
-            res.render("addGymMember", {
-                alertMsg: "Please provide email",
-                title: "addGymMember"
-            });
-            return;
-        }
-        if (!membermobileno) {
-            res.render("addGymMember", {
-                alertMsg: "Please provide mobileno",
-                title: "addGymMember"
-               
-            });
-            return;
-        }
-        if (!memberdob) {
-            res.render("addGymMember", {
-                alertMsg: "Please provide date of birth",
-                title: "addGymMember"
-            });
-            return;
-        }
-        if (!membergender) {
-            res.render("addGymMember", {
-                alertMsg: "Please provide gender",
-                title: "addGymMember"
-            });
-            return;
-        }
-        if (!memberusername) {
-            res.render("addGymMember", {
-                alertMsg: "Please provide username",
-                title: "addGymMember"
-            });
-            return;
-        }
+
         if (!memberheight) {
             res.render("addGymMember", {
                 alertMsg: "Please provide height",
@@ -130,7 +78,11 @@ router.post("/add",authRoute("addGymMember"),async (req, res) => {
             return;
         }
         let bmi = memberweight/(memberheight*memberheight);
-        await gymMemberData.addGymMember(membername, memberaddress, memberemail, membermobileno,memberdob,membergender,memberusername,memberheight,memberweight,bmi);
+        let memberAdded =await gymMemberData.addGymMember(membername,memberheight,memberweight,bmi);
+        let memberId=memberAdded.newId;
+        let user = await userData.getUserByUsername(membername);
+        let userId = user._id;
+        await gymMemberData.addmemberstats(userId,memberId);
         res.redirect("/gymMember");
 
     } catch (error) {
@@ -144,10 +96,16 @@ router.get("/view/:id",authRoute("viewGymMember"), async (req, res) => {
     
    
     try {
-        let member = await gymMemberData.getGymMemberById(req.params.id);
-        res.render("viewGymMember", {
-            member: member,
-        });
+        let memberId=req.params.id;
+        let activityuserstats = await gymMemberData.getGymMemberById(memberId);
+        let userId=await gymMemberData.getUserByGymMemberId(memberId);
+        let user=await userData.getUserById(userId);
+        let userName=user.firstname;
+        res.render( "gyMember",{
+            member:activityuserstats,
+            userName:userName
+        
+        })
     } catch (e) {
         res.status(404).render("gymMember", {
             errorMessage: "Member Not Found"

@@ -26,4 +26,5 @@ module.exports = {
   trainer: getCollectionFn("trainer"),
   gymMember: getCollectionFn("gymMember"),
   notice: getCollectionFn("notice"),
+  userstats: getCollectionFn("user_stats"),
 };
