@@ -37,13 +37,14 @@ router.get("/", authRoute("trainer"), async (req, res) => {
 
     let userId = req.cookies.userId;    
     let layout = await authentication.getLayout(req.cookies.userId);
+    let trainer = await trainerData.getAllTrainers();
     try {
         let permission = false;
         let booleanFlag = await authentication.getPermissionForRoute("trainer", userId)
         if (booleanFlag) {
             permission = true;
         }
-        let trainer = await trainerData.getAllTrainers();
+        
         
         res.render("trainer", {
             trainer: trainer,
@@ -56,7 +57,9 @@ router.get("/", authRoute("trainer"), async (req, res) => {
 });
 router.get("/add", authRoute("addTrainer"), async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
+    let trainernames = await userData.getUserNameByRole("TRAINER");
     res.render("addTrainer", {
+        trainernames:trainernames,
         layout:layout
     });
 
@@ -94,7 +97,11 @@ router.post("/add", authRoute("addTrainer"), async (req, res) => {
             });
             return;
         }
-        await trainerData.addTrainer(trainername, certifications, biography);
+        let trainerAdded=await trainerData.addTrainer(trainername, certifications, biography);
+        let trainerId=trainerAdded.newId;
+        let user = await userData.getUserByUsername(trainername);
+        let userId = user._id;
+        await trainerData.addtrainerCert(userId,trainerId);
         res.redirect("/trainer");
 
     } catch (error) {
