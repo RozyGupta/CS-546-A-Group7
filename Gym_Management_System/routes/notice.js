@@ -11,7 +11,11 @@ const authRoute = function (moduleName) {
 
     return async function (req, res, next) {
 
+        let userId = req.cookies.userId;
         try {
+            if (!moduleName) {
+                throw "moduleName or UserId is empty";
+            } else {
                 let booleanFlag = await authentication.getPermissionForRoute(moduleName, userId)
                 if (booleanFlag) {
                     next();
@@ -22,15 +26,15 @@ const authRoute = function (moduleName) {
                         error: "Page Not available"
                     });
                 }
-            
+            }
         } catch (err) {
             res.render("error", { title: "error" });
         }
     };
 }
 
-//router.get("/", authRoute("notice"),async (req, res) => {
-    router.get("/",async (req, res) => {
+router.get("/", authRoute("notice"),async (req, res) => {
+   // router.get("/",async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     try {
        let notice = await noticeData.getAllNotices();
@@ -44,8 +48,8 @@ const authRoute = function (moduleName) {
     }  
 });
 
-//router.get("/add", authRoute("addNotice"),async (req, res) => {
-    router.get("/add",async (req, res) => {
+router.get("/add", authRoute("addNotice"),async (req, res) => {
+    //router.get("/add",async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     res.render("addNotice",{
         layout:layout
@@ -53,8 +57,8 @@ const authRoute = function (moduleName) {
 
 });
 
-//router.post("/add",authRoute("addNotice"),async (req, res) => {
-    router.post("/add",async (req, res) => {
+router.post("/add",authRoute("addNotice"),async (req, res) => {
+    //router.post("/add",async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     try {
         let notice = req.body;
@@ -116,8 +120,8 @@ const authRoute = function (moduleName) {
         });
     }
 });
-//router.get("/view/:id", authRoute("viewNotice"),async (req, res) => {
-    router.get("/view/:id",async (req, res) => {
+router.get("/view/:id", authRoute("viewNotice"),async (req, res) => {
+    //router.get("/view/:id",async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
   
     try {
@@ -135,8 +139,8 @@ const authRoute = function (moduleName) {
     }
 });
 
-//router.get("/update/:id",authRoute("updateNotice"), async (req, res) => {
-    router.get("/update/:id", async (req, res) => {
+router.get("/update/:id",authRoute("updateNotice"), async (req, res) => {
+   // router.get("/update/:id", async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     try {
         let notice = await noticeData.getNoticesById(req.params.id);
@@ -151,8 +155,8 @@ const authRoute = function (moduleName) {
     }
 });
 
-//router.get("/delete/:id",authRoute("deleteNotice"), async (req, res) => {
-    router.get("/delete/:id", async (req, res) => {
+router.get("/delete/:id",authRoute("deleteNotice"), async (req, res) => {
+   // router.get("/delete/:id", async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     try {
         await noticeData.removeNotice(req.params.id);
@@ -165,8 +169,8 @@ const authRoute = function (moduleName) {
     }
 });
 
-//router.post("/update",authRoute("updateNotice"), async (req, res) => {
-    router.post("/update", async (req, res) => {
+router.post("/update",authRoute("updateNotice"), async (req, res) => {
+   // router.post("/update", async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     let notice;
     try {
