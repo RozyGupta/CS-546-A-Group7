@@ -58,11 +58,10 @@ router.get("/", authRoute("trainer"), async (req, res) => {
 router.get("/add", authRoute("addTrainer"), async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     let trainernames = await userData.getUserNameByRole("TRAINER");
-    // let username = trainernames.username;
-    // console.log("traidjbjcj" +username)
     res.render("addTrainer", {
         trainernames:trainernames,
-        layout:layout
+        layout:layout,
+        title: "addTrainer"
     });
 
 });
