@@ -1,17 +1,13 @@
 const mongoCollections = require("../config/mongoCollections");
 const gymMember = mongoCollections.gymMember;
 const uuid = require('uuid/v1');
+const userstats = mongoCollections.userstats;
+
 
 const exportedMethods = {
 
-    async addGymMember(membername, memberaddress, memberemail, membermobileno,memberdob,membergender,memberusername,memberheight,memberweight,bmi) {
+    async addGymMember(membername,memberheight,memberweight,bmi) {
         if (!membername) throw "No member name provided";
-        if (!memberaddress) throw "No member address provided";
-        if (!memberemail) throw "No member email provided";
-        if (!membermobileno) throw "No member mobileno provided";
-        if (!memberdob) throw "No member date of birth provided";
-        if (!membergender) throw "No member gender provided";
-        if (!memberusername) throw "No member username provided";
         if (!memberheight) throw "No member height provided";
         if (!memberweight) throw "No member weight provided";
        
@@ -20,12 +16,6 @@ const exportedMethods = {
         const newgymmember = {
             _id: uuid(),
             membername: membername,
-            memberaddress: memberaddress,
-            memberemail: memberemail,
-            membermobileno: membermobileno,
-            memberdob: memberdob,
-            membergender: membergender,
-            memberusername: memberusername,
             memberheight: memberheight,
             memberweight: memberweight,
             bmi: bmi
@@ -41,7 +31,27 @@ const exportedMethods = {
             addedgymmember,
             newId
         }
-    },   
+    }, 
+    async addmemberstats(userId, memberId) {
+        if (!userId) throw "No userId provided";
+        if (!memberId) throw "No memberId provided!";
+         const userStatsCollection = await userstats();
+        const newUserStats = {
+            userId: userId,
+            memberId: memberId,
+         };
+        const addedUserStats = await userStatsCollection.insertOne(newUserStats);
+         if (addedUserStats.insertedCount === 0) {
+            throw "Could not add user and activity id  successfully";
+        }
+        return addedUserStats;
+    },  
+    async getAllGymMembersStats() {
+        const userStatsCollection = await userstats();
+        const userstatistics = await userStatsCollection.find({}).toArray();
+        return userstatistics;
+    },
+ 
     
     async getAllGymMembers() {
         const gymMemberCollection = await gymMember();
@@ -65,28 +75,19 @@ const exportedMethods = {
             throw `Could not delete membership with id: ${memberId}`;
         }
     },
-    async updateGymMember(memberId,membername, memberaddress, memberemail, membermobileno,memberdob,membergender,memberusername,memberheight,memberweight,bmi) {
+    async updateGymMember(memberId,membername,memberheight,memberweight,bmi) {
         if (!memberId) throw "You must provide an id to update";
         const gymMemberCollection = await gymMember(); 
     
         const updatedMember = await gymMemberCollection.updateOne({ _id: memberId }, 
             {$set: 
             {   membername: membername,
-                memberaddress: memberaddress,
-                memberemail: memberemail,
-                membermobileno: membermobileno,
-                memberdob: memberdob,
-                membergender: membergender,
-                memberusername: memberusername,
                 memberheight: memberheight,
                 memberweight: memberweight,
                 bmi: bmi
             } 
         });
     
-        // if (updatedMember.modifiedCount === 0) {
-        //   throw "Could not update task successfully";
-        // }
         return updatedMember;
     },
 }

@@ -1,7 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
 const trainer = mongoCollections.trainer;
 const uuid = require('uuid/v1');
-
+const trainercert = mongoCollections.trainercert;
 
 const exportedMethods = {
     async addTrainer(trainername, certifications, biography) {
@@ -28,7 +28,25 @@ const exportedMethods = {
         }
 
     },
-
+    async addtrainerCert(userId,trainerId) {
+        if (!userId) throw "No userId provided";
+        if (!trainerId) throw "No trainerId provided!";
+         const trainerCertCollection = await trainercert();
+        const newTrainerCert = {
+            userId: userId,
+            trainerId: trainerId,
+         };
+        const addedTrainerCert = await trainerCertCollection.insertOne(newTrainerCert);
+         if (addedTrainerCert.insertedCount === 0) {
+            throw "Could not add user and activity id  successfully";
+        }
+        return addedTrainerCert;
+    }, 
+    async getAllTrainerCert() {
+        const trainerCertCollection = await userstats();
+        const trainercert = await trainerCertCollection.find({}).toArray();
+        return trainercert;
+    },
 
     async removeTrainer(trainerId) {
         if (!trainerId) throw "You must provide an id to delete";

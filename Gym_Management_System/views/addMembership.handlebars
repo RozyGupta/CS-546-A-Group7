@@ -10,19 +10,19 @@
             {{/if }}
             <div id="inputDiv">
                <label for="membershipname"> Membership Name</label><br>
-               <input class="major" type="text" name="membershipname" />
+               <input class="major" type="text" name="membershipname" pattern="[A-Za-z]{1,15}" title="Must contain only text" required/>
             </div>
             <div id="inputDiv">
                <label for="membershipperiod">Membership Period(days)</label><br>
-               <input class="major" type="text" name="membershipperiod" />
+               <input class="major" type="number" name="membershipperiod" min="1" max="365" required/>
             </div>
             <div id="inputDiv">
                <label for="signupfees">Signup Fees($)</label><br>
-               <input class="major" type="text" name="signupfees" />
+               <input class="major" type="number" name="signupfees" min="100" max="1000" required/>
             </div>
             <div id="inputDiv">
                <label for="services">Services</label><br>
-                  <input class="major" type="text" name="services" />
+                  <input class="major" type="text" name="services"  pattern="[A-Za-z]{1,15}" title="Must contain only text" required/>
                </select>
             </div>
             <div class="centered">

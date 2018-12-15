@@ -52,7 +52,7 @@ let exportedMethods = {
     const users = await userCollection.find({
       role:role
     }).toArray();
-    return users.map(users =>users.firstname+" "+users.lastname);
+    return users;
   },
   async getUserByUsername(username) {
     return user().then(userCollection => {

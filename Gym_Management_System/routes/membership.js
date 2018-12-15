@@ -47,7 +47,7 @@ router.get("/",authRoute("membership"), async (req, res) => {
 router.get("/add",authRoute("addMembership"),async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     res.render("addMembership",{
-        layout:layout
+        layout:layout,
     });
 
 });
