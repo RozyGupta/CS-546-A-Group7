@@ -10,7 +10,7 @@
             {{/if }}
             <div id="inputDiv">
                <label for="membershipname"> Membership Name</label><br>
-               <input class="major" type="text" name="membershipname" pattern="[A-Za-z]{1,15}" title="Must contain only text" required/>
+               <input class="major" type="text" name="membershipname" pattern="[A-Za-z\s]{1,15}" title="Must contain only text" required/>
             </div>
             <div id="inputDiv">
                <label for="membershipperiod">Membership Period(days)</label><br>
@@ -22,12 +22,12 @@
             </div>
             <div id="inputDiv">
                <label for="services">Services</label><br>
-                  <input class="major" type="text" name="services"  pattern="[A-Za-z]{1,15}" title="Must contain only text" required/>
+                  <input class="major" type="text" name="services"  pattern="[A-Za-z\s]{1,15}" title="Must contain only text" required/>
                </select>
             </div>
               <div id="inputDiv">
                <label for="description">Description</label><br>
-               <textarea name="description" placeholder="Enter Your Desciption Here.."></textarea>
+               <textarea name="description" placeholder="Enter Your Desciption Here.." required></textarea>
             </div>
             <div class="centered">
                <div class="row">

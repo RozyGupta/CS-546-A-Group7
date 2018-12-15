@@ -5,20 +5,6 @@ const userData = data.user;
 const authentication = data.authentication;
 const xss = require("xss");
 
-function checkIsProperType(variable, variableType, parameter) { //referred from https://github.com/Stevens-CS546/CS-546/blob/master/Lecture%20Code/lecture_02/calculator_app_example/calculator.js
-    
-    if (typeof variable === 'undefined') {
-        console.log((typeof variable)+parameter);
-        return false;
-    } else {
-
-        if (typeof variable != variableType) {
-            console.log(parameter+" "+typeof variable);
-            return false;
-        }
-        else return true;
-    }
-}
     const authRoute = function (moduleName) {
 
         return async function (req, res, next) {
@@ -74,46 +60,41 @@ function checkIsProperType(variable, variableType, parameter) { //referred from 
             let userInfo = req.body;
             let userEmail = xss(userInfo.email);
             let userFirstName =xss(userInfo.firstname);
-            let userLasttName =xss(userInfo.lastname);
+            let userLastName =xss(userInfo.lastname);
             let userZipCode = xss(userInfo.zipCode);
-            if (!checkIsProperType(userEmail,"string","email")) {
-                res.render("adduser", {
-                    alertMsg: "Please provide user Info",
-                    title: "adduser",
-                    layout: layout
+            if (!userEmail) {
+                res.render("addUser", {
+                    alertMsg: "Please provide email",
+                    title: "addUser",
+                    layout:layout
+                   
                 });
                 return;
             }
-            
-            if (!checkIsProperType(userFirstName,"string","First Name")) {
-                res.render("adduser", {
-                    alertMsg: "Please provide user Info",
-                    title: "adduser",
-                    layout: layout
+            if (!userFirstName) {
+                res.render("addUser", {
+                    alertMsg: "Please provide first name",
+                    title: "addUser",
+                    layout:layout
+                   
                 });
                 return;
             }
-            if (!checkIsProperType(userLasttName,"string","Last Name")) {
-                res.render("adduser", {
-                    alertMsg: "Please provide user Info",
-                    title: "adduser",
-                    layout: layout
+            if (!userLastName) {
+                res.render("addUser", {
+                    alertMsg: "Please provide last name",
+                    title: "addUser",
+                    layout:layout
+                   
                 });
                 return;
             }
-            if (!checkIsProperType(userZipCode,"number","Zipcode")) {
-                res.render("adduser", {
-                    alertMsg: "Please provide user Info",
-                    title: "adduser",
-                    layout: layout
-                });
-                return;
-            }
-            if (!userInfo) {
-                res.render("adduser", {
-                    alertMsg: "Please provide user Info",
-                    title: "adduser",
-                    layout: layout
+            if (!userZipCode) {
+                res.render("addUser", {
+                    alertMsg: "Please provide zip code",
+                    title: "addUser",
+                    layout:layout
+                   
                 });
                 return;
             }
@@ -126,9 +107,9 @@ function checkIsProperType(variable, variableType, parameter) { //referred from 
                     alertMsg: "User Creation unsuccess"
                 })
             }
-        } catch (err) {
-            console.log("ERROR" + err);
-        }
+        } catch(error){
+            res.render("error", { title: "error" });
+        } 
     });
 
     router.get("/view/:id", authRoute("viewUser"), async (req, res) => {
