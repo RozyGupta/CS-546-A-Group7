@@ -35,11 +35,7 @@ const authRoute = function (moduleName) {
 router.get("/",authRoute("gymMember"), async (req, res) => {
 
     try {
-        let userstats = await gymMemberData.getAllGymMembersStats();
-        console.log(userstats);
-        let userid = userstats.userId;
-        let gymMember = await gymMemberData.getGymMemberById(userid);
-        console.log(gymMember)
+        let gymMember = await gymMemberData.getAllGymMembers();
         res.render("gymMember", {
             gymMember: gymMember,
         });
@@ -59,6 +55,7 @@ router.post("/add",authRoute("addGymMember"),async (req, res) => {
 
     try {
         let member = req.body;
+
         let membername = xss(member.membername);
         let memberheight = xss(member.memberheight);
         let memberweight = xss(member.memberweight);
@@ -86,7 +83,6 @@ router.post("/add",authRoute("addGymMember"),async (req, res) => {
         res.redirect("/gymMember");
 
     } catch (error) {
-        console.log(error)
         res.render("addGymMember", {
             alertMsg: "error while adding member"
         });
