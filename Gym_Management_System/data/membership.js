@@ -3,7 +3,7 @@ const membership = mongoCollections.membership;
 const uuid = require('uuid/v1');
 
 const exportedMethods = {
-    async addMembership(membershipname, membershipperiod, signupfees, services) {
+    async addMembership(membershipname, membershipperiod, signupfees, services,description) {
         if (!membershipname) throw "No membership name provided";
         if (!membershipperiod) throw "No membership period provided";
         if (!signupfees) throw "No signupfees provided";
@@ -15,7 +15,11 @@ const exportedMethods = {
             membershipname: membershipname,
             membershipperiod: membershipperiod,
             signupfees: signupfees,
+
+            services: services,
+
             services: services
+
         };
         const addedmembership = await membershipCollection.insertOne(newmembership);
         const newId = addedmembership.insertedId;
@@ -58,7 +62,12 @@ const exportedMethods = {
             {   membershipname: membershipname,
                 membershipperiod: membershipperiod,
                 signupfees: signupfees,
+
+                services: services,
+                description:description,
+
                 services: services
+
             } 
         });
     
