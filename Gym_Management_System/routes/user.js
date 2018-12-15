@@ -25,9 +25,9 @@ const xss = require("xss");
                         });
                     }
                 }
-            } catch (err) {
-                console.log(err);
-            }
+            } catch(error){
+                res.render("error", { title: "error" });
+            } 
         };
     }
 
