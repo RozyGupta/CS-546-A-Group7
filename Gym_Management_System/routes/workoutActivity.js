@@ -52,8 +52,13 @@ router.get("/",authRoute("addWorkoutActivity"), async (req, res) => {
 
 router.get("/view/",authRoute("viewWorkoutActivity"), async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
+    let userID =   (req.cookies.userId);
+    let permission = false;
     try {
-
+        let booleanFlag = await authentication.getPermissionForRoute("viewWorkoutActivity", userID)
+        if (booleanFlag) {
+            permission = true;
+        }
         let url_parts = url.parse(req.url, true);
         let query = url_parts.query;
         let userId =req.query.username;
@@ -66,18 +71,23 @@ router.get("/view/",authRoute("viewWorkoutActivity"), async (req, res) => {
         let user=await userData.getUserById(userId);
         let userName=user.firstname+" "+user.lastname;
         res.render( "viewWorkoutActivity",{layout:"default",
-            showactivities: activityArray, userName: userName,userId:userId});
+            showactivities: activityArray, userName: userName,userId:userId, permission:permission});
     }
     catch (e) {
         let user = await userData.getAllUsers();
-        res.render("viewWorkoutActivity", { message: "No activities for this user", layout:layout,username: user, title: "viewWorkoutActivity" });
+        res.render("viewWorkoutActivity", { message: "No activities for this user", layout:layout,username: user, title: "viewWorkoutActivity", permission:permission });
         return;
     }
 });
 router.get("/view/:id",authRoute("viewWorkoutActivity"), async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
+    let userID =   (req.cookies.userId);
+    let permission = false;
     try {
-            
+        let booleanFlag = await authentication.getPermissionForRoute("viewWorkoutActivity", userID)
+        if (booleanFlag) {
+            permission = true;
+        }
             let activityId=req.params.id;
             let activity = await workoutActivityData.getActivityById(activityId);
             let userId=await workoutActivityData.getUserIdByActivityId(activityId);
@@ -86,13 +96,14 @@ router.get("/view/:id",authRoute("viewWorkoutActivity"), async (req, res) => {
             res.render( "viewWorkout",{
                 activity:activity,
                 userName:userName,
-                layout:layout
+                layout:layout,
+                permission:permission
             
             })
     }
     catch (e) {
         let user = await userData.getUserById(req.param.id);
-        res.render("viewWorkoutActivity", { layout:layout,message: "No activities for this user", username: user, title: "viewWorkoutActivity" });
+        res.render("viewWorkoutActivity", { layout:layout,message: "No activities for this user", username: user, title: "viewWorkoutActivity", permission:permission });
         return;
     }
 });
@@ -263,13 +274,17 @@ router.post("/update/",authRoute("updateWorkoutActivity"), async (req, res) => {
 });
 
 router.get("/delete/:id",authRoute("deleteWorkoutActivity"), async (req, res) => {
-    
+    let userID =   (req.cookies.userId);
+    let permission = false;
     try {
-        let activityId =   (req.params.id);
+        let booleanFlag = await authentication.getPermissionForRoute("viewWorkoutActivity", userID)
+        if (booleanFlag) {
+            permission = true;
+        }    let activityId =   (req.params.id);
         let userId=await workoutActivityData.getUserIdByActivityId(activityId);
         
         if (!activityId) {
-            res.render("viewWorkoutActivity", { message: "No activity to delete" });
+            res.render("viewWorkoutActivity", { message: "No activity to delete" ,permission:permission});
         }
         let postActivity = await workoutActivityData.removeActivity(activityId);
         let postuserActivity = await workoutActivityData.removeUserActivity(activityId);

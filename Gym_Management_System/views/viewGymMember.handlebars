@@ -5,6 +5,7 @@
             <h1>{{member.membername}}</h1>
                <p id="editOption"><a  href="/gymMember/update/{{member._id}}"><img src="../../public/images/Editing-edit-icon.png">
                </a> | <a href="/gymMember/delete/{{member._id}}"><img src="../../public/images/delete.png"></a></p>
+            
          </header>
          {{#if msg}}
             <p class="successMsg">{{msg}}</p>

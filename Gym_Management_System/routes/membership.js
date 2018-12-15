@@ -32,12 +32,18 @@ const authRoute = function (moduleName) {
 }
 router.get("/",authRoute("membership"), async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
+    let userID =   (req.cookies.userId);
+    let permission = false;
     try {
-        
+        let booleanFlag = await authentication.getPermissionForRoute("membership", userID)
+        if (booleanFlag) {
+            permission = true;
+        }
         let memberships = await membershipData.getAllMemberships();
         res.render("membership", {
             memberships: memberships,
-            layout:layout
+            layout:layout,
+            permission:permission
         });
     }catch(error){
         res.render("error", { title: "error" });
@@ -122,52 +128,81 @@ router.post("/add",authRoute("addMembership"),async (req, res) => {
 router.get("/view/:id",authRoute("viewMembership"), async (req, res) => {
     
     let layout = await authentication.getLayout(req.cookies.userId);
+    let userID =   (req.cookies.userId);
+    let permission = false;
     try {
+        let booleanFlag = await authentication.getPermissionForRoute("viewMembership", userID)
+        if (booleanFlag) {
+            permission = true;
+        }
         let membership = await membershipData.getMembershipById(req.params.id);
         res.render("viewMembership", {
             membership: membership,
-            layout:layout
+            layout:layout,
+            permission:permission
         });
     } catch (e) {
         res.status(404).render("membership", {
             errorMessage: "Membership Not Found",
-            layout:layout
+            layout:layout,
+            permission:permission
         })
     }
 });
 
 router.get("/update/:id",authRoute("updateMembership"),async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
+    let userID =   (req.cookies.userId);
+    let permission = false;
     try {
+        let booleanFlag = await authentication.getPermissionForRoute("viewMembership", userID)
+        if (booleanFlag) {
+            permission = true;
+        } 
         let membership = await membershipData.getMembershipById(req.params.id);
         res.render("updateMembership", {
             membership: membership,
-            layout:layout
+            layout:layout,
+            permission:permission
         });
 
     } catch (e) {
         res.status(404).render("membership", {
             errorMessage: "Membership Not Found",
-            layout:layout
+            layout:layout,
+            permission:permission
         })
     }
 });
 router.get("/delete/:id",authRoute("deleteMembership"), async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
+    let userID =   (req.cookies.userId);
+    let permission = false;
     try {
+        let booleanFlag = await authentication.getPermissionForRoute("viewMembership", userID)
+        if (booleanFlag) {
+            permission = true;
+        } 
         await membershipData.removeMembership(req.params.id);
         res.redirect("/membership");
     } catch (error) {
         res.render("viewMembership", {
             layout:layout,
-            alertMsg: "error while deleting"
+            alertMsg: "error while deleting",
+            permission:permission
         });
     }
 });
 router.post("/update",authRoute("updateMembership"),async (req, res) => {
     let membership;
     let layout = await authentication.getLayout(req.cookies.userId);
+    let userID =   (req.cookies.userId);
+    let permission = false;
     try {
+        let booleanFlag = await authentication.getPermissionForRoute("viewMembership", userID)
+        if (booleanFlag) {
+            permission = true;
+        } 
         membership = req.body;
 
         let membershipId = xss(membership.membershipId);
@@ -225,7 +260,8 @@ router.post("/update",authRoute("updateMembership"),async (req, res) => {
         res.render("viewMembership", {
          msg: "Activity updated Successfully",
          layout:layout,
-         membership: updatedMembership
+         membership: updatedMembership,
+         permission:permission,
         });
     } catch (error) {
         console.log(error);

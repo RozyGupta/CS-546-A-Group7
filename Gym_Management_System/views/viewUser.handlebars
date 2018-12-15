@@ -3,8 +3,10 @@
       <div class="jumbotron" id="head-doc">
          <header>
             <h1><a href="../"><img src="../../public/images/backSign.png"></a>{{user.firstname}} {{user.lastname}}</h1>
+             {{#if permission}}
             <p id="editOption"><a href="/user/update/{{user._id}}"><img src="../../public/images/Editing-edit-icon.png"></a>
                | <a href="/user/delete/{{user._id}}"><img src="../../public/images/delete.png"></a></p>
+             {{/if}}
          </header>
          <br>
 

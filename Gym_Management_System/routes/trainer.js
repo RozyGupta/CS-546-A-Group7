@@ -34,13 +34,12 @@ const authRoute = function (moduleName) {
 }
 
 router.get("/", authRoute("trainer"), async (req, res) => {
-
-    let userId = req.cookies.userId;    
     let layout = await authentication.getLayout(req.cookies.userId);
+    let userID = req.cookies.userId;    
     let trainer = await trainerData.getAllTrainers();
     try {
         let permission = false;
-        let booleanFlag = await authentication.getPermissionForRoute("trainer", userId)
+        let booleanFlag = await authentication.getPermissionForRoute("trainer", userID)
         if (booleanFlag) {
             permission = true;
         }
@@ -126,18 +125,29 @@ router.get("/view/:id", authRoute("viewTrainer"), async (req, res) => {
         let trainer = await trainerData.getTrainerById(  (req.params.id));
         res.render("viewTrainer", {
             trainer: trainer,
-            layout:layout 
+            layout:layout ,
+            permission:permission
         });
     } catch (e) {
         res.status(404).render("trainer", {
             errorMessage: "Trainer Not Found",
-            layout:layout
+            layout:layout,
+            permission:permission
         })
     }
 });
 router.get("/update/:id", authRoute("updateTrainer"), async (req, res) => {
+    
     let layout = await authentication.getLayout(req.cookies.userId);
+    let userID = req.cookies.userId;    
+    let trainer = await trainerData.getAllTrainers();
     try {
+        let permission = false;
+        let booleanFlag = await authentication.getPermissionForRoute("trainer", userID)
+        if (booleanFlag) {
+            permission = true;
+        }
+        
         let trainer = await trainerData.getTrainerById(req.params.id);
 
         res.render("updateTrainer", {
@@ -148,7 +158,8 @@ router.get("/update/:id", authRoute("updateTrainer"), async (req, res) => {
     } catch (e) {
         res.status(404).render("trainer", {
             errorMessage: "Trainer Not Found",
-            layout:layout
+            layout:layout,
+            permission:permission
         })
     }
 });

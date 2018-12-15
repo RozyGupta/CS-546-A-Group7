@@ -4,9 +4,11 @@
             <header>
                 <h1>{{userName}}'s Workout</h1>
                 <h2>{{activity.activity}} Activity</h2>
+                {{#if permission}}
                 <p id="editOption"><a href="/workoutActivity/update/{{activity._id}}"><img src="../../../public/images/Editing-edit-icon.png"></a>
                     | <a href="/workoutActivity/delete/{{activity._id}}"><img src="../../../public/images/delete.png"></a>
                 </p>
+                 {{/if }}
             </header>
             <div class="row">
                 <div class="col-sm-8">

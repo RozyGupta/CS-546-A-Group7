@@ -3,8 +3,9 @@
 {{/if}}
 
 <h2>{{userName}}</h2>
+{{#if permission}}
 <p id="addOption"><a href="/workoutActivity/add/{{userId}}"><img src="../public/images/add.png">New Workout</a>
-   
+{{/if}}
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -16,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-             {{#if showactivities}}
+            {{#if showactivities}}
             {{#each showactivities}}
             <tr class="clickable-row" data-href='/workoutActivity/view/{{this._id}}'>
                 <th scope="row">{{@index}}</th>
@@ -30,4 +31,3 @@
 
         </tbody>
     </table>
-    

@@ -36,12 +36,19 @@ const authRoute = function (moduleName) {
 router.get("/", authRoute("notice"),async (req, res) => {
    // router.get("/",async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
+    let userID =   (req.cookies.userId);
+    let permission = false;
     try {
+        let booleanFlag = await authentication.getPermissionForRoute("notice", userID)
+        if (booleanFlag) {
+            permission = true;
+        } 
        let notice = await noticeData.getAllNotices();
         res.render("notice", {
             notice: notice,
             layout:layout,
-            title:"Notice"
+            title:"Notice",
+            permission:permission
         });
     }catch(error){
         res.render("error", { title: "error" });
@@ -122,27 +129,42 @@ router.post("/add",authRoute("addNotice"),async (req, res) => {
 });
 router.get("/view/:id", authRoute("viewNotice"),async (req, res) => {
     //router.get("/view/:id",async (req, res) => {
+    let userID =   (req.cookies.userId);
+        let permission = false;
+        try {
+            let booleanFlag = await authentication.getPermissionForRoute("viewNotice", userID)
+            if (booleanFlag) {
+                permission = true;
+            }         
     let layout = await authentication.getLayout(req.cookies.userId);
-  
-    try {
+ 
         
         let notice = await noticeData.getNoticesById(req.params.id);
         res.render("viewNotice", {
             layout:layout,
-            notice: notice
+            notice: notice,
+            permission:permission
         });
     } catch (e) {
         res.status(404).render("notice", {
             layout:layout,
-            errorMessage: "notice Not Found"
+            errorMessage: "notice Not Found",
+            permission:permission
         })
     }
 });
 
 router.get("/update/:id",authRoute("updateNotice"), async (req, res) => {
    // router.get("/update/:id", async (req, res) => {
-    let layout = await authentication.getLayout(req.cookies.userId);
+    let userID =   (req.cookies.userId);
+    let permission = false;
     try {
+        let booleanFlag = await authentication.getPermissionForRoute("notice", userID)
+        if (booleanFlag) {
+            permission = true;
+        }    
+    let layout = await authentication.getLayout(req.cookies.userId);
+    
         let notice = await noticeData.getNoticesById(req.params.id);
         
         res.render("updateNotice",{notice:notice,layout:layout});
@@ -150,21 +172,30 @@ router.get("/update/:id",authRoute("updateNotice"), async (req, res) => {
     } catch (e) {
         res.status(404).render("notice", {
             layout:layout,
-            errorMessage: "notice Not Found"
+            errorMessage: "notice Not Found",
+            permission:permission
         })
     }
 });
 
 router.get("/delete/:id",authRoute("deleteNotice"), async (req, res) => {
    // router.get("/delete/:id", async (req, res) => {
+
     let layout = await authentication.getLayout(req.cookies.userId);
-    try {
+    let userID =   (req.cookies.userId);
+        let permission = false;
+        try {
+            let booleanFlag = await authentication.getPermissionForRoute("viewNotice", userID)
+            if (booleanFlag) {
+                permission = true;
+            }   
         await noticeData.removeNotice(req.params.id);
         res.redirect("/notice");
     } catch (error) {
         res.render("viewNotice", {
             layout:layout,
-            alertMsg: "error while deleting"
+            alertMsg: "error while deleting",
+            permission:permission
         });
     }
 });
@@ -173,7 +204,13 @@ router.post("/update",authRoute("updateNotice"), async (req, res) => {
    // router.post("/update", async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     let notice;
-    try {
+    let userID =   (req.cookies.userId);
+        let permission = false;
+        try {
+            let booleanFlag = await authentication.getPermissionForRoute("viewNotice", userID)
+            if (booleanFlag) {
+                permission = true;
+            }         
         notice =req.body;
         let noticeId = xss(notice.noticeId);
         let title = xss(notice.title);
@@ -234,7 +271,8 @@ router.post("/update",authRoute("updateNotice"), async (req, res) => {
         res.render("viewNotice", {
             msg: "Notice updated Successfully",
             layout:layout,
-            notice:updatedNotice
+            notice:updatedNotice,
+            permission:permission
         });
 
     }catch (error) {
