@@ -5,20 +5,6 @@ const userData = data.user;
 const authentication = data.authentication;
 const xss = require("xss");
 
-function checkIsProperType(variable, variableType, parameter) { //referred from https://github.com/Stevens-CS546/CS-546/blob/master/Lecture%20Code/lecture_02/calculator_app_example/calculator.js
-    
-    if (typeof variable === 'undefined') {
-        console.log((typeof variable)+parameter);
-        return false;
-    } else {
-
-        if (typeof variable != variableType) {
-            console.log(parameter+" "+typeof variable);
-            return false;
-        }
-        else return true;
-    }
-}
     const authRoute = function (moduleName) {
 
         return async function (req, res, next) {

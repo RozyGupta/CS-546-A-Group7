@@ -91,7 +91,6 @@ router.post("/add",authRoute("addGymMember"),async (req, res) => {
             return;
         }
         let bmi = memberweight/(memberheight*memberheight);
-        await gymMemberData.addGymMember(membername,memberheight,memberweight,bmi);
         let memberAdded =await gymMemberData.addGymMember(membername,memberheight,memberweight,bmi);
         let memberId=memberAdded.newId;
         let user = await userData.getUserByUsername(membername);
