@@ -60,8 +60,44 @@ const xss = require("xss");
             let userInfo = req.body;
             let userEmail = xss(userInfo.email);
             let userFirstName =xss(userInfo.firstname);
-            let userLasttName =xss(userInfo.lastname);
+            let userLastName =xss(userInfo.lastname);
             let userZipCode = xss(userInfo.zipCode);
+            if (!userEmail) {
+                res.render("addUser", {
+                    alertMsg: "Please provide email",
+                    title: "addUser",
+                    layout:layout
+                   
+                });
+                return;
+            }
+            if (!userFirstName) {
+                res.render("addUser", {
+                    alertMsg: "Please provide first name",
+                    title: "addUser",
+                    layout:layout
+                   
+                });
+                return;
+            }
+            if (!userLastName) {
+                res.render("addUser", {
+                    alertMsg: "Please provide last name",
+                    title: "addUser",
+                    layout:layout
+                   
+                });
+                return;
+            }
+            if (!userZipCode) {
+                res.render("addUser", {
+                    alertMsg: "Please provide zip code",
+                    title: "addUser",
+                    layout:layout
+                   
+                });
+                return;
+            }
             let successFlag = await userData.createUser(userInfo);
             if (successFlag == true) {
                 res.redirect("/user");
@@ -71,9 +107,9 @@ const xss = require("xss");
                     alertMsg: "User Creation unsuccess"
                 })
             }
-        } catch (err) {
-            console.log("ERROR" + err);
-        }
+        } catch(error){
+            res.render("error", { title: "error" });
+        } 
     });
 
     router.get("/view/:id", authRoute("viewUser"), async (req, res) => {
