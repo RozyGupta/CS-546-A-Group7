@@ -29,7 +29,7 @@ const authRoute = function (moduleName) {
     };
 }
 
-router.get("/", authRoute("notice"),async (req, res) => {
+router.get("/",async (req, res) => {
     try {
       let notice = await noticeData.getAllNotices();
         res.render("notice", {
@@ -41,14 +41,14 @@ router.get("/", authRoute("notice"),async (req, res) => {
     }  
 });
 
-router.get("/add", authRoute("addNotice"),async (req, res) => {
+router.get("/add",async (req, res) => {
 
    
     res.render("addNotice");
 
 });
 
-router.post("/add",authRoute("addNotice"),async (req, res) => {
+router.post("/add",async (req, res) => {
 
     try {
         let notice = req.body;
@@ -104,7 +104,7 @@ router.post("/add",authRoute("addNotice"),async (req, res) => {
         });
     }
 });
-router.get("/view/:id", authRoute("viewNotice"),async (req, res) => {
+router.get("/view/:id",async (req, res) => {
     
   
     try {
@@ -120,7 +120,7 @@ router.get("/view/:id", authRoute("viewNotice"),async (req, res) => {
     }
 });
 
-router.get("/update/:id",authRoute("updateNotice"), async (req, res) => {
+router.get("/update/:id", async (req, res) => {
     try {
         let notice = await noticeData.getNoticesById(req.params.id);
         
@@ -133,7 +133,7 @@ router.get("/update/:id",authRoute("updateNotice"), async (req, res) => {
     }
 });
 
-router.get("/delete/:id",authRoute("deleteNotice"), async (req, res) => {
+router.get("/delete/:id", async (req, res) => {
     try {
         await noticeData.removeNotice(req.params.id);
         res.redirect("/notice");
@@ -144,7 +144,7 @@ router.get("/delete/:id",authRoute("deleteNotice"), async (req, res) => {
     }
 });
 
-router.post("/update",authRoute("updateNotice"), async (req, res) => {
+router.post("/update", async (req, res) => {
     let notice;
     try {
         notice =req.body;
