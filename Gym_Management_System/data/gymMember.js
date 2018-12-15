@@ -71,19 +71,13 @@ const exportedMethods = {
             throw `Could not delete membership with id: ${memberId}`;
         }
     },
-    async updateGymMember(memberId,membername, memberaddress, memberemail, membermobileno,memberdob,membergender,memberusername,memberheight,memberweight,bmi) {
+    async updateGymMember(memberId,membername,memberheight,memberweight,bmi) {
         if (!memberId) throw "You must provide an id to update";
         const gymMemberCollection = await gymMember(); 
     
         const updatedMember = await gymMemberCollection.updateOne({ _id: memberId }, 
             {$set: 
             {   membername: membername,
-                memberaddress: memberaddress,
-                memberemail: memberemail,
-                membermobileno: membermobileno,
-                memberdob: memberdob,
-                membergender: membergender,
-                memberusername: memberusername,
                 memberheight: memberheight,
                 memberweight: memberweight,
                 bmi: bmi

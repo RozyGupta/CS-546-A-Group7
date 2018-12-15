@@ -139,65 +139,11 @@ router.post("/update",authRoute("updateGymMember"),async (req, res) => {
         member = req.body;
         let memberId = xss(member.memberId);
         let membername = xss(member.membername);
-        let memberaddress = xss(member.memberaddress);
-        let memberemail = xss(member.memberemail);
-        let membermobileno = xss(member.membermobileno);
-        let memberdob = xss(member.memberdob);
-        let membergender = xss(member.membergender);
-        let memberusername =xss( member.memberusername);
         let memberheight = xss(member.memberheight);
         let memberweight = xss(member.memberweight);
         if (!membername) {
             res.render("updateGymMember", {
                 alertMsg: "Please provide name",
-                title: "updateGymMember",
-                member:member
-            });
-            return;
-        }
-        if (!memberaddress) {
-            res.render("updateGymMember", {
-                alertMsg: "Please provide address",
-                title: "updateGymMember",
-                member:member
-            });
-            return;
-        }
-        if (!memberemail) {
-            res.render("updateGymMember", {
-                alertMsg: "Please provide email",
-                title: "updateGymMember",
-                member:member
-            });
-            return;
-        }
-        if (!membermobileno) {
-            res.render("updateGymMember", {
-                alertMsg: "Please provide mobileno",
-                title: "updateGymMember",
-                member:member
-            });
-            return;
-        }
-        if (!memberdob) {
-            res.render("updateGymMember", {
-                alertMsg: "Please provide date of birth",
-                title: "updateGymMember",
-                member:member
-            });
-            return;
-        }
-        if (!membergender) {
-            res.render("updateGymMember", {
-                alertMsg: "Please provide gender",
-                title: "updateGymMember",
-                member:member
-            });
-            return;
-        }
-        if (!memberusername) {
-            res.render("updateGymMember", {
-                alertMsg: "Please provide username",
                 title: "updateGymMember",
                 member:member
             });
@@ -220,14 +166,13 @@ router.post("/update",authRoute("updateGymMember"),async (req, res) => {
             return;
         }
         let bmi = memberweight/(memberheight*memberheight);
-        await gymMemberData.updateGymMember(memberId,membername,memberaddress,memberemail,membermobileno,memberdob,membergender,memberusername,memberheight,memberweight,bmi);
+        await gymMemberData.updateGymMember(memberId,membername,memberheight,memberweight,bmi);
         let updatedGymMember = await gymMemberData.getGymMemberById(memberId);
         res.render("viewGymMember", {
          msg: "Activity updated Successfully",
          member:updatedGymMember
         });
     } catch (error) {
-        console.log(error)
         res.render("updateGymMember", {
             error: "error while updating",
             member:member
