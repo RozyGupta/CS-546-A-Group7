@@ -38,11 +38,12 @@ const authRoute = function (moduleName) {
 
 
 router.get("/",authRoute("addWorkoutActivity"), async (req, res) => {
-   
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
         let users = await userData.getAllUsers();
         res.render("workoutActivity", {
             username:users,
+            layout:layout,
         });
     }catch(error){
         res.render("error", { title: "error" })
@@ -50,7 +51,7 @@ router.get("/",authRoute("addWorkoutActivity"), async (req, res) => {
 });
 
 router.get("/view/",authRoute("viewWorkoutActivity"), async (req, res) => {
-
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
 
         let url_parts = url.parse(req.url, true);
@@ -69,12 +70,12 @@ router.get("/view/",authRoute("viewWorkoutActivity"), async (req, res) => {
     }
     catch (e) {
         let user = await userData.getAllUsers();
-        res.render("viewWorkoutActivity", { message: "No activities for this user", username: user, title: "viewWorkoutActivity" });
+        res.render("viewWorkoutActivity", { message: "No activities for this user", layout:layout,username: user, title: "viewWorkoutActivity" });
         return;
     }
 });
 router.get("/view/:id",authRoute("viewWorkoutActivity"), async (req, res) => {
-
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
             
             let activityId=req.params.id;
@@ -84,24 +85,26 @@ router.get("/view/:id",authRoute("viewWorkoutActivity"), async (req, res) => {
             let userName=user.firstname;
             res.render( "viewWorkout",{
                 activity:activity,
-                userName:userName
+                userName:userName,
+                layout:layout
             
             })
     }
     catch (e) {
         let user = await userData.getUserById(req.param.id);
-        res.render("viewWorkoutActivity", { message: "No activities for this user", username: user, title: "viewWorkoutActivity" });
+        res.render("viewWorkoutActivity", { layout:layout,message: "No activities for this user", username: user, title: "viewWorkoutActivity" });
         return;
     }
 });
 router.get("/add/:id",authRoute("addWorkoutActivity"), async (req, res) => {
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
         
         let userId =  (req.params.id); 
         let activity = await activityData.getAllActivities();
         let user=await userData.getUserById(userId);
         let userName=user.firstname+" "+user.lastname; 
-        res.render("addWorkoutActivity", {userName:userName,activity:activity,userId:userId});
+        res.render("addWorkoutActivity", {layout:layout,userName:userName,activity:activity,userId:userId});
         
     }
     catch (e) {
@@ -111,6 +114,7 @@ router.get("/add/:id",authRoute("addWorkoutActivity"), async (req, res) => {
 
 });
 router.post("/add/",authRoute("addWorkoutActivity"),async (req, res) => {
+    let layout = await authentication.getLayout(req.cookies.userId);
     let user =req.body;
     let userId = xss(user.userId);
     let level = xss(user.level);
@@ -126,41 +130,41 @@ router.post("/add/",authRoute("addWorkoutActivity"),async (req, res) => {
     let allActivities = await activityData.getAllActivities();
 
         if (!level) {
-            res.render("addWorkoutActivity", { activity:allActivities, message: "Please provide level", title: "addWorkoutActivity" });
+            res.render("addWorkoutActivity", {layout:layout, activity:allActivities, message: "Please provide level", title: "addWorkoutActivity" });
             return;
         }
 
         if (!description) {
-            res.render("addWorkoutActivity", {activity:allActivities, message: "Please provide description", title: "addworkoutActivity" });
+            res.render("addWorkoutActivity", {activity:allActivities,layout:layout, message: "Please provide description", title: "addworkoutActivity" });
             return;
         }
 
         if (!startdate) {
-            res.render("addWorkoutActivity", {activity:allActivities, message: "Please provide startdate", title: "addWorkoutActivity" });
+            res.render("addWorkoutActivity", {activity:allActivities, layout:layout,message: "Please provide startdate", title: "addWorkoutActivity" });
             return;
         }
         if (!enddate) {
-            res.render("addWorkoutActivity", {activity:allActivities,message: "Please provide enddate", title: "addWorkoutActivity" });
+            res.render("addWorkoutActivity", {activity:allActivities,layout:layout,message: "Please provide enddate", title: "addWorkoutActivity" });
             return;
         }
         if (!days) {
-            res.render("addWorkoutActivity", {activity:allActivities,message: "Please provide days", title: "addWorkoutActivity" });
+            res.render("addWorkoutActivity", {activity:allActivities,layout:layout,message: "Please provide days", title: "addWorkoutActivity" });
             return;
         }
         if (!activity) {
-            res.render("addWorkoutActivity", {activity:allActivities,message: "Please provide activity", title: "addWorkoutActivity" });
+            res.render("addWorkoutActivity", {activity:allActivities,layout:layout,message: "Please provide activity", title: "addWorkoutActivity" });
             return;
         }
         if (!sets) {
-            res.render("addWorkoutActivity", {activity:allActivities,message: "Please provide sets", title: "addWorkoutActivity" });
+            res.render("addWorkoutActivity", {activity:allActivities,layout:layout,message: "Please provide sets", title: "addWorkoutActivity" });
             return;
         }
         if (!weight) {
-            res.render("addWorkoutActivity", {activity:allActivities,message: "Please provide weight", title: "addWorkoutActivity" });
+            res.render("addWorkoutActivity", {activity:allActivities,layout:layout,message: "Please provide weight", title: "addWorkoutActivity" });
             return;
         }
         if (!repetitions) {
-            res.render("addWorkoutActivity", {activity:allActivities,message: "Please provide repetitions", title: "addWorkoutActivity" });
+            res.render("addWorkoutActivity", {activity:allActivities,layout:layout,message: "Please provide repetitions", title: "addWorkoutActivity" });
             return;
         }
     
@@ -169,7 +173,7 @@ router.post("/add/",authRoute("addWorkoutActivity"),async (req, res) => {
         acitivityId = postcredentials.newId;
         let users = await userData.getAllUsers();
         let postuserActivity = await workoutActivityData.addUserActivity(userId, acitivityId);
-        res.redirect("workoutActivity", {activity:allActivities,message: "Activity added successfully!",username:users });
+        res.redirect("workoutActivity", {activity:allActivities,layout:layout,message: "Activity added successfully!",username:users });
     }
     catch (e) {
         console.log(e);
@@ -178,7 +182,7 @@ router.post("/add/",authRoute("addWorkoutActivity"),async (req, res) => {
     }
 });
 router.get("/update/:id",authRoute("updateWorkoutActivity"), async (req, res) => {
-    
+    let layout = await authentication.getLayout(req.cookies.userId);
     try{
         let activityId =   (req.params.id);
         let workoutActivity = await workoutActivityData.getActivityById(activityId);
@@ -186,7 +190,7 @@ router.get("/update/:id",authRoute("updateWorkoutActivity"), async (req, res) =>
         let user=await userData.getUserById(userId);
         let userName=user.firstname;
         let activity = await activityData.getAllActivities();
-        res.render("updateWorkoutActivity",{workoutActivity:workoutActivity,activity:activity,userName:userName,title: "updateWorkoutActivity"})
+        res.render("updateWorkoutActivity",{workoutActivity:workoutActivity,layout:layout,activity:activity,userName:userName,title: "updateWorkoutActivity"})
     }
     catch(e){
         res.render("error", { title: "error" });
@@ -195,55 +199,57 @@ router.get("/update/:id",authRoute("updateWorkoutActivity"), async (req, res) =>
 });
 
 router.post("/update/",authRoute("updateWorkoutActivity"), async (req, res) => {
+    let layout = await authentication.getLayout(req.cookies.userId);
+
    try{
     let allActivities = await activityData.getAllActivities();
     let activityToUpdate =   (req.body);
-    let activityId = xss(activityToUpdate.workoutActivityId);
-    let level = xss(activityToUpdate.level);
-    let description = xss(activityToUpdate.description);
-    let startdate = xss(activityToUpdate.startdate);
-    let enddate = xss(activityToUpdate.enddate);
-    let days = xss(activityToUpdate.days);
-    let activity = xss(activityToUpdate.activityname);
-    let sets = xss(activityToUpdate.sets);
-    let weight = xss(activityToUpdate.weight);
-    let repetitions = xss(activityToUpdate.repetitions);
+    let activityId = activityToUpdate.workoutActivityId;
+    let level = activityToUpdate.level;
+    let description = activityToUpdate.description;
+    let startdate = activityToUpdate.startdate;
+    let enddate = activityToUpdate.enddate;
+    let days = activityToUpdate.days;
+    let activity = activityToUpdate.activityname;
+    let sets = activityToUpdate.sets;
+    let weight = activityToUpdate.weight;
+    let repetitions = activityToUpdate.repetitions;
     if (!level) {
-        res.render("updateWorkoutActivity", { activity:allActivities, message: "Please provide level", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate});
+        res.render("updateWorkoutActivity", { layout:layout,activity:allActivities, message: "Please provide level", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate});
         return;
     }
 
     if (!description) {
-        res.render("updateWorkoutActivity", {activity:allActivities, message: "Please provide description", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate });
+        res.render("updateWorkoutActivity", {layout:layout,activity:allActivities, message: "Please provide description", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate });
         return;
     }
 
     if (!startdate) {
-        res.render("updateWorkoutActivity", {activity:allActivities, message: "Please provide startdate", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate });
+        res.render("updateWorkoutActivity", {layout:layout,activity:allActivities, message: "Please provide startdate", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate });
         return;
     }
     if (!enddate) {
-        res.render("updateWorkoutActivity", {activity:allActivities,message: "Please provide enddate", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate });
+        res.render("updateWorkoutActivity", {layout:layout,activity:allActivities,message: "Please provide enddate", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate });
         return;
     }
     if (!days) {
-        res.render("updateWorkoutActivity", {activity:allActivities,message: "Please provide days", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate });
+        res.render("updateWorkoutActivity", {layout:layout,activity:allActivities,message: "Please provide days", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate });
         return;
     }
     if (!activity) {
-        res.render("updateWorkoutActivity", {activity:allActivities,message: "Please provide activity", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate });
+        res.render("updateWorkoutActivity", {layout:layout,activity:allActivities,message: "Please provide activity", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate });
         return;
     }
     if (!sets) {
-        res.render("updateWorkoutActivity", {activity:allActivities,message: "Please provide sets", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate });
+        res.render("updateWorkoutActivity", {layout:layout,activity:allActivities,message: "Please provide sets", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate });
         return;
     }
     if (!weight) {
-        res.render("updateWorkoutActivity", {activity:allActivities,message: "Please provide weight", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate });
+        res.render("updateWorkoutActivity", {layout:layout,activity:allActivities,message: "Please provide weight", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate });
         return;
     }
     if (!repetitions) {
-        res.render("updateWorkoutActivity", {activity:allActivities,message: "Please provide repetitions", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate });
+        res.render("updateWorkoutActivity", {layout:layout,activity:allActivities,message: "Please provide repetitions", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate });
         return;
     }
     let updatedActivity = await workoutActivityData.updateActivity(activityId,level,description,startdate,enddate,days,activity,sets,weight,repetitions);
@@ -257,6 +263,7 @@ router.post("/update/",authRoute("updateWorkoutActivity"), async (req, res) => {
 });
 
 router.get("/delete/:id",authRoute("deleteWorkoutActivity"), async (req, res) => {
+    
     try {
         let activityId =   (req.params.id);
         let userId=await workoutActivityData.getUserIdByActivityId(activityId);

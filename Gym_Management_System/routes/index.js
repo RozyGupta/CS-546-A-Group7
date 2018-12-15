@@ -43,10 +43,7 @@ const constructorMethod = app => {
     app.use("/activity/update/:id", activityRoutes);
     app.use("/activity/delete/:id", activityRoutes);
     app.use("/workoutMember", workoutMemberRoutes);
-    app.use("/workoutMember/add", workoutMemberRoutes);
-    app.use("/workoutMember/view", workoutMemberRoutes);
-    app.use("/workoutMember/update", workoutMemberRoutes);
-    app.use("/workoutMember/delete", workoutMemberRoutes);
+    app.use("/workoutMember/view/:id", workoutMemberRoutes);
     app.use("/membership", membershipRoutes);
     app.use("/membership/add", membershipRoutes);
     app.use("/membership/view", membershipRoutes);

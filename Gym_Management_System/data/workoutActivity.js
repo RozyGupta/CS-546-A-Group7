@@ -138,6 +138,20 @@ const exportedMethods = {
         return activity;
 
     },
+    async getActivitiesByUserId(userId) {
+        if (!userId) throw "You must provide an user id to search for";
+        const userWorkoutCollection = await userWorkout();
+        const activityArray=[];
+        const workoutActivityCollection = await workoutActivity();
+            const workout= await userWorkoutCollection.find({userId:userId}).toArray();
+            for(let i=0;i<workout.length;i++){
+                let activityId=workout[i].activityId
+                let activity= await workoutActivityCollection.findOne({_id:activityId });
+                activityArray.push(activity);
+            }
+            return activityArray;
+    },
+
 
     async updateActivity(activityId,level, description, startdate, enddate, days, activity, sets, weight, repetitions) {
         if (!activityId) throw "You must provide an id to update";

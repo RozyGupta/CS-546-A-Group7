@@ -36,24 +36,29 @@ const authRoute = function (moduleName) {
 router.get("/",authRoute("activity"), async (req, res) => {
 
     try {
+        let layout = await authentication.getLayout(req.cookies.userId);
         let activity = await activityData.getAllActivities();
         res.render("activity", {
-            activity: activity
+            activity: activity,
+            layout:layout
         });
     }catch(error){
         res.render("error", { title: "error" });
     } 
 });
 router.get("/add", authRoute("addActivity"),async (req, res) => {
+    let layout = await authentication.getLayout(req.cookies.userId);
     let trainerList = await trainerData.getAllTrainers();
     res.render("addActivity", {
-        trainerList: trainerList
+        trainerList: trainerList,
+        layout:layout
     });
 
 });
 router.post("/add",authRoute("addActivity"),async (req, res) => {
-
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
+       
         let activity = req.body;
         let activityname = xss(activity.activityname);
         let activitytrainer = xss(activity.activitytrainer);
@@ -64,7 +69,8 @@ router.post("/add",authRoute("addActivity"),async (req, res) => {
         if (!activityname) {
             res.render("addActivity", {
                 alertMsg: "Please provide activity name",
-                title: "addActivity"    
+                title: "addActivity"  ,
+                layout:layout 
             });
             return;
         }
@@ -72,13 +78,15 @@ router.post("/add",authRoute("addActivity"),async (req, res) => {
 
             res.render("addActivity", {
                 alertMsg: "Please provide activity trainer name",
-                title: "addActivity"      
+                title: "addActivity",  
+                layout:layout
             });
             return;
         }
         if (!membershipplan) {
             res.render("addActivity", {
                 alertMsg: "Please provide membershipplan",
+                layout:layout,
                 title: "addActivity"  
             });
             return;
@@ -86,6 +94,7 @@ router.post("/add",authRoute("addActivity"),async (req, res) => {
         if (!activityDescription) {
             res.render("addActivity", {
                 alertMsg: "Please provide activity description",
+                layout:layout,
                 title: "addActivity"   
             });
             return;
@@ -95,7 +104,8 @@ router.post("/add",authRoute("addActivity"),async (req, res) => {
 
     } catch (error) {
         res.render("addActivity", {
-            alertMsg: "error while adding activity"
+            alertMsg: "error while adding activity",
+            layout:layout
         });
     }
 });
@@ -103,10 +113,11 @@ router.get("/view/:id",authRoute("viewActivity"), async (req, res) => {
     
     
     try {
-       
+        let layout = await authentication.getLayout(req.cookies.userId);
         let activity = await activityData.getActivityById(req.params.id);
         res.render("viewActivity", {
             activity: activity,
+            layout:layout
         });
     } catch (e) {
 
@@ -117,11 +128,13 @@ router.get("/view/:id",authRoute("viewActivity"), async (req, res) => {
 });
 router.get("/update/:id",authRoute("updateActivity"),async (req, res) => {
     try {
+        let layout = await authentication.getLayout(req.cookies.userId);
         let activity = await activityData.getActivityById(req.params.id);
         let trainerList = await trainerData.getAllTrainers();
         res.render("updateActivity", {
             activity: activity,
-            trainerList: trainerList
+            trainerList: trainerList,
+            layout:layout
         });
 
     } catch (e) {
@@ -131,18 +144,21 @@ router.get("/update/:id",authRoute("updateActivity"),async (req, res) => {
     }
 });
 router.get("/delete/:id",authRoute("deleteActivity"), async (req, res) => {
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
+       
         await activityData.removeActivity(req.params.id);
         res.redirect("/activity");
     } catch (error) {
         res.render("viewActivity", {
-            alertMsg: "error while deleting"
+            alertMsg: "error while deleting",
+            layout:layout
         });
     }
 });
 router.post("/update",authRoute("updateActivity"), async (req, res) => {
     let activity;
-
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
         let activityname = xss(activity.activityname);
         let activitytrainer = xss(activity.activitytrainer);
@@ -153,6 +169,7 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
             res.render("updateActivity", {
                 alertMsg: "Please provide activity name",
                 title: "updateActivity",
+                layout:layout,
                 activity:activity
             });
             return;
@@ -161,6 +178,7 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
             res.render("updateActivity", {
                 alertMsg: "Please provide activity trainer name",
                 title: "updateActivity",
+                layout:layout,
                 activity:activity
             });
             return;
@@ -169,6 +187,7 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
             res.render("updateActivity", {
                 alertMsg: "Please provide membershipplan",
                 title: "updateActivity",
+                layout:layout,
                 activity:activity
             });
             return;
@@ -177,7 +196,8 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
             res.render("updateActivity", {
                 alertMsg: "Please provide member name",
                 title: "updateActivity",
-                activity:activity
+                activity:activity,
+                layout:layout
             });
             return;
         }
@@ -194,7 +214,8 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
         let updatedActivity = await activityData.getActivityById(activityId);
         res.render("viewActivity", {
             activity: updatedActivity,
-            msg: "Activity updated Successfully"
+            msg: "Activity updated Successfully",
+            layout:layout
         });
     } catch (error) {
 
@@ -202,7 +223,8 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
         res.render("updateActivity", {
             activity: activity,
             trainerList: trainerList,
-            error: "error while updating"
+            error: "error while updating",
+            layout:layout
         });
 
     }

@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const data = require("../data");
 const user = data.user;
+const authentication=data.authentication;
+const activityData = data.activity;
+const noticeData = data.notice;
 const session = data.session;
 const bodyParser = require('body-parser');
 const uuidv1 = require('uuid/v1');
@@ -24,16 +27,37 @@ const userAuth = function (req, res, next) {
 };
 
 router.get('/', userAuth,async (req, res) => {
-   
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
         let clientSessionId=req.cookies.authCookie;
         let userId = await session.getSessionById(clientSessionId);
         if (!userId) throw "Unauthorize access";
         userdetail = await user.getUserById(userId);
+        let activity = await activityData.getAllActivities();
+        let notice = await noticeData.getAllNotices();
+        let trainerCount = (await user.getUserNameByRole("TRAINER")).length;
+        let gymMemberCount = (await user.getUserNameByRole("gymMember")).length;
+        let d = new Date();
+        let date = d.getUTCDate();
+        let year = d.getUTCFullYear();
+        let monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+        ];
+        let month = monthNames[d.getUTCMonth()];
+
         res.render("dashboard", {
             title: "Dashboard",
             firstname: userdetail.firstname,
-            lastname: userdetail.lastname
+            lastname: userdetail.lastname,
+            activity:activity,
+            notice:notice,
+            trainerCount:trainerCount,
+            gymMemberCount:gymMemberCount,
+            layout:layout,
+            month:month,
+            date:date,
+            year:year
+
         });
     } catch (error) {
         console.log(error);

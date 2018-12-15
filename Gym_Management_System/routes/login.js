@@ -9,7 +9,6 @@ const cookieParser = require("cookie-parser");
 const xss =require("xss");
 router.use(cookieParser());
 router.use(bodyParser.json());
-const xss =require("xss");
 
 router.get('/', (req, res) => {
 
@@ -29,22 +28,20 @@ router.post('/login', async function (req, res) {
 
   let userId = undefined;
   let userInfo = req.body;
-  let username = xss(userInfo.username);
-  let password = xss(userInfo.password);
   try {
 
     if (!userInfo) {
       throw "You must provide userInfo to login";
     }
 
-    if (!username) {
+    if (!userInfo.username) {
       throw "You must provide a username";
     }
-    if (!password) {
+    if (!userInfo.password) {
 
       throw "You must provide a password";
     }
-    userId = await authentication.authenticateUser(username, password);
+    userId = await authentication.authenticateUser(userInfo.username, userInfo.password);
 
     if (!userId) {
       throw "Username/Password does not match"

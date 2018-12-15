@@ -29,27 +29,31 @@ const authRoute = function (moduleName) {
     };
 }
 
-router.get("/",async (req, res) => {
+router.get("/", authRoute("notice"),async (req, res) => {
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
-      let notice = await noticeData.getAllNotices();
+       let notice = await noticeData.getAllNotices();
         res.render("notice", {
-            notice: notice
+            notice: notice,
+            layout:layout,
+            title:"Notice"
         });
     }catch(error){
-        console.log(error);
         res.render("error", { title: "error" });
     }  
 });
 
-router.get("/add",async (req, res) => {
+router.get("/add", authRoute("addNotice"),async (req, res) => {
 
-   
-    res.render("addNotice");
+    let layout = await authentication.getLayout(req.cookies.userId);
+    res.render("addNotice",{
+        layout:layout
+    });
 
 });
 
-router.post("/add",async (req, res) => {
-
+router.post("/add",authRoute("addNotice"),async (req, res) => {
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
         let notice = req.body;
         let title = xss(notice.title);
@@ -61,6 +65,7 @@ router.post("/add",async (req, res) => {
 
         if (!title) {
             res.render("addNotice", {
+                layout:layout,
                 alertMsg: "Please provide notice title",
                 title: "addNotice"
             });
@@ -68,6 +73,7 @@ router.post("/add",async (req, res) => {
         }
         if (!content) {
             res.render("addNotice", {
+                layout:layout,
                 alertMsg: "Please provide notice content name",
                 title: "addNotice"
             });
@@ -75,6 +81,7 @@ router.post("/add",async (req, res) => {
         }
         if (!startdate) {
             res.render("addNotice", {
+                layout:layout,
                 alertMsg: "Please provide notice startdate",
                 title: "addNotice"
             });
@@ -82,6 +89,7 @@ router.post("/add",async (req, res) => {
         }
         if (!enddate) {
             res.render("addNotice", {
+                layout:layout,
                 alertMsg: "Please provide notice enddate",
                 title: "addNotice"
             });
@@ -89,6 +97,7 @@ router.post("/add",async (req, res) => {
         }
         if (!noticeFor) {
             res.render("addNotice", {
+                layout:layout,
                 alertMsg: "Please provide notice for ",
                 title: "addNotice"
             });
@@ -100,51 +109,59 @@ router.post("/add",async (req, res) => {
     } catch (error) {
         console.log(error)
         res.render("addNotice", {
+            layout:layout,
             alertMsg: "error while adding notice"
         });
     }
 });
-router.get("/view/:id",async (req, res) => {
-    
+router.get("/view/:id", authRoute("viewNotice"),async (req, res) => {
+    let layout = await authentication.getLayout(req.cookies.userId);
   
     try {
         
         let notice = await noticeData.getNoticesById(req.params.id);
         res.render("viewNotice", {
-            notice: notice,
+            layout:layout,
+            notice: notice
         });
     } catch (e) {
         res.status(404).render("notice", {
+            layout:layout,
             errorMessage: "notice Not Found"
         })
     }
 });
 
-router.get("/update/:id", async (req, res) => {
+router.get("/update/:id",authRoute("updateNotice"), async (req, res) => {
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
         let notice = await noticeData.getNoticesById(req.params.id);
         
-        res.render("updateNotice",{notice:notice});
+        res.render("updateNotice",{notice:notice,layout:layout});
 
     } catch (e) {
         res.status(404).render("notice", {
+            layout:layout,
             errorMessage: "notice Not Found"
         })
     }
 });
 
-router.get("/delete/:id", async (req, res) => {
+router.get("/delete/:id",authRoute("deleteNotice"), async (req, res) => {
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
         await noticeData.removeNotice(req.params.id);
         res.redirect("/notice");
     } catch (error) {
         res.render("viewNotice", {
+            layout:layout,
             alertMsg: "error while deleting"
         });
     }
 });
 
-router.post("/update", async (req, res) => {
+router.post("/update",authRoute("updateNotice"), async (req, res) => {
+    let layout = await authentication.getLayout(req.cookies.userId);
     let notice;
     try {
         notice =req.body;
@@ -160,6 +177,7 @@ router.post("/update", async (req, res) => {
             res.render("updateNotice", {
                 alertMsg: "Please provide notice title",
                 title: "updateNotice",
+                layout:layout,
                 notice:notice
             });
             return;
@@ -168,6 +186,7 @@ router.post("/update", async (req, res) => {
             res.render("updateNotice", {
                 alertMsg: "Please provide notice content name",
                 title: "updateNotice",
+                layout:layout,
                 notice:notice
             });
             return;
@@ -176,6 +195,7 @@ router.post("/update", async (req, res) => {
             res.render("addNotice", {
                 alertMsg: "Please provide notice startdate",
                 title: "addNotice",
+                layout:layout,
                 notice:notice
             });
             return;
@@ -184,6 +204,7 @@ router.post("/update", async (req, res) => {
             res.render("updateNotice", {
                 alertMsg: "Please provide notice enddate",
                 title: "updateNotice",
+                layout:layout,
                 notice:notice
             });
             return;
@@ -192,6 +213,7 @@ router.post("/update", async (req, res) => {
             res.render("updateNotice", {
                 alertMsg: "Please provide notice for ",
                 title: "updateNotice",
+                layout:layout,
                 notice:notice
             });
             return;
@@ -201,13 +223,14 @@ router.post("/update", async (req, res) => {
 
         res.render("viewNotice", {
             msg: "Notice updated Successfully",
+            layout:layout,
             notice:updatedNotice
         });
 
     }catch (error) {
-        console.log(error);
         res.render("updateNotice", {
             error: "error while updating",
+            layout:layout,
             notice:notice
         })
 
