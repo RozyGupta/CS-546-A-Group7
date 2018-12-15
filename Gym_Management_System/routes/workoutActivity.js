@@ -198,16 +198,16 @@ router.post("/update/",authRoute("updateWorkoutActivity"), async (req, res) => {
    try{
     let allActivities = await activityData.getAllActivities();
     let activityToUpdate =   (req.body);
-    let activityId = activityToUpdate.workoutActivityId;
-    let level = activityToUpdate.level;
-    let description = activityToUpdate.description;
-    let startdate = activityToUpdate.startdate;
-    let enddate = activityToUpdate.enddate;
-    let days = activityToUpdate.days;
-    let activity = activityToUpdate.activityname;
-    let sets = activityToUpdate.sets;
-    let weight = activityToUpdate.weight;
-    let repetitions = activityToUpdate.repetitions;
+    let activityId = xss(activityToUpdate.workoutActivityId);
+    let level = xss(activityToUpdate.level);
+    let description = xss(activityToUpdate.description);
+    let startdate = xss(activityToUpdate.startdate);
+    let enddate = xss(activityToUpdate.enddate);
+    let days = xss(activityToUpdate.days);
+    let activity = xss(activityToUpdate.activityname);
+    let sets = xss(activityToUpdate.sets);
+    let weight = xss(activityToUpdate.weight);
+    let repetitions = xss(activityToUpdate.repetitions);
     if (!level) {
         res.render("updateWorkoutActivity", { activity:allActivities, message: "Please provide level", title: "updateWorkoutActivity",activityToUpdate:activityToUpdate});
         return;
