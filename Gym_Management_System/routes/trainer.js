@@ -35,8 +35,8 @@ const authRoute = function (moduleName) {
 
 router.get("/", authRoute("trainer"), async (req, res) => {
 
-    let userId = req.cookies.userId;
-
+    let userId = req.cookies.userId;    
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
         let permission = false;
         let booleanFlag = await authentication.getPermissionForRoute("trainer", userId)
@@ -47,19 +47,22 @@ router.get("/", authRoute("trainer"), async (req, res) => {
         
         res.render("trainer", {
             trainer: trainer,
-            permission: permission
+            permission: permission,
+            layout:layout
         });
     } catch (error) {
         console.log(error);
     }
 });
 router.get("/add", authRoute("addTrainer"), async (req, res) => {
-    let trainernames = await userData.getUserNameByRole("TRAINER");
-    res.render("addTrainer", {trainernames:trainernames});
+    let layout = await authentication.getLayout(req.cookies.userId);
+    res.render("addTrainer", {
+        layout:layout
+    });
 
 });
 router.post("/add", authRoute("addTrainer"), async (req, res) => {
-
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
         let trainer = req.body;
         let trainername = xss(trainer.trainername);
@@ -69,6 +72,7 @@ router.post("/add", authRoute("addTrainer"), async (req, res) => {
         if (!trainername) {
             res.render("addTrainer", {
                 alertMsg: "Please provide trainer name",
+                layout:layout,
                 title: "addTrainer"
             });
             return;
@@ -76,6 +80,7 @@ router.post("/add", authRoute("addTrainer"), async (req, res) => {
         if (!certifications) {
             res.render("addTrainer", {
                 alertMsg: "Please provide certifications",
+                layout:layout,
                 title: "addTrainer"
             });
             return;
@@ -84,26 +89,23 @@ router.post("/add", authRoute("addTrainer"), async (req, res) => {
         if (!biography) {
             res.render("addTrainer", {
                 alertMsg: "Please provide biography",
+                layout:layout,
                 title: "addTrainer"
             });
             return;
         }
-        let trainerAdded=await trainerData.addTrainer(trainername, certifications, biography);
-        let trainerId=trainerAdded.newId;
-        let user = await userData.getUserByUsername(trainername);
-        let userId = user._id;
-        await trainerData.addtrainerCert(userId,trainerId);
+        await trainerData.addTrainer(trainername, certifications, biography);
         res.redirect("/trainer");
 
     } catch (error) {
-        console.log(error)
         res.render("addTrainer", {
+            layout:layout,
             alertMsg: "error while adding trainer"
         });
     }
 });
 router.get("/view/:id", authRoute("viewTrainer"), async (req, res) => {
-
+    let layout = await authentication.getLayout(req.cookies.userId);
     let userId =   (req.cookies.userId);
     let permission = false;
     try {
@@ -113,41 +115,48 @@ router.get("/view/:id", authRoute("viewTrainer"), async (req, res) => {
         }
         let trainer = await trainerData.getTrainerById(  (req.params.id));
         res.render("viewTrainer", {
-            trainer: trainer 
+            trainer: trainer,
+            layout:layout 
         });
     } catch (e) {
         res.status(404).render("trainer", {
-            errorMessage: "Trainer Not Found"
+            errorMessage: "Trainer Not Found",
+            layout:layout
         })
     }
 });
 router.get("/update/:id", authRoute("updateTrainer"), async (req, res) => {
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
         let trainer = await trainerData.getTrainerById(req.params.id);
 
         res.render("updateTrainer", {
-            trainer: trainer
+            trainer: trainer,
+            layout:layout
         });
 
     } catch (e) {
         res.status(404).render("trainer", {
-            errorMessage: "Trainer Not Found"
+            errorMessage: "Trainer Not Found",
+            layout:layout
         })
     }
 });
 router.get("/delete/:id", authRoute("deleteTrainer"), async (req, res) => {
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
         await trainerData.removeTrainer(req.params.id);
         res.redirect("/trainer");
     } catch (error) {
         res.render("viewTrainer", {
-            alertMsg: "error while deleting"
+            alertMsg: "error while deleting",
+            layout:layout
         });
     }
 });
 router.post("/update", authRoute("updateTrainer"), async (req, res) => {
     let trainer;
-
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
         trainer = req.body;
 
@@ -159,6 +168,7 @@ router.post("/update", authRoute("updateTrainer"), async (req, res) => {
             res.render("updateTrainer", {
                 alertMsg: "Please provide trainer name",
                 title: "updateTrainer",
+                layout:layout,
                 trainer:trainer
             });
             return;
@@ -167,6 +177,7 @@ router.post("/update", authRoute("updateTrainer"), async (req, res) => {
             res.render("updateTrainer", {
                 alertMsg: "Please provide certifications",
                 title: "updateTrainer",
+                layout:layout,
                 trainer:trainer
             });
             return;
@@ -176,6 +187,7 @@ router.post("/update", authRoute("updateTrainer"), async (req, res) => {
             res.render("updateTrainer", {
                 alertMsg: "Please provide biography",
                 title: "updateTrainer",
+                layout:layout,
                 trainer:trainer
             });
             return;
@@ -184,6 +196,7 @@ router.post("/update", authRoute("updateTrainer"), async (req, res) => {
             trainerId: trainerId,
             trainername: trainername,
             certifications: certifications,
+            layout:layout,
             biography: biography
         };
 
@@ -191,11 +204,13 @@ router.post("/update", authRoute("updateTrainer"), async (req, res) => {
         let updatedTrainer = await trainerData.getTrainerById(trainerId);
         res.render("viewTrainer", {
             trainer: updatedTrainer,
+            layout:layout,
             msg: "Activity updated Successfully"
         });
     } catch (error) {
         res.render("updateTrainer", {
             trainer: trainer,
+            layout:layout,
             error: "error while updating"
         });
 

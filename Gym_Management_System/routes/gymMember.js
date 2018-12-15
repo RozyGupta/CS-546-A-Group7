@@ -4,7 +4,6 @@ const data = require("../data");
 const gymMemberData = data.gymMember;
 const authentication=data.authentication;
 const noticeData=data.notice;
-const userData = data.user;
 const xss =require("xss");
 
 const authRoute = function (moduleName) {
@@ -33,11 +32,14 @@ const authRoute = function (moduleName) {
     };
 }
 router.get("/",authRoute("gymMember"), async (req, res) => {
+    let layout = await authentication.getLayout(req.cookies.userId);
 
     try {
+        
         let gymMember = await gymMemberData.getAllGymMembers();
         res.render("gymMember", {
             gymMember: gymMember,
+            layout:layout
         });
     }catch(error){
         res.render("error", { title: "error" });
@@ -46,22 +48,80 @@ router.get("/",authRoute("gymMember"), async (req, res) => {
 
 
 router.get("/add",authRoute("addGymMember"),async (req, res) => {
-    let membernames = await userData.getUserNameByRole("gymMember");
-    res.render("addGymMember",{membernames:membernames});
+    let layout = await authentication.getLayout(req.cookies.userId);
+    res.render("addGymMember",{
+        layout:layout
+    });
 
 });
 
 router.post("/add",authRoute("addGymMember"),async (req, res) => {
-
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
         let member = req.body;
         let membername = xss(member.membername);
+        let memberaddress = xss(member.memberaddress);
+        let memberemail = xss(member.memberemail);
+        let membermobileno = xss(member.membermobileno);
+        let memberdob = xss(member.memberdob);
+        let membergender = xss(member.membergender);
+        let memberusername = xss(member.memberusername);
         let memberheight = xss(member.memberheight);
         let memberweight = xss(member.memberweight);
-
         if (!membername) {
             res.render("addGymMember", {
                 alertMsg: "Please provide name",
+                title: "addGymMember",
+                layout:layout
+               
+            });
+            return;
+        }
+        if (!memberaddress) {
+            res.render("addGymMember", {
+                alertMsg: "Please provide address",
+                title: "addGymMember",
+                layout:layout
+            });
+            return;
+        }
+        if (!memberemail) {
+            res.render("addGymMember", {
+                alertMsg: "Please provide email",
+                layout:layout,
+                title: "addGymMember"
+            });
+            return;
+        }
+        if (!membermobileno) {
+            res.render("addGymMember", {
+                alertMsg: "Please provide mobileno",
+                layout:layout,
+                title: "addGymMember"
+               
+            });
+            return;
+        }
+        if (!memberdob) {
+            res.render("addGymMember", {
+                alertMsg: "Please provide date of birth",
+                layout:layout,
+                title: "addGymMember"
+            });
+            return;
+        }
+        if (!membergender) {
+            res.render("addGymMember", {
+                alertMsg: "Please provide gender",
+                layout:layout,
+                title: "addGymMember"
+            });
+            return;
+        }
+        if (!memberusername) {
+            res.render("addGymMember", {
+                alertMsg: "Please provide username",
+                layout:layout,
                 title: "addGymMember"
             });
             return;
@@ -69,6 +129,7 @@ router.post("/add",authRoute("addGymMember"),async (req, res) => {
         if (!memberheight) {
             res.render("addGymMember", {
                 alertMsg: "Please provide height",
+                layout:layout,
                 title: "addGymMember"
             });
             return;
@@ -76,30 +137,45 @@ router.post("/add",authRoute("addGymMember"),async (req, res) => {
         if (!memberweight) {
             res.render("addGymMember", {
                 alertMsg: "Please provide weight",
+                layout:layout,
                 title: "addGymMember"
             });
             return;
         }
         let bmi = memberweight/(memberheight*memberheight);
-        let memberAdded =await gymMemberData.addGymMember(membername,memberheight,memberweight,bmi);
-        let memberId=memberAdded.newId;
-        let user = await userData.getUserByUsername(membername);
-        let userId = user._id;
-        await gymMemberData.addmemberstats(userId,memberId);
+        await gymMemberData.addGymMember(membername, memberaddress, memberemail, membermobileno,memberdob,membergender,memberusername,memberheight,memberweight,bmi);
         res.redirect("/gymMember");
 
     } catch (error) {
+        console.log(error)
         res.render("addGymMember", {
-            alertMsg: "error while adding member"
+            alertMsg: "error while adding member",
+            layout:layout
         });
     }
 });
-
+router.get("/view/:id",authRoute("viewGymMember"), async (req, res) => {
+    
+    let layout = await authentication.getLayout(req.cookies.userId);
+    try {
+        let member = await gymMemberData.getGymMemberById(req.params.id);
+        res.render("viewGymMember", {
+            member: member,
+            layout:layout
+        });
+    } catch (e) {
+        res.status(404).render("gymMember", {
+            errorMessage: "Member Not Found"
+        })
+    }
+});
 router.get("/update/:id",authRoute("updateGymMember"),async (req, res) => {
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
         let member = await gymMemberData.getGymMemberById(req.params.id);
         res.render("updateGymMember", {
-            member: member
+            member: member,
+            layout:layout
         });
 
     } catch (e) {
@@ -109,6 +185,7 @@ router.get("/update/:id",authRoute("updateGymMember"),async (req, res) => {
     }
 });
 router.get("/delete/:id",authRoute("deleteGymMember"), async (req, res) => {
+    
     try {
         await gymMemberData.removeGymMember(req.params.id);
         res.redirect("/gymMember");
@@ -121,17 +198,78 @@ router.get("/delete/:id",authRoute("deleteGymMember"), async (req, res) => {
 
 router.post("/update",authRoute("updateGymMember"),async (req, res) => {
     let member;
-
+    let layout = await authentication.getLayout(req.cookies.userId);
     try {
         member = req.body;
         let memberId = xss(member.memberId);
         let membername = xss(member.membername);
+        let memberaddress = xss(member.memberaddress);
+        let memberemail = xss(member.memberemail);
+        let membermobileno = xss(member.membermobileno);
+        let memberdob = xss(member.memberdob);
+        let membergender = xss(member.membergender);
+        let memberusername =xss( member.memberusername);
         let memberheight = xss(member.memberheight);
         let memberweight = xss(member.memberweight);
         if (!membername) {
             res.render("updateGymMember", {
                 alertMsg: "Please provide name",
                 title: "updateGymMember",
+                layout:layout,
+                member:member
+            });
+            return;
+        }
+        if (!memberaddress) {
+            res.render("updateGymMember", {
+                alertMsg: "Please provide address",
+                title: "updateGymMember",
+                layout:layout,
+                member:member
+            });
+            return;
+        }
+        if (!memberemail) {
+            res.render("updateGymMember", {
+                alertMsg: "Please provide email",
+                title: "updateGymMember",
+                layout:layout,
+                member:member
+            });
+            return;
+        }
+        if (!membermobileno) {
+            res.render("updateGymMember", {
+                alertMsg: "Please provide mobileno",
+                title: "updateGymMember",
+                layout:layout,
+                member:member
+            });
+            return;
+        }
+        if (!memberdob) {
+            res.render("updateGymMember", {
+                alertMsg: "Please provide date of birth",
+                title: "updateGymMember",
+                layout:layout,
+                member:member
+            });
+            return;
+        }
+        if (!membergender) {
+            res.render("updateGymMember", {
+                alertMsg: "Please provide gender",
+                title: "updateGymMember",
+                layout:layout,
+                member:member
+            });
+            return;
+        }
+        if (!memberusername) {
+            res.render("updateGymMember", {
+                alertMsg: "Please provide username",
+                title: "updateGymMember",
+                layout:layout,
                 member:member
             });
             return;
@@ -140,6 +278,7 @@ router.post("/update",authRoute("updateGymMember"),async (req, res) => {
             res.render("updateGymMember", {
                 alertMsg: "Please provide height",
                 title: "updateGymMember",
+                layout:layout,
                 member:member
             });
             return;
@@ -148,20 +287,24 @@ router.post("/update",authRoute("updateGymMember"),async (req, res) => {
             res.render("updateGymMember", {
                 alertMsg: "Please provide weight",
                 title: "updateGymMember",
+                layout:layout,
                 member:member
             });
             return;
         }
         let bmi = memberweight/(memberheight*memberheight);
-        await gymMemberData.updateGymMember(memberId,membername,memberheight,memberweight,bmi);
+        await gymMemberData.updateGymMember(memberId,membername,memberaddress,memberemail,membermobileno,memberdob,membergender,memberusername,memberheight,memberweight,bmi);
         let updatedGymMember = await gymMemberData.getGymMemberById(memberId);
         res.render("viewGymMember", {
          msg: "Activity updated Successfully",
+         layout:layout,
          member:updatedGymMember
         });
     } catch (error) {
+        console.log(error)
         res.render("updateGymMember", {
             error: "error while updating",
+            layout:layout,
             member:member
         });
 

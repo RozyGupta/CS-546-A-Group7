@@ -365,3 +365,44 @@ input[type=checkbox]{
 #notice hr{
    border-color:lightgrey !important;
 }
+.dashboard .dashboardUnit{
+    
+    padding:20px;
+    margin:5px;
+    box-shadow:1px 5px 6px 0px;
+    border:2px solid gray;
+    text-align:center;
+
+}
+
+#notices{
+    padding:0px;
+    padding-left:15px;
+    padding-right:15px;
+}
+#notices  h3{
+    text-align:left;
+}
+#noticetoggle {
+    height:auto;
+    max-height:500px;
+     overflow-y:scroll;
+}
+#notices .jumbotron{
+    padding:0px;
+    text-align:left;
+
+}
+.noticeList{
+ text-align:left;
+border-bottom:2px solid lightgrey;
+    padding:5px;
+    margin:5px;
+}
+#head{
+    font-size:800% !important;
+    font-style: bolder;
+}
+#base{
+    font-size:150% !important;
+}

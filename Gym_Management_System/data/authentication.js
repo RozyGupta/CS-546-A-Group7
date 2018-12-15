@@ -86,6 +86,23 @@ async addPermission(moduleName,route,adminpermission) {
     const addedPermission = await permissionCollection.insertOne(newpermission);
     
 },
+async getLayout(userId){
+    if (!userId) throw "No userId provided";
+    let userRole=(await user.getUserById(userId)).role;
+    
+    let layout="user";
+  
+    if(userRole=="ADMIN"){
+        layout="main";
+    }
+    else if(userRole=="TRAINER"){
+        layout="trainer";
+    }
+    else{
+        layout="user";
+    }
+    return layout;
+}
 };
 
 module.exports = exportedMethods;
