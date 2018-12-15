@@ -93,12 +93,12 @@ router.get("/view/:id",authRoute("viewGymMember"), async (req, res) => {
    
     try {
         let memberId=req.params.id;
-        let activityuserstats = await gymMemberData.getGymMemberById(memberId);
+        let userstats = await gymMemberData.getGymMemberById(memberId);
         let userId=await gymMemberData.getUserByGymMemberId(memberId);
         let user=await userData.getUserById(userId);
         let userName=user.firstname;
         res.render( "gyMember",{
-            member:activityuserstats,
+            member:userstats,
             userName:userName
         
         })
