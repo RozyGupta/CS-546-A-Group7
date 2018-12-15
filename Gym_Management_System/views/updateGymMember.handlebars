@@ -13,15 +13,15 @@
          <form id="updateGymMember-form" action="/gymMember/update" method="POST">
             <div id="inputDiv">
                <label for="membername"> Member Name</label><br>
-               <input class="major" type="text" name="membername" value = {{member.membername}}>
+               <input class="major" type="text" name="membername" value = {{member.membername}} required>
             </div>
             <div id="inputDiv">
                <label for="memberheight"> Height(metres)</label><br>
-               <input class="major" type="text" name="memberheight" value = {{member.memberheight}}>
+               <input class="major" type="text" name="memberheight" value = {{member.memberheight}} step="0.01" min="0" required>
             </div>
             <div id="inputDiv">
                <label for="memberweight"> Weight(kg)</label><br>
-               <input class="major" type="text" name="memberweight" value = {{member.memberweight}}>
+               <input class="major" type="text" name="memberweight" value = {{member.memberweight}} step="0.001" min="0" required>
             </div>
             <div id="inputDiv">
              <input type="hidden" name="memberId" value={{member._id}}>

@@ -10,11 +10,11 @@
             {{/if }}
             <div id="inputDiv">
                <label for="activityname"> Activity Name</label><br>
-               <input class="major" type="text" name="activityname" />
+               <input class="major" type="text" name="activityname" pattern="[A-Za-z\s]{1,15}" title="Must contain only text" required/>
             </div>
             <div id="inputDiv">
                <label for="activitytrainer">Activity Trainer</label><br>
-               <select id="activitytrainer" name="activitytrainer">
+               <select id="activitytrainer" name="activitytrainer" required>
                    <option value="" <option value="" selected disabled hidden></option>></option>
                   {{#each trainerList}}
                      <option value={{this.trainername}}>{{this.trainername}}</option>
@@ -23,7 +23,7 @@
             </div>
             <div id="inputDiv">
                <label for="membershipplan">Membership Plan</label><br>
-               <select id="membershipplan" name="membershipplan">
+               <select id="membershipplan" name="membershipplan" required>
                   <option value="" <option value="" selected disabled hidden></option>></option>
                   <option name="membershipplan" value="Gold">Gold</option>
                   <option name="membershipplan" value="Platinum">Platinum</option>
@@ -33,9 +33,8 @@
             </div>
             <div id="inputDiv">
                <label for="activityDescription">Description</label><br>
-               <textarea name="activityDescription" placeholder="Enter Your Desciption Here.."></textarea>
+               <textarea name="activityDescription" placeholder="Enter Your Desciption Here.." required></textarea>
             </div>
-
             <div class="centered">
                <div class="row">
                   <div class="col-sm-6"><input type="submit" value="Create Activity"></div>

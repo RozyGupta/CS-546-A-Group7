@@ -13,17 +13,17 @@
              
                 <div id="inputDiv">
                     <label for="trainer"> Trainer Name</label><br>
-                    <input class="major" type="text" value="{{trainer.trainername}}" name="trainername">
+                    <input class="major" type="text" value="{{trainer.trainername}}" name="trainername" required>
                 </div>
 
                 <div id="inputDiv">
                     <label for="certifications"> Certifications</label><br>
-                    <input class="major" type="text" value="{{trainer.certifications}}" name="certifications">
+                    <input class="major" type="text" value="{{trainer.certifications}}" name="certifications" required>
                 </div>
 
                 <div id="inputDiv">
                     <label for="biography">Biography</label><br>
-                    <textarea name="biography">{{trainer.biography}}</textarea>
+                    <textarea name="biography" required>{{trainer.biography}}</textarea>
                 </div>
                 <input type="hidden" name="trainerId" value={{trainer._id}}>
                 <div class="centered">

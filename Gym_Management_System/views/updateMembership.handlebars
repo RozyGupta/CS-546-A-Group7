@@ -13,20 +13,24 @@
          <form id="updateMembership-form" action="/membership/update" method="POST">
             <div id="inputDiv">
                <label for="membershipname"> Membership Name</label><br>
-               <input class="major" type="text" name="membershipname" value ={{membership.membershipname}}>
+               <input class="major" type="text" name="membershipname" value ={{membership.membershipname}} pattern="[A-Za-z\s]{1,15}" title="Must contain only text" required>
             </div>
             <div id="inputDiv">
                <label for="membershipperiod">Membership Period(days)</label><br>
-               <input class="major" type="text" name="membershipperiod" value ={{membership.membershipperiod}}>
+               <input class="major" type="text" name="membershipperiod" value ={{membership.membershipperiod}} min="1" max="365" required>
             </div>
             <div id="inputDiv">
                <label for="signupfees">Signup Fees($)</label><br>
-               <input class="major" type="text" name="signupfees" value ={{membership.signupfees}}>
+               <input class="major" type="text" name="signupfees" value ={{membership.signupfees}} min="100" max="1000" required>
             </div>
             <div id="inputDiv">
                <label for="services">Services</label><br>
-                  <input class="major" type="text" name="services" value ={{membership.services}}>
+                  <input class="major" type="text" name="services" value ={{membership.services}} pattern="[A-Za-z\s]{1,15}" title="Must contain only text" required>
                </select>
+            </div>
+             <div id="inputDiv">
+               <label for="description">Description</label><br>
+               <textarea name="description" placeholder="Enter Your Desciption Here.." required></textarea>
             </div>
             <input type="hidden" name="membershipId" value={{membership._id}}>
             <div class="centered">

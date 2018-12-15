@@ -29,7 +29,8 @@ const authRoute = function (moduleName) {
     };
 }
 
-router.get("/", authRoute("notice"),async (req, res) => {
+//router.get("/", authRoute("notice"),async (req, res) => {
+    router.get("/",async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     try {
        let notice = await noticeData.getAllNotices();
@@ -43,8 +44,8 @@ router.get("/", authRoute("notice"),async (req, res) => {
     }  
 });
 
-router.get("/add", authRoute("addNotice"),async (req, res) => {
-
+//router.get("/add", authRoute("addNotice"),async (req, res) => {
+    router.get("/add",async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     res.render("addNotice",{
         layout:layout
@@ -52,7 +53,8 @@ router.get("/add", authRoute("addNotice"),async (req, res) => {
 
 });
 
-router.post("/add",authRoute("addNotice"),async (req, res) => {
+//router.post("/add",authRoute("addNotice"),async (req, res) => {
+    router.post("/add",async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     try {
         let notice = req.body;
@@ -114,7 +116,8 @@ router.post("/add",authRoute("addNotice"),async (req, res) => {
         });
     }
 });
-router.get("/view/:id", authRoute("viewNotice"),async (req, res) => {
+//router.get("/view/:id", authRoute("viewNotice"),async (req, res) => {
+    router.get("/view/:id",async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
   
     try {
@@ -132,7 +135,8 @@ router.get("/view/:id", authRoute("viewNotice"),async (req, res) => {
     }
 });
 
-router.get("/update/:id",authRoute("updateNotice"), async (req, res) => {
+//router.get("/update/:id",authRoute("updateNotice"), async (req, res) => {
+    router.get("/update/:id", async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     try {
         let notice = await noticeData.getNoticesById(req.params.id);
@@ -147,7 +151,8 @@ router.get("/update/:id",authRoute("updateNotice"), async (req, res) => {
     }
 });
 
-router.get("/delete/:id",authRoute("deleteNotice"), async (req, res) => {
+//router.get("/delete/:id",authRoute("deleteNotice"), async (req, res) => {
+    router.get("/delete/:id", async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     try {
         await noticeData.removeNotice(req.params.id);
@@ -160,7 +165,8 @@ router.get("/delete/:id",authRoute("deleteNotice"), async (req, res) => {
     }
 });
 
-router.post("/update",authRoute("updateNotice"), async (req, res) => {
+//router.post("/update",authRoute("updateNotice"), async (req, res) => {
+    router.post("/update", async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     let notice;
     try {

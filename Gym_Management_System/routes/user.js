@@ -76,47 +76,6 @@ function checkIsProperType(variable, variableType, parameter) { //referred from 
             let userFirstName =xss(userInfo.firstname);
             let userLasttName =xss(userInfo.lastname);
             let userZipCode = xss(userInfo.zipCode);
-            if (!checkIsProperType(userEmail,"string","email")) {
-                res.render("adduser", {
-                    alertMsg: "Please provide user Info",
-                    title: "adduser",
-                    layout: layout
-                });
-                return;
-            }
-            
-            if (!checkIsProperType(userFirstName,"string","First Name")) {
-                res.render("adduser", {
-                    alertMsg: "Please provide user Info",
-                    title: "adduser",
-                    layout: layout
-                });
-                return;
-            }
-            if (!checkIsProperType(userLasttName,"string","Last Name")) {
-                res.render("adduser", {
-                    alertMsg: "Please provide user Info",
-                    title: "adduser",
-                    layout: layout
-                });
-                return;
-            }
-            if (!checkIsProperType(userZipCode,"number","Zipcode")) {
-                res.render("adduser", {
-                    alertMsg: "Please provide user Info",
-                    title: "adduser",
-                    layout: layout
-                });
-                return;
-            }
-            if (!userInfo) {
-                res.render("adduser", {
-                    alertMsg: "Please provide user Info",
-                    title: "adduser",
-                    layout: layout
-                });
-                return;
-            }
             let successFlag = await userData.createUser(userInfo);
             if (successFlag == true) {
                 res.redirect("/user");

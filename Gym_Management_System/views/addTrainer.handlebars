@@ -2,7 +2,7 @@
    <div class="container-fluid">
       <div class="jumbotron" id="head-doc">
          <header>
-            <h1>New Trainer</h1>
+            <h1>Add Certifications for Trainer</h1>
          </header>
          <form id="createActivity-form" action="/trainer/add" method="POST">
             {{#if alertMsg}}
@@ -11,7 +11,8 @@
            <div class="col-sm-1">
                  <label for="trainername">Trainer</label></div>
                         <div class="col-sm-10">
-                           <select id="trainername" name="trainername">
+                           <select id="trainername" name="trainername" required>
+                               <option value="" <option value="" selected disabled hidden></option>></option
                                 {{#each trainernames}}
                                 <option name="trainername" value= {{this.username}}>{{this.username}}</option>
                                 {{/each}}
@@ -19,12 +20,12 @@
 
             <div id="inputDiv">
                <label for="certifications"> Certifications </label><br>
-               <input class="major" type="text" name="certifications" />
+               <input class="major" type="text" name="certifications" required/>
             </div>
 
             <div id="inputDiv">
                <label for="biography">Biography</label><br>
-               <textarea name="biography" placeholder="Enter Your Biography Here.."></textarea>
+               <textarea name="biography" placeholder="Enter Your Biography Here.." required></textarea>
             </div>
 
 
