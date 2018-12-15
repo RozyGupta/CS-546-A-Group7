@@ -54,9 +54,8 @@ router.get("/", authRoute("trainer"), async (req, res) => {
     }
 });
 router.get("/add", authRoute("addTrainer"), async (req, res) => {
-
-    res.render("addTrainer", {
-    });
+    let trainernames = await userData.getUserNameByRole("TRAINER");
+    res.render("addTrainer", {trainernames:trainernames});
 
 });
 router.post("/add", authRoute("addTrainer"), async (req, res) => {
@@ -89,10 +88,15 @@ router.post("/add", authRoute("addTrainer"), async (req, res) => {
             });
             return;
         }
-        await trainerData.addTrainer(trainername, certifications, biography);
+        let trainerAdded=await trainerData.addTrainer(trainername, certifications, biography);
+        let trainerId=trainerAdded.newId;
+        let user = await userData.getUserByUsername(trainername);
+        let userId = user._id;
+        await trainerData.addtrainerCert(userId,trainerId);
         res.redirect("/trainer");
 
     } catch (error) {
+        console.log(error)
         res.render("addTrainer", {
             alertMsg: "error while adding trainer"
         });

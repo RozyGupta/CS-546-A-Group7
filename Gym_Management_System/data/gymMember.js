@@ -48,6 +48,11 @@ const exportedMethods = {
         }
         return addedUserStats;
     }, 
+    async getAllGymMembersStats() {
+        const userStatsCollection = await userstats();
+        const userstatistics = await userStatsCollection.find({}).toArray();
+        return userstatistics;
+    },
     
     async getAllGymMembers() {
         const gymMemberCollection = await gymMember();
@@ -85,11 +90,6 @@ const exportedMethods = {
         });
         return updatedMember;
     },
-    async getAllGymMembersStats() {
-        const userStatsCollection = await userstats();
-        const userstatistics = await userStatsCollection.find({}).toArray();
-        return userstatistics;
-    },
-
+   
 }
 module.exports = exportedMethods;

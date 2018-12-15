@@ -55,11 +55,17 @@ router.post("/add",authRoute("addGymMember"),async (req, res) => {
 
     try {
         let member = req.body;
-
         let membername = xss(member.membername);
         let memberheight = xss(member.memberheight);
         let memberweight = xss(member.memberweight);
 
+        if (!membername) {
+            res.render("addGymMember", {
+                alertMsg: "Please provide name",
+                title: "addGymMember"
+            });
+            return;
+        }
         if (!memberheight) {
             res.render("addGymMember", {
                 alertMsg: "Please provide height",
@@ -88,26 +94,7 @@ router.post("/add",authRoute("addGymMember"),async (req, res) => {
         });
     }
 });
-router.get("/view/:id",authRoute("viewGymMember"), async (req, res) => {
-    
-   
-    try {
-        let memberId=req.params.id;
-        let userstats = await gymMemberData.getGymMemberById(memberId);
-        let userId=await gymMemberData.getUserByGymMemberId(memberId);
-        let user=await userData.getUserById(userId);
-        let userName=user.firstname;
-        res.render( "gyMember",{
-            member:userstats,
-            userName:userName
-        
-        })
-    } catch (e) {
-        res.status(404).render("gymMember", {
-            errorMessage: "Member Not Found"
-        })
-    }
-});
+
 router.get("/update/:id",authRoute("updateGymMember"),async (req, res) => {
     try {
         let member = await gymMemberData.getGymMemberById(req.params.id);
