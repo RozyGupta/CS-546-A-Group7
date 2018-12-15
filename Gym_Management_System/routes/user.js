@@ -72,8 +72,11 @@ function checkIsProperType(variable, variableType, parameter) { //referred from 
         let layout = await authentication.getLayout(req.cookies.userId);
         try {
             let userInfo = req.body;
-            
-            if (!checkIsProperType(userInfo.email,"string","email")) {
+            let userEmail = xss(userInfo.email);
+            let userFirstName =xss(userInfo.firstname);
+            let userLasttName =xss(userInfo.lastname);
+            let userZipCode = xss(userInfo.zipCode);
+            if (!checkIsProperType(userEmail,"string","email")) {
                 res.render("adduser", {
                     alertMsg: "Please provide user Info",
                     title: "adduser",
@@ -82,7 +85,7 @@ function checkIsProperType(variable, variableType, parameter) { //referred from 
                 return;
             }
             
-            if (!checkIsProperType(userInfo.firstname,"string","First Name")) {
+            if (!checkIsProperType(userFirstName,"string","First Name")) {
                 res.render("adduser", {
                     alertMsg: "Please provide user Info",
                     title: "adduser",
@@ -90,7 +93,7 @@ function checkIsProperType(variable, variableType, parameter) { //referred from 
                 });
                 return;
             }
-            if (!checkIsProperType(userInfo.lastname,"string","Last Name")) {
+            if (!checkIsProperType(userLasttName,"string","Last Name")) {
                 res.render("adduser", {
                     alertMsg: "Please provide user Info",
                     title: "adduser",
@@ -98,7 +101,7 @@ function checkIsProperType(variable, variableType, parameter) { //referred from 
                 });
                 return;
             }
-            if (!checkIsProperType(userInfo.zipCode,"number","Zipcode")) {
+            if (!checkIsProperType(userZipCode,"number","Zipcode")) {
                 res.render("adduser", {
                     alertMsg: "Please provide user Info",
                     title: "adduser",
@@ -187,7 +190,7 @@ function checkIsProperType(variable, variableType, parameter) { //referred from 
                 });
                 return;
             }
-            let userId = user.userId;
+            let userId = xss(user.userId);
             await userData.updateUser(userId, user);
             let updatedUser = userData.getUserById(userId);
             res.render("viewUser", {

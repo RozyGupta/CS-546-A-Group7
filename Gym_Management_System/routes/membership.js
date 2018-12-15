@@ -61,6 +61,7 @@ router.post("/add",authRoute("addMembership"),async (req, res) => {
         let membershipperiod = xss(membership.membershipperiod);
         let signupfees = xss(membership.signupfees);
         let services =xss(membership.services);
+        let description = xss(membership.description);
        
         if (!membershipname) {
             res.render("addMembership", {
@@ -98,7 +99,16 @@ router.post("/add",authRoute("addMembership"),async (req, res) => {
             });
             return;
         }
-        await membershipData.addMembership(membershipname, membershipperiod, signupfees, services);
+        if (!description) {
+            res.render("addMembership", {
+                alertMsg: "Please provide description",
+                layout:layout,
+                title: "addMembership",
+             
+            });
+            return;
+        }
+        await membershipData.addMembership(membershipname, membershipperiod, signupfees, services,description);
         res.redirect("/membership");
 
     } catch (error) {
@@ -165,6 +175,7 @@ router.post("/update",authRoute("updateMembership"),async (req, res) => {
         let membershipperiod = xss(membership.membershipperiod);
         let signupfees = xss(membership.signupfees);
         let services = xss(membership.services);
+        let description =xss(membership.description);
         if (!membershipname) {
             res.render("updateMembership", {
                 alertMsg: "Please provide membership name",
@@ -201,7 +212,15 @@ router.post("/update",authRoute("updateMembership"),async (req, res) => {
             });
             return;
         } 
-        await membershipData.updateMembership(membershipId,membershipname,membershipperiod,signupfees,services);
+        if (!description) {
+            res.render("addMembership", {
+                alertMsg: "Please provide description",
+                layout:layout,
+                title: "addMembership",      
+            });
+            return;
+        }
+        await membershipData.updateMembership(membershipId,membershipname,membershipperiod,signupfees,services,description);
         const updatedMembership = await membershipData.getMembershipById(membershipId);
         res.render("viewMembership", {
          msg: "Activity updated Successfully",

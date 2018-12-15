@@ -8,17 +8,15 @@ const exportedMethods = {
         if (!membershipperiod) throw "No membership period provided";
         if (!signupfees) throw "No signupfees provided";
         if (!services) throw "No services provided";
-        
+        if(!description) throw "No description provided";
         const membershipCollection = await membership();
         const newmembership = {
             _id: uuid(),
             membershipname: membershipname,
             membershipperiod: membershipperiod,
             signupfees: signupfees,
-
             services: services,
-
-            services: services
+            description:description,
 
         };
         const addedmembership = await membershipCollection.insertOne(newmembership);
@@ -53,7 +51,7 @@ const exportedMethods = {
             throw `Could not delete membership with id: ${membershipId}`;
         }
     },
-    async updateMembership(membershipId,membershipname,membershipperiod,signupfees,services) {
+    async updateMembership(membershipId,membershipname,membershipperiod,signupfees,services,description) {
         if (!membershipId) throw "You must provide an id to update";
         const membershipCollection = await membership(); 
     
@@ -62,18 +60,11 @@ const exportedMethods = {
             {   membershipname: membershipname,
                 membershipperiod: membershipperiod,
                 signupfees: signupfees,
-
                 services: services,
                 description:description,
 
-                services: services
-
             } 
         });
-    
-        // if (updatedMembership.modifiedCount === 0)
-        //   throw "Could not update task successfully";
-        // }
         return updatedMembership;
     },
     
