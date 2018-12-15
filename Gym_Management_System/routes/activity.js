@@ -10,6 +10,7 @@ const xss =require("xss");
 const authRoute = function (moduleName) {
 
     return async function (req, res, next) {
+      
 
         let userId = req.cookies.userId;
         try {

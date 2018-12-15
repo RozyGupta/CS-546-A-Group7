@@ -68,7 +68,7 @@ let exportedMethods = {
     const userCollection = await user();
 
     const getusers = await userCollection.find({}).toArray();
-   // console.log(getActivities);
+  
 
     return getusers;
 
