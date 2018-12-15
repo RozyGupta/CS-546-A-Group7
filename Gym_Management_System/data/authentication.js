@@ -72,7 +72,7 @@ async addPermission(moduleName,route,adminpermission) {
         
     if (!moduleName) throw "No modulename provided";
     if (!route) throw "No route provided";
-    if (!permission) throw "No permission provided";
+    if (!adminpermission) throw "No permission provided";
     
    
     const permissionCollection = await permission();

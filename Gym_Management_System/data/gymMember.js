@@ -10,6 +10,7 @@ const exportedMethods = {
         if (!membername) throw "No member name provided";
         if (!memberheight) throw "No member height provided";
         if (!memberweight) throw "No member weight provided";
+        if (!bmi) throw "No member bmi provided";
        
         
         const gymMemberCollection = await gymMember();
@@ -35,7 +36,7 @@ const exportedMethods = {
     async addmemberstats(userId, memberId) {
         if (!userId) throw "No userId provided";
         if (!memberId) throw "No memberId provided!";
-         const userStatsCollection = await userstats();
+        const userStatsCollection = await userstats();
         const newUserStats = {
             userId: userId,
             memberId: memberId,
