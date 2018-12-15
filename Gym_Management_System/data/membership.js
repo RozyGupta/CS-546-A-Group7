@@ -15,7 +15,8 @@ const exportedMethods = {
             membershipname: membershipname,
             membershipperiod: membershipperiod,
             signupfees: signupfees,
-            services: services
+            services: services,
+            description:description
         };
         const addedmembership = await membershipCollection.insertOne(newmembership);
         const newId = addedmembership.insertedId;
@@ -49,7 +50,7 @@ const exportedMethods = {
             throw `Could not delete membership with id: ${membershipId}`;
         }
     },
-    async updateMembership(membershipId,membershipname,membershipperiod,signupfees,services) {
+    async updateMembership(membershipId,membershipname,membershipperiod,signupfees,services,description) {
         if (!membershipId) throw "You must provide an id to update";
         const membershipCollection = await membership(); 
     
@@ -58,7 +59,8 @@ const exportedMethods = {
             {   membershipname: membershipname,
                 membershipperiod: membershipperiod,
                 signupfees: signupfees,
-                services: services
+                services: services,
+                description:description
             } 
         });
     
