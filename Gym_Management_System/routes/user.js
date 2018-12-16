@@ -189,6 +189,7 @@ router.get("/view/:id", authRoute("viewUser"), async (req, res) => {
 
 
 router.get("/update/:id", authRoute("updateUser"), async (req, res) => {
+    let layout = await authentication.getLayout(req.cookies.userId);
     let userId = (req.cookies.userId);
     let permission = false;
     try {
@@ -238,11 +239,7 @@ router.post("/update", authRoute("updateUser"), async (req, res) => {
         let userId = xss(user.userId);
         await userData.updateUser(userId, user);
         let updatedUser = userData.getUserById(userId);
-        res.render("viewUser", {
-            msg: "User updated Successfully",
-            user: updatedUser,
-            layout: layout
-        });
+        res.redirect("/user/view/"+userId);
     } catch (error) {
         console.log(error);
         res.render("updateUser", {
