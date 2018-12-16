@@ -88,6 +88,32 @@ router.post("/add", authRoute("addUser"), async function (req, res) {
         let userFirstName = xss(userInfo.firstname);
         let userLastName = xss(userInfo.lastname);
         let userZipCode = xss(userInfo.zipCode);
+        let password = xss(userInfo.password);
+        let confirmPassword = xss(userInfo.confirmPassword);
+        let dob = xss(userInfo.dob);
+        let currentDate = new Date();
+        let dobDate = new Date(dob);
+
+        if (dobDate > currentDate) {
+            res.render("addUser", {
+                alertMsg: "Please provide real date of birth",
+                title: "addUser",
+                layout: layout
+
+            });
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            res.render("addUser", {
+                alertMsg: "Please provide consistent password",
+                title: "addUser",
+                layout: layout
+
+            });
+            return;
+        }
+
         if (!userEmail) {
             res.render("addUser", {
                 alertMsg: "Please provide email",
