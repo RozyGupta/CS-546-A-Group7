@@ -238,14 +238,18 @@ router.post("/update", authRoute("updateUser"), async (req, res) => {
         }
         let userId = xss(user.userId);
         await userData.updateUser(userId, user);
-        let updatedUser = userData.getUserById(userId);
-        res.redirect("/user/view/"+userId);
+       res.redirect("/user/view/"+userId);
+    //    res.render("updateUser", {
+    //     layout: layout,
+    //     user: updatedUser
+    // });
+
     } catch (error) {
-        console.log(error);
+        let updatedUser = userData.getUserById(userId);
         res.render("updateUser", {
             error: "error while updating",
             layout: layout,
-            user: user
+            user: updatedUser
         });
 
     }

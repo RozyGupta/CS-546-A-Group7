@@ -10,7 +10,6 @@
                 <div id="inputDiv">
                     <label for="activityname">Activities</label><br>
                     <select id="activityname" value={{workoutActivity.activity}} name="activityname" required>
-                        <option value="" <option value="" selected disabled hidden></option>></option>
                         {{#each activity}}
                         <option name="activityname" value={{this.activityname}}>{{{this.activityname}}}</option>
                         {{/each}}
@@ -20,7 +19,6 @@
                     <div class="col-sm-4">
                         <label for="level">Level</label><br>
                         <select value={{workoutActivity.level}} id="level" name="level" required>
-                            <option value="" <option value="" selected disabled hidden></option>></option>
                             <option name="level" value=low>Low</option>
                             <option name="level" value=Medium>Medium</option>
                             <option name="level" value=High>High</option>
@@ -60,7 +58,7 @@
                 </div>
                 <div id="inputDiv">
                     <label for="description">Description </label><br>
-                    <textarea id="description" name="description">{{workoutActivity.description}} required> </textarea> </div>
+                    <textarea id="description" name="description" required>{{workoutActivity.description}} </textarea> </div>
                         <input type="hidden" value={{userId}} name="userId">
                         <input type="hidden" value={{workoutActivity._id}} name="workoutActivityId">
                 <div class="centered">

@@ -224,7 +224,7 @@ router.post("/update", authRoute("updateGymMember"), async (req, res) => {
         res.render("updateGymMember", {
             error: "error while updating",
             layout: layout,
-            member: member,
+            member: updatedGymMember,
             permission:permission
         });
 
