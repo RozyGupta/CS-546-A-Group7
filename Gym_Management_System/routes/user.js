@@ -207,7 +207,7 @@ router.get("/view/:id", authRoute("viewUser"), async (req, res) => {
         });
     } catch (e) {
         res.status(404).render("user", {
-            errorMessage: "User Not Found",
+            alertMsg: "User Not Found",
             layout: layout,
             permission: permission,
             title: "View User"
@@ -233,7 +233,7 @@ router.get("/update/:id", authRoute("updateUser"), async (req, res) => {
         });
     } catch (e) {
         res.status(404).render("user", {
-            errorMessage: "User Not Found",
+            alertMsg: "User Not Found",
             layout: layout,
             permission: permission,
             title: "User"
@@ -255,10 +255,11 @@ router.get("/delete/:id", authRoute("deleteUser"), async (req, res) => {
     }
 });
 router.post("/update", authRoute("updateUser"), async (req, res) => {
-    let user;
+    let user = req.body;
+    let userId = xss(user.userId);
     let layout = await authentication.getLayout(req.cookies.userId);
     try {
-        user = req.body;
+
         if (!user) {
             res.render("adduser", {
                 alertMsg: "Please provide user Info",
@@ -267,7 +268,32 @@ router.post("/update", authRoute("updateUser"), async (req, res) => {
             });
             return;
         }
-        let userId = xss(user.userId);
+
+        let password = xss(user.password);
+        let confirmPassword = xss(user.confirmPassword);
+        let dob = xss(user.dob);
+        let currentDate = new Date();
+        let dobDate = new Date(dob);
+
+        if (dobDate > currentDate) {
+            res.render("updateUser", {
+                alertMsg: "Please provide real date of birth",
+                title: "updateUser",
+                layout: layout,
+                user: user
+            });
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            res.render("updateUser", {
+                alertMsg: "Please provide consistent password",
+                title: "updateUser",
+                layout: layout,
+                user: user
+            });
+            return;
+        }
         await userData.updateUser(userId, user);
         let updatedUser = userData.getUserById(userId);
         res.redirect("/user/view/" + userId);
