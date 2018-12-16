@@ -39,7 +39,7 @@ router.get("/", authRoute("notice"),async (req, res) => {
     let userID =   (req.cookies.userId);
     let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("notice", userID)
+        let booleanFlag = await authentication.getPermissionForRoute("addNotice", userID)
         if (booleanFlag) {
             permission = true;
         } 
@@ -126,7 +126,7 @@ router.get("/view/:id", authRoute("viewNotice"),async (req, res) => {
     let userID =   (req.cookies.userId);
         let permission = false;
         try {
-            let booleanFlag = await authentication.getPermissionForRoute("viewNotice", userID)
+            let booleanFlag = await authentication.getPermissionForRoute("addNotice", userID)
             if (booleanFlag) {
                 permission = true;
             }         
@@ -153,7 +153,7 @@ router.get("/update/:id",authRoute("updateNotice"), async (req, res) => {
     let userID =   (req.cookies.userId);
     let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("notice", userID)
+        let booleanFlag = await authentication.getPermissionForRoute("addNotice", userID)
         if (booleanFlag) {
             permission = true;
         }    
@@ -179,7 +179,7 @@ router.get("/delete/:id",authRoute("deleteNotice"), async (req, res) => {
     let userID =   (req.cookies.userId);
         let permission = false;
         try {
-            let booleanFlag = await authentication.getPermissionForRoute("viewNotice", userID)
+            let booleanFlag = await authentication.getPermissionForRoute("addNotice", userID)
             if (booleanFlag) {
                 permission = true;
             }   
@@ -201,7 +201,7 @@ router.post("/update",authRoute("updateNotice"), async (req, res) => {
     let userID =   (req.cookies.userId);
         let permission = false;
         try {
-            let booleanFlag = await authentication.getPermissionForRoute("viewNotice", userID)
+            let booleanFlag = await authentication.getPermissionForRoute("addNotice", userID)
             if (booleanFlag) {
                 permission = true;
             }         

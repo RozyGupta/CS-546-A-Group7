@@ -35,7 +35,7 @@ router.get("/",authRoute("membership"), async (req, res) => {
     let userID =   (req.cookies.userId);
     let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("membership", userID)
+        let booleanFlag = await authentication.getPermissionForRoute("addMembership", userID)
         if (booleanFlag) {
             permission = true;
         }
@@ -131,7 +131,7 @@ router.get("/view/:id",authRoute("viewMembership"), async (req, res) => {
     let userID =   (req.cookies.userId);
     let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("viewMembership", userID)
+        let booleanFlag = await authentication.getPermissionForRoute("addMembership", userID)
         if (booleanFlag) {
             permission = true;
         }
@@ -155,7 +155,7 @@ router.get("/update/:id",authRoute("updateMembership"),async (req, res) => {
     let userID =   (req.cookies.userId);
     let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("viewMembership", userID)
+        let booleanFlag = await authentication.getPermissionForRoute("addMembership", userID)
         if (booleanFlag) {
             permission = true;
         } 
@@ -179,7 +179,7 @@ router.get("/delete/:id",authRoute("deleteMembership"), async (req, res) => {
     let userID =   (req.cookies.userId);
     let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("viewMembership", userID)
+        let booleanFlag = await authentication.getPermissionForRoute("addMembership", userID)
         if (booleanFlag) {
             permission = true;
         } 
@@ -199,7 +199,7 @@ router.post("/update",authRoute("updateMembership"),async (req, res) => {
     let userID =   (req.cookies.userId);
     let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("viewMembership", userID)
+        let booleanFlag = await authentication.getPermissionForRoute("addMembership", userID)
         if (booleanFlag) {
             permission = true;
         } 

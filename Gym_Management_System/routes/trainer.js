@@ -39,7 +39,7 @@ router.get("/", authRoute("trainer"), async (req, res) => {
     let trainer = await trainerData.getAllTrainers();
     try {
         let permission = false;
-        let booleanFlag = await authentication.getPermissionForRoute("trainer", userID)
+        let booleanFlag = await authentication.getPermissionForRoute("deleteTrainer", userID)
         if (booleanFlag) {
             permission = true;
         }
@@ -117,7 +117,7 @@ router.get("/view/:id", authRoute("viewTrainer"), async (req, res) => {
     let userId =   (req.cookies.userId);
     let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("viewTrainer", userId)
+        let booleanFlag = await authentication.getPermissionForRoute("deleteTrainer", userId)
         if (booleanFlag) {
             permission = true;
         }
@@ -142,7 +142,7 @@ router.get("/update/:id", authRoute("updateTrainer"), async (req, res) => {
     let trainer = await trainerData.getAllTrainers();
     try {
         let permission = false;
-        let booleanFlag = await authentication.getPermissionForRoute("trainer", userID)
+        let booleanFlag = await authentication.getPermissionForRoute("deleteTrainer", userID)
         if (booleanFlag) {
             permission = true;
         }
