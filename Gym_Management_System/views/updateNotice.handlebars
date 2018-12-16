@@ -17,25 +17,19 @@
             </div>
             <div id="inputDiv">
                <label for="content">Notice Content</label><br>
-               <input class="major" type="text" name="content" value={{notice.content}} required>
-
+               <input class="major" type="text" name="content" value={{notice.content}} size ="200" maxlength="200"required>
             </div>
             <div id="inputDiv">
                <label for="startdate">Notice StartDate</label><br>
                <input class="major" type="date" name="startdate" value={{notice.startdate}} required>
             </div>
-
-
             <div id="inputDiv">
                <label for="enddate">Notice EndDate</label><br>
                <input class="major" type="date" name="enddate" value={{notice.enddate}} required>
             </div>
-
-
             <div id="inputDiv">
                <label for="noticeFor">Notice For</label><br>
                <select id="noticeFor" name="noticeFor" required>
-                  <option value="" <option value="" selected disabled hidden></option></option>
                   <option value={{notice.noticeFor}} selected>{{notice.noticeFor}}</option>
                   <option name="noticeFor" value="Admin">Admin</option>
                   <option name="noticeFor" value="Trainer">Trainer</option>

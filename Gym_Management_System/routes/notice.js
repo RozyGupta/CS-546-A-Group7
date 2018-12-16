@@ -256,7 +256,6 @@ router.post("/update",authRoute("updateNotice"), async (req, res) => {
         }
         await noticeData.updateNotice(noticeId,title,content,startdate,enddate,noticeFor);
         let updatedNotice = await noticeData.getNoticesById(noticeId);
-
         res.render("viewNotice", {
             msg: "Notice updated Successfully",
             layout:layout,
@@ -265,9 +264,10 @@ router.post("/update",authRoute("updateNotice"), async (req, res) => {
         });
 
     }catch (error) {
+        let updatedNotice = await noticeData.getNoticesById(noticeId);
         res.render("updateNotice", {
             error: "error while updating",
-            notice:notice
+            notice:updatedNotice
         })
 
     }

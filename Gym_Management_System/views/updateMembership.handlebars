@@ -28,10 +28,11 @@
                   <input class="major" type="text" name="services" value ={{membership.services}} pattern="[A-Za-z\s]{1,15}" title="Must contain only text" required>
                </select>
             </div>
-             <div id="inputDiv">
+            <div id="inputDiv">
                <label for="description">Description</label><br>
-               <textarea name="description" placeholder="Enter Your Desciption Here.." required></textarea>
-            </div>
+                  <input class="major" type="text" name="description" value ={{membership.description}} size="200" maxlength="200" pattern="[A-Za-z\s]{1,15}" title="Must contain only text" required>
+               </select> 
+             </div>
             <input type="hidden" name="membershipId" value={{membership._id}}>
             <div class="centered">
                <div class="row">
