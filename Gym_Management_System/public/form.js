@@ -31,6 +31,37 @@ if (createUserForm) {
     });
 }
 
+const updateUserForm = document.getElementById("updateUser-form");
+
+if (updateUserForm) {
+    $('#dob').change(function () {
+        const dob = document.getElementById("dob");
+        let dobdate = new Date(dob.value);
+        let currentdate = new Date();
+
+        if (dobdate > currentdate) {
+            $("#error").show();
+            $("#error").html("The date of birth can not be later than now !");
+        } else {
+            $("#error").hide();
+        }
+    })
+    const password = document.getElementById("password");
+    const comfirmPassword = document.getElementById("confirmPassword");
+
+
+    //Add an event listener for the form submit
+    createUserForm.addEventListener("submit", event => {
+
+        if (password.value !== comfirmPassword.value) {
+            $("#error").show();
+            $("#error").html("You Need to supply consistent password!");
+            $('#password').focus();
+        } else {
+            $("#error").hide();
+        }
+    });
+}
 
 const addActivityForm = document.getElementById("add-activity");
 

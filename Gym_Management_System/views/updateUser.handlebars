@@ -10,7 +10,9 @@
          {{#if alertMsg}}
          <p class = "alertMsg">*{{alertMsg}}</p>
          {{/if}}
+         
          <form id="updateUser-form" action="/user/update" method="POST">
+          <div class="alertMsg" id="error" hidden></div>
             <div class="inputDiv">
                <label for="email"> Email</label><br>
                <input class="major" type="email" id="email" name="email" value={{user.email}} pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required/>
@@ -38,7 +40,7 @@
             <div class="row inputDiv">
                <div class="col-sm-6">
                   <label for="streetAddress">Street Address *</label><br>
-                  <input type="text" id="streetAddress" name="streetAddress"  value="{{user.address}}" >
+                  <input type="text" id="streetAddress" name="streetAddress"  value="{{user.streetAddress}}">
                </div>
                <div class="col-sm-2">
                   <label for="aptno">Apt No.</label><br>
@@ -101,3 +103,4 @@
       </div>
    </div>
 </div>
+<script src="/public/form.js"></script>
