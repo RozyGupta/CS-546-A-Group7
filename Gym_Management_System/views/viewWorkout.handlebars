@@ -5,8 +5,8 @@
                 <h1>{{userName}}'s Workout</h1>
                 <h2>{{activity.activity}} Activity</h2>
                 {{#if permission}}
-                <p id="editOption"><a href="/workoutActivity/update/{{activity._id}}"><img src="../../../public/images/Editing-edit-icon.png"></a>
-                    | <a href="/workoutActivity/delete/{{activity._id}}"><img src="../../../public/images/delete.png"></a>
+                <p id="editOption"><a  href="/workoutActivity/update/{{activity._id}}"><img alt="Edit Activity" src="../../../public/images/Editing-edit-icon.png"></a>
+                    | <a href="/workoutActivity/delete/{{activity._id}}"><img alt="delete" src="../../../public/images/delete.png"></a>
                 </p>
                  {{/if }}
             </header>

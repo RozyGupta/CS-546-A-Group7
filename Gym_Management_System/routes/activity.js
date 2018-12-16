@@ -47,7 +47,8 @@ router.get("/",authRoute("activity"), async (req, res) => {
         res.render("activity", {
             activity: activity,
             layout:layout,
-            permission:permission
+            permission:permission,
+            title:"activity"
         });
     }catch(error){
         res.render("error", { title: "error" });
@@ -58,7 +59,8 @@ router.get("/add", authRoute("addActivity"),async (req, res) => {
     let trainerList = await trainerData.getAllTrainers();
     res.render("addActivity", {
         trainerList: trainerList,
-        layout:layout
+        layout:layout,
+        title:"activity"
     });
 
 });
@@ -112,7 +114,8 @@ router.post("/add",authRoute("addActivity"),async (req, res) => {
     } catch (error) {
         res.render("addActivity", {
             alertMsg: "error while adding activity",
-            layout:layout
+            layout:layout,
+            title:"activity"
         });
     }
 });
@@ -130,14 +133,16 @@ router.get("/view/:id",authRoute("viewActivity"), async (req, res) => {
         res.render("viewActivity", {
             activity: activity,
             layout:layout,
-            permission:permission
+            permission:permission,
+            title:"activity"
         });
     } catch (e) {
         
         res.status(404).render("activity", {
             errorMessage: "Activity Not Found",
             layout:layout,
-            permission:permission
+            permission:permission,
+            title:"activity"
         })
     }
 });
@@ -155,14 +160,16 @@ router.get("/update/:id",authRoute("updateActivity"),async (req, res) => {
         res.render("updateActivity", {
             activity: activity,
             trainerList: trainerList,
-            layout:layout
+            layout:layout,
+            title:"activity"
         });
 
     } catch (e) {
        
         res.status(404).render("activity", {
             errorMessage: "Activity Not Found",
-            permission:permission
+            permission:permission,
+            title:"activity"
         })
     }
 });
@@ -181,7 +188,8 @@ router.get("/delete/:id",authRoute("deleteActivity"), async (req, res) => {
         res.render("viewActivity", {
             alertMsg: "error while deleting",
             permission:permission,
-            layout:layout
+            layout:layout,
+            title:"activity"
         });
     }
 });
@@ -257,7 +265,8 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
             activity: updatedActivity,
             msg: "Activity updated Successfully",
             layout:layout,
-            permission:permission
+            permission:permission,
+            title:"activity"
         });
     } catch (error) {
         console.log(error);
@@ -266,7 +275,8 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
             activity: activity,
             trainerList: trainerList,
             error: "error while updating",
-            layout:layout
+            layout:layout,
+            title:"activity"
         });
 
     }

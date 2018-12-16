@@ -8,26 +8,26 @@
           {{#if alertMsg}}
             <p class="alertMsg">{{alertMsg}}</p>
             {{/if }}
-            <div id="inputDiv">
+            <div class="inputDiv">
                <label for="membershipname"> Membership Name</label><br>
-               <input class="major" type="text" name="membershipname" pattern="[A-Za-z\s]{1,15}" title="Must contain only text" required/>
+               <input class="major" type="text" id="membershipname" name="membershipname" pattern="[A-Za-z\s]{1,15}" title="Must contain only text" required/>
             </div>
-            <div id="inputDiv">
+            <div class="inputDiv">
                <label for="membershipperiod">Membership Period(days)</label><br>
-               <input class="major" type="number" name="membershipperiod" min="1" max="365" required/>
+               <input class="major" type="number" id="membershipperiod" name="membershipperiod" min="1" max="365" required/>
             </div>
-            <div id="inputDiv">
+            <div class="inputDiv">
                <label for="signupfees">Signup Fees($)</label><br>
-               <input class="major" type="number" name="signupfees" min="100" max="1000" required/>
+               <input class="major" type="number" name="signupfees"  id="signupfees" min="100" max="1000" required/>
             </div>
-            <div id="inputDiv">
+            <div class="inputDiv">
                <label for="services">Services</label><br>
-                  <input class="major" type="text" name="services"  pattern="[A-Za-z\s]{1,15}" title="Must contain only text" required/>
-               </select>
+                  <input class="major" id="services" type="text" name="services"  pattern="[A-Za-z\s]{1,15}" title="Must contain only text" required/>
+            </div>
               <div id="inputDiv">
                <label for="description">Description</label><br>
-                  <input class="major" type="text" name="description" size ="200" maxlength="200"  pattern="[A-Za-z\s]{1,15}" title="Must contain only text" required>
-               </select> 
+                   <textarea name="description"  id="description" placeholder="Enter Your Desciption Here.." required></textarea>
+
              </div>
             <div class="centered">
                <div class="row">

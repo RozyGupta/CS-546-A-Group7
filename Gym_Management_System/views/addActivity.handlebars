@@ -8,32 +8,32 @@
             {{#if alertMsg}}
             <p class="alertMsg">{{alertMsg}}</p>
             {{/if }}
-            <div id="inputDiv">
+            <div class="inputDiv">
                <label for="activityname"> Activity Name</label><br>
-               <input class="major" type="text" name="activityname" pattern="[A-Za-z\s]{1,15}" title="Must contain only text" required/>
+               <input class="major" type="text" id="activityname" name="activityname" pattern="[A-Za-z\s]{1,15}" title="Must contain only text" required/>
             </div>
-            <div id="inputDiv">
+            <div class="inputDiv">
                <label for="activitytrainer">Activity Trainer</label><br>
                <select id="activitytrainer" name="activitytrainer" required>
-                   <option value="" <option value="" selected disabled hidden></option>></option>
+                <option value="">Choose</option>
                   {{#each trainerList}}
-                     <option value={{this.trainername}}>{{this.trainername}}</option>
+                     <option value="{{this.trainername}}">{{this.trainername}}</option>
                   {{/each}}
                </select>
             </div>
-            <div id="inputDiv">
+            <div class="inputDiv">
                <label for="membershipplan">Membership Plan</label><br>
                <select id="membershipplan" name="membershipplan" required>
-                  <option value="" <option value="" selected disabled hidden></option>></option>
-                  <option name="membershipplan" value="Gold">Gold</option>
-                  <option name="membershipplan" value="Platinum">Platinum</option>
-                  <option name="membershipplan" value="Diamond">Diamond</option>
-                  <option name="membershipplan" value="Silver">Silver</option>
+                   <option value="">Choose</option>
+                  <option  value="Gold">Gold</option>
+                  <option  value="Platinum">Platinum</option>
+                  <option  value="Diamond">Diamond</option>
+                  <option  value="Silver">Silver</option>
                </select>
             </div>
-            <div id="inputDiv">
+            <div class="inputDiv">
                <label for="activityDescription">Description</label><br>
-               <textarea name="activityDescription" placeholder="Enter Your Desciption Here.." required></textarea>
+               <textarea name="activityDescription" id="activityDescription" placeholder="Enter Your Desciption Here.." required></textarea>
             </div>
             <div class="centered">
                <div class="row">

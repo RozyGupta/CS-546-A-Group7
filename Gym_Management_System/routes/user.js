@@ -63,6 +63,7 @@ router.get('/', authRoute("user"), async function (req, res) {
         res.render("user", {
             users: users,
             layout: layout,
+            title: "User",
             permission: permission
         });
     } catch (error) {
@@ -76,12 +77,11 @@ router.get("/add", authRoute("addUser"), async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     res.render("addUser", {
         layout: layout,
-        title: "User"
+        title: "Add User"
     });
 })
 router.post("/add", authRoute("addUser"), async function (req, res) {
     let layout = await authentication.getLayout(req.cookies.userId);
-    console.log("dsfdksj");
     try {
         let userInfo = req.body;
         let userEmail = xss(userInfo.email);
@@ -91,7 +91,7 @@ router.post("/add", authRoute("addUser"), async function (req, res) {
         if (!userEmail) {
             res.render("addUser", {
                 alertMsg: "Please provide email",
-                title: "addUser",
+                title: "Add User",
                 layout: layout
 
             });
@@ -100,7 +100,7 @@ router.post("/add", authRoute("addUser"), async function (req, res) {
         if (!userFirstName) {
             res.render("addUser", {
                 alertMsg: "Please provide first name",
-                title: "addUser",
+                title: "Add User",
                 layout: layout
 
             });
@@ -109,7 +109,7 @@ router.post("/add", authRoute("addUser"), async function (req, res) {
         if (!userLastName) {
             res.render("addUser", {
                 alertMsg: "Please provide last name",
-                title: "addUser",
+                title: "Add User",
                 layout: layout
 
             });
@@ -118,7 +118,7 @@ router.post("/add", authRoute("addUser"), async function (req, res) {
         if (!userZipCode) {
             res.render("addUser", {
                 alertMsg: "Please provide zip code",
-                title: "addUser",
+                title: "Add User",
                 layout: layout
 
             });
@@ -128,7 +128,7 @@ router.post("/add", authRoute("addUser"), async function (req, res) {
         if (successFlag == true) {
             res.redirect("/user");
         } else {
-            res.render("addUser", {
+            res.render("Add User", {
                 layout: layout,
                 alertMsg: "User Creation unsuccess"
             })
@@ -176,13 +176,15 @@ router.get("/view/:id", authRoute("viewUser"), async (req, res) => {
         res.render("viewUser", {
             user: user,
             layout: layout,
-            permission: permission
+            permission: permission,
+            title: "View User"
         });
     } catch (e) {
         res.status(404).render("user", {
             errorMessage: "User Not Found",
             layout: layout,
-            permission: permission
+            permission: permission,
+            title: "View User"
         })
     }
 });
@@ -200,13 +202,15 @@ router.get("/update/:id", authRoute("updateUser"), async (req, res) => {
         let user = await userData.getUserById(req.params.id);
         res.render("updateUser", {
             user: user,
-            layout: layout
+            layout: layout,
+            title: "Update User"
         });
     } catch (e) {
         res.status(404).render("user", {
             errorMessage: "User Not Found",
             layout: layout,
-            permission: permission
+            permission: permission,
+            title: "User"
         })
     }
 });
@@ -219,7 +223,8 @@ router.get("/delete/:id", authRoute("deleteUser"), async (req, res) => {
     } catch (error) {
         res.render("viewUser", {
             layout: layout,
-            alertMsg: "error while deleting"
+            alertMsg: "error while deleting",
+            title: "View User"
         });
     }
 });
@@ -231,25 +236,22 @@ router.post("/update", authRoute("updateUser"), async (req, res) => {
         if (!user) {
             res.render("adduser", {
                 alertMsg: "Please provide user Info",
-                title: "adduser",
+                title: "Add User",
                 layout: layout
             });
             return;
         }
         let userId = xss(user.userId);
         await userData.updateUser(userId, user);
-       res.redirect("/user/view/"+userId);
-    //    res.render("updateUser", {
-    //     layout: layout,
-    //     user: updatedUser
-    // });
-
+        let updatedUser = userData.getUserById(userId);
+        res.redirect("/user/view/" + userId);
     } catch (error) {
         let updatedUser = userData.getUserById(userId);
         res.render("updateUser", {
             error: "error while updating",
             layout: layout,
-            user: updatedUser
+            user: updatedUser,
+            title: "Update User"
         });
 
     }

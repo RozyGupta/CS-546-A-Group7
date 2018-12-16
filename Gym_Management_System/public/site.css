@@ -94,24 +94,24 @@ header h1{
     text-align: center;
     font-size:100% !important;
 }
-#inputDiv{
+.inputDiv{
 
     margin-left:0px;
     margin-right:0px;
     margin-bottom: 1.5%;
 }
-#inputDiv label{
+.inputDiv label{
     font-weight: normal !important;
     font-size:70%;
 }
-#inputDiv input:focus,select:focus,textArea:focus{
+.inputDiv input:focus,select:focus,textArea:focus{
     outline:none;
     border-bottom:1px solid darkgoldenrod !important;
 }
-#inputDiv select{
+.inputDiv select{
    padding:3px !important;
 }
-#inputDiv input,select{
+.inputDiv input,select{
     
     width:100% !important;
     padding:1px;
@@ -119,19 +119,7 @@ header h1{
     border-bottom: 1px solid lightgrey;
     
 }
-#inputDiv .col-sm-6{
-    padding:0px;
-    margin:0px;
-    padding-right:5%;
-    
-   
-}
-#inputDiv .col-sm-4{
-    padding:0px;
-  margin:0px;
-   padding-right:5%;
-  
-}
+
 .jumbotron{
     background-color:transparent !important;
     

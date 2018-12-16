@@ -11,20 +11,25 @@
          <p class = "alertMsg">*{{alertMsg}}</p>
          {{/if}}
          <form id="updateGymMember-form" action="/gymMember/update" method="POST">
-            <div id="inputDiv">
-               <label for="membername"> Member Name</label><br>
-               <input class="major" type="text" name="membername" value = {{member.membername}} required>
+            <div class="inputDiv">
+              <label for="membername">Select Member</label>
+               <select id="membername" name="membername" required>
+                  <option value="">Choose</option>
+                  {{#each membernames}}
+                  <option value={{this.username}}>{{this.username}}</option>
+                  {{/each}}
+               </select>   
             </div>
-            <div id="inputDiv">
+            <div class="inputDiv">
                <label for="memberheight"> Height(metres)</label><br>
-               <input class="major" type="text" name="memberheight" value = {{member.memberheight}} step="0.01" min="0" required>
+               <input class="major" type="number" id="memberheight" name="memberheight" value = "{{member.memberheight}}" step="0.01" min="0" required>
             </div>
-            <div id="inputDiv">
+            <div class="inputDiv">
                <label for="memberweight"> Weight(kg)</label><br>
-               <input class="major" type="text" name="memberweight" value = {{member.memberweight}} step="0.001" min="0" required>
+               <input class="major" type="number" name="memberweight" id="memberweight" value = "{{member.memberweight}}" step="0.001" min="0" required>
             </div>
-            <div id="inputDiv">
-             <input type="hidden" name="memberId" value={{member._id}}>
+           
+             <input type="hidden" name="memberId" value="{{member._id}}">
             <div class="centered">
                <div class="row">
                   <div class="col-sm-6"><input type="submit"  value="Update"></div>

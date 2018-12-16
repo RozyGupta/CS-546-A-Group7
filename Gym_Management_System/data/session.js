@@ -41,7 +41,7 @@ let exportedMethods = {
     },
 
     async deleteSession(sessionId) {
-
+        try{
         return session().then(sessionCollection => {
             return sessionCollection.removeOne({
                 _id: sessionId
@@ -50,7 +50,11 @@ let exportedMethods = {
                     throw `Could not delete session with id of ${id}`;
                 }
             });
-        });
+        });}
+        catch(err){
+            console.log(err);
+            
+        }
     },
     async getSessionById(sessionId) {
         return session().then(sessionCollection => {

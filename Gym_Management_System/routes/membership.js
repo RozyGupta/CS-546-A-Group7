@@ -43,7 +43,8 @@ router.get("/",authRoute("membership"), async (req, res) => {
         res.render("membership", {
             memberships: memberships,
             layout:layout,
-            permission:permission
+            permission:permission,
+            title:"Membership"
         });
     }catch(error){
         res.render("error", { title: "error" });
@@ -54,6 +55,7 @@ router.get("/add",authRoute("addMembership"),async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     res.render("addMembership",{
         layout:layout,
+        title:"Membership"
     });
 
 });
@@ -73,7 +75,7 @@ router.post("/add",authRoute("addMembership"),async (req, res) => {
             res.render("addMembership", {
                 alertMsg: "Please provide membership name",
                 layout:layout,
-                title: "addMembership",
+                title: "Add Membership",
             
             });
             return;
@@ -82,7 +84,7 @@ router.post("/add",authRoute("addMembership"),async (req, res) => {
             res.render("addMembership", {
                 alertMsg: "Please provide membership period",
                 layout:layout,
-                title: "addMembership",
+                title: "Add Membership",
             
             });
             return;
@@ -91,7 +93,7 @@ router.post("/add",authRoute("addMembership"),async (req, res) => {
             res.render("addMembership", {
                 alertMsg: "Please provide signup fees",
                 layout:layout,
-                title: "addMembership",
+                title: "Add Membership",
               
             });
             return;
@@ -100,7 +102,7 @@ router.post("/add",authRoute("addMembership"),async (req, res) => {
             res.render("addMembership", {
                 alertMsg: "Please provide services name",
                 layout:layout,
-                title: "addMembership",
+                title: "Add Membership",
              
             });
             return;
@@ -109,7 +111,7 @@ router.post("/add",authRoute("addMembership"),async (req, res) => {
             res.render("addMembership", {
                 alertMsg: "Please provide description",
                 layout:layout,
-                title: "addMembership",
+                title: "Add Membership",
              
             });
             return;
@@ -120,7 +122,8 @@ router.post("/add",authRoute("addMembership"),async (req, res) => {
     } catch (error) {
         res.render("addMembership", {
             layout:layout,
-            alertMsg: "error while adding membership"
+            alertMsg: "error while adding membership",
+            title:"Membership",
            
         });
     }
@@ -139,12 +142,14 @@ router.get("/view/:id",authRoute("viewMembership"), async (req, res) => {
         res.render("viewMembership", {
             membership: membership,
             layout:layout,
+            title:"Membership",
             permission:permission
         });
     } catch (e) {
         res.status(404).render("membership", {
             errorMessage: "Membership Not Found",
             layout:layout,
+            title:"Membership",
             permission:permission
         })
     }
@@ -163,6 +168,7 @@ router.get("/update/:id",authRoute("updateMembership"),async (req, res) => {
         res.render("updateMembership", {
             membership: membership,
             layout:layout,
+            title:"Membership",
             permission:permission
         });
 
@@ -170,6 +176,7 @@ router.get("/update/:id",authRoute("updateMembership"),async (req, res) => {
         res.status(404).render("membership", {
             errorMessage: "Membership Not Found",
             layout:layout,
+            title:"Membership",
             permission:permission
         })
     }
@@ -188,6 +195,7 @@ router.get("/delete/:id",authRoute("deleteMembership"), async (req, res) => {
     } catch (error) {
         res.render("viewMembership", {
             layout:layout,
+            title:"Membership",
             alertMsg: "error while deleting",
             permission:permission
         });
@@ -215,7 +223,7 @@ router.post("/update",authRoute("updateMembership"),async (req, res) => {
             res.render("updateMembership", {
                 alertMsg: "Please provide membership name",
                 layout:layout,
-                title: "updateMembership",
+                title: "Update Membership",
                 membership:membership
             });
             return;
@@ -223,7 +231,7 @@ router.post("/update",authRoute("updateMembership"),async (req, res) => {
         if (!membershipperiod) {
             res.render("updateMembership", {
                 alertMsg: "Please provide membership period",
-                title: "updateMembership",
+                title: "Update Membership",
                 layout:layout,
                 membership:membership
             });
@@ -232,7 +240,7 @@ router.post("/update",authRoute("updateMembership"),async (req, res) => {
         if (!signupfees) {
             res.render("updateMembership", {
                 alertMsg: "Please provide signup fees",
-                title: "updateMembership",
+                title: "Update Membership",
                 layout:layout,
                 membership:membership
             });
@@ -241,17 +249,17 @@ router.post("/update",authRoute("updateMembership"),async (req, res) => {
         if (!services) {
             res.render("updateMembership", {
                 alertMsg: "Please provide services name",
-                title: "updateMembership",
+                title: "Update Membership",
                 layout:layout,
                 membership:membership
             });
             return;
         } 
         if (!description) {
-            res.render("addMembership", {
+            res.render("updateMembership", {
                 alertMsg: "Please provide description",
                 layout:layout,
-                title: "addMembership",      
+                title: "Update Membership",      
             });
             return;
         }
@@ -262,11 +270,13 @@ router.post("/update",authRoute("updateMembership"),async (req, res) => {
          layout:layout,
          membership: updatedMembership,
          permission:permission,
+         title:"Membership"
         });
     } catch (error) {
         res.render("updateMembership", {
             error: "error while updating",
             layout:layout,
+            title:"Membership",
             membership:membership
         });
 

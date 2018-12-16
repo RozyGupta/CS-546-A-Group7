@@ -11,30 +11,32 @@
          <p class = "alertMsg">*{{alertMsg}}</p>
          {{/if}}
          <form id="createActivity-form" action="/activity/update" method="POST">
-            <div id="inputDiv">
-               <label for="activity"> Activity Name</label><br>
-               <input class="major" type="text" value="{{activity.activityname}}"  name="activityname" pattern="[A-Za-z\s]{1,15}" title="Must contain only text" required>
+            <div class="inputDiv">
+               <label for="activityname"> Activity Name</label><br>
+               <input class="major" type="text"  id="activityname" value="{{activity.activityname}}"  name="activityname" pattern="[A-Za-z\s]{1,15}" title="Must contain only text" required>
             </div>
-            <div id="inputDiv">
+            <div class="inputDiv">
                <label for="activitytrainer">Activity Trainer</label><br>
                <select id="activitytrainer"  name="activitytrainer" required>
+                  <option value="">Choose</option>
                   {{#each trainerList}}
-                     <option value={{this.trainername}}>{{this.trainername}}</option>
+                     <option value="{{this.trainername}}">{{this.trainername}}</option>
                   {{/each}}
                 </select>
             </div>
-            <div id="inputDiv">
+            <div class="inputDiv">
                <label for="membershipplan">Membership Plan</label><br>
-               <select id="membershipplan" value="{{activity.membershipplan}}" name="membershipplan" required>
-                  <option name="membershipplan" value="Gold">Gold</option>
-                  <option name="membershipplan" value="Platinum">Platinum</option>
-                  <option name="membershipplan" value="Diamond">Diamond</option>
-                  <option name="membershipplan" value="Silver">Silver</option>
+               <select id="membershipplan"  name="membershipplan" required>
+                  <option value="">Choose</option>
+                  <option value="Gold">Gold</option>
+                  <option value="Platinum">Platinum</option>
+                  <option value="Diamond">Diamond</option>
+                  <option value="Silver">Silver</option>
                </select>
             </div>
-            <div id="inputDiv">
+            <div class="inputDiv">
                <label for="description">Description</label><br>
-               <textarea name="description" required>{{activity.activityDescription}}</textarea>
+               <textarea id="description" name="description" required>{{activity.activityDescription}}</textarea>
             </div>
             <input type="hidden" name="activityId" value={{activity._id}}>
             <div  class="centered">

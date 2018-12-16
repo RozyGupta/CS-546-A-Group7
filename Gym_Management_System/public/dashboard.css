@@ -53,14 +53,14 @@ textarea{
     
 
 }
-#activity{
+.activity{
     box-shadow: 2px 3px 4px grey;
-    padding:20px;
+    padding:13px;
     border:1px solid darkgrey;
     height:250px;
     margin:10px;
 }
-activityname{
+.activityname{
 
     font-size:25px;
     font-weight: bold;
@@ -84,7 +84,7 @@ span{
     margin:2px;
     padding:10px;
 }
-#activity img{
+.activity img{
     border-radius:100%;
     height:80px;
     width:80px;
@@ -100,27 +100,33 @@ span{
     border: 3px solid green;
     padding: 10px;
 }
-#activity hr{
+.activity hr{
    border-color:lightgrey !important;
 }
-#plan{
+.plan{
     text-align:right;
-    font-size:15px;
-    padding:0px;
-    margin:0px;
+    font-size:5px;
+    padding:0px !important;
+    margin:-2px;
 }
-#activity a{
+
+.activity a{
     color:black;
     text-decoration: none;
 }
-#activity a:visited{
-    color:black
+.activity a:visited{
+    color:black;
+    text-decoration: none;
+}
+.activity a:hover{
+    color:black;
+    text-decoration: none;
 }
 .jumbotron{
     background-color:transparent !important;
     
 }
-#inputDiv{
+.inputDiv{
 
     margin-left:0px;
     margin-right:0px;
@@ -140,14 +146,6 @@ input,select{
     border-color:transparent;
     border-bottom: 1px solid lightgrey;
     
-}
-
-#inputDiv .col-sm-6{
-    padding:0px;
-    margin:0px;
-    padding-right:5%;
-    
-   
 }
 #panel{
     border-left: 1px solid lightgrey;
@@ -314,10 +312,10 @@ input[type=checkbox]{
  #workoutdays p{
      width:auto;
  }
- #membershipname{   
+ .membershipname{   
     font-size:200% !important;
 }
-#membership{
+.membership{
     box-shadow: 2px 3px 4px grey;
     padding:0px;
     border:1px solid grey;
@@ -325,26 +323,29 @@ input[type=checkbox]{
     margin:10px;
     
 }
-#membership a{
+.membership a{
     color:black;
     text-decoration: none;
 }
-#membership a:visited{
-    color:black
+.membership a:visited{
+    color:black;
+    text-decoration: none;
 }
-#membership hr{
+.membership a:hover{
+    color:black;
+    text-decoration: none;
+}
+.membership hr{
    border-color:lightgrey !important;
 }
 .decorative{
-    
-    margin-left:10px;
     padding:20px;
     height:100%;
 }
 #gymMember img{
     height:20px;
 }
-#notice{
+.notice{
     box-shadow: 2px 3px 4px grey;
     padding:20px;
  
@@ -352,17 +353,23 @@ input[type=checkbox]{
     height:250px;
     margin:10px;
 }
-#notice{
+.notice{
     font-size:200% !important ;  
 }
-#notice a{
+.notice a{
     color:black;
     text-decoration: none;
 }
-#notice a:visited{
-    color:black
+.notice a:visited{
+    color:black;
+    text-decoration: none;
 }
-#notice hr{
+.notice a:hover{
+    color:black;
+    text-decoration: none;
+    
+}
+.notice hr{
    border-color:lightgrey !important;
 }
 .dashboard .dashboardUnit{
@@ -375,20 +382,22 @@ input[type=checkbox]{
 
 }
 
-#notices{
+.dashBoardbox{
     padding:0px;
     padding-left:15px;
     padding-right:15px;
 }
-#notices  h3{
+.dashBoardbox  h3{
     text-align:left;
 }
-#noticetoggle {
+.toggle {
     height:auto;
-    max-height:500px;
+    max-height:400px;
      overflow-y:scroll;
+     padding:0px !important;
+     margin:0px !important;
 }
-#notices .jumbotron{
+.dashBoardbox .jumbotron{
     padding:0px;
     text-align:left;
 
@@ -399,10 +408,10 @@ border-bottom:2px solid lightgrey;
     padding:5px;
     margin:5px;
 }
-#head{
+.head{
     font-size:800% !important;
     font-style: bolder;
 }
-#base{
+.base{
     font-size:150% !important;
 }

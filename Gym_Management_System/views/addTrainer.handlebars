@@ -8,34 +8,33 @@
             {{#if alertMsg}}
             <p class="alertMsg">{{alertMsg}}</p>
             {{/if }}
-            <div id="inputDiv">
+            <div class="inputDiv">
                <label for="trainername">Trainer</label>
-           
+
                <select id="trainername" name="trainername" required>
-                  <option value="" <option value="" selected disabled hidden></option>
-                  </option>
-             </div>     
+                  <option value="">Choose</option>
+
                   {{#each trainernames}}
-                  <option name="trainername" value={{this.username}}>{{this.username}}</option>
+                  <option  value="{{this.username}}">{{this.username}}</option>
                   {{/each}}
                </select>
+            </div>
+            <div class="inputDiv">
+               <label for="certifications"> Certifications </label><br>
+               <input class="major" type="text" id="certifications" name="certifications" required />
+            </div>
 
-               <div id="inputDiv">
-                  <label for="certifications"> Certifications </label><br>
-                  <input class="major" type="text" name="certifications" required />
+            <div class="inputDiv">
+               <label for="biography">Biography</label><br>
+               <textarea name="biography" id="biography" placeholder="Enter Your Biography Here.." required></textarea>
+            </div>
+            <div class="centered">
+               <div class="row">
+                  <div class="col-sm-6"><input type="submit" value="Create Trainer"></div>
+                  <div class="col-sm-6"> <input type="button" onclick="window.location.href='/trainer'" id="cancel"
+                        value="Cancel"></div>
                </div>
-
-               <div id="inputDiv">
-                  <label for="biography">Biography</label><br>
-                  <textarea name="biography" placeholder="Enter Your Biography Here.." required></textarea>
-               </div>
-               <div class="centered">
-                  <div class="row">
-                     <div class="col-sm-6"><input type="submit" value="Create Trainer"></div>
-                     <div class="col-sm-6"> <input type="button" onclick="window.location.href='/trainer'" id="cancel"
-                           value="Cancel"></div>
-                  </div>
-               </div>
+            </div>
          </form>
       </div>
    </div>

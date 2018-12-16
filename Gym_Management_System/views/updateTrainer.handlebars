@@ -4,28 +4,36 @@
             <header>
                 <h1>Edit Trainer</h1>
             </header>
-            
+
             {{#if error}}
             <p class="alertMsg">*{{error}}</p>
             {{/if}}
             <p>{{alertMsg}}</p>
             <form id="createTrainer-form" action="/trainer/update" method="POST">
-             
-                <div id="inputDiv">
-                    <label for="trainer"> Trainer Name</label><br>
-                    <input class="major" type="text" value="{{trainer.trainername}}" name="trainername" required>
+
+                <div class="inputDiv">
+                    <label for="trainername">Trainer</label>
+
+                    <select id="trainername" name="trainername" required>
+                        <option value="">Choose</option>
+
+                        {{#each trainernames}}
+                        <option value="{{this.username}}">{{this.username}}</option>
+                        {{/each}}
+                    </select>
                 </div>
 
-                <div id="inputDiv">
+                <div class="inputDiv">
                     <label for="certifications"> Certifications</label><br>
-                    <input class="major" type="text" value="{{trainer.certifications}}" name="certifications" required>
+                    <input class="major" id="certifications" type="text" value="{{trainer.certifications}}" name="certifications"
+                        required>
                 </div>
 
-                <div id="inputDiv">
+                <div class="inputDiv">
                     <label for="biography">Biography</label><br>
-                    <textarea name="biography" required>{{trainer.biography}}</textarea>
+                    <textarea id="biography" name="biography" required>{{trainer.biography}}</textarea>
                 </div>
-                <input type="hidden" name="trainerId" value={{trainer._id}}>
+                <input type="hidden" id="trainerId" name="trainerId" value="{{trainerId}}">
                 <div class="centered">
                     <div class="row">
                         <div class="col-sm-6"><input type="submit" value="Update"></div>

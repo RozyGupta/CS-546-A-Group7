@@ -7,21 +7,24 @@
             </header>
             <p class="alertMsg">*{{message}}</p>
             <form id="update-workoutActivity" action="/workoutActivity/update/" method="POST">
-                <div id="inputDiv">
+                <div class="inputDiv">
                     <label for="activityname">Activities</label><br>
-                    <select id="activityname" value={{workoutActivity.activity}} name="activityname" required>
+                    <select id="activityname"  name="activityname" required>
+                        <option value="">Choose</option>
+
                         {{#each activity}}
-                        <option name="activityname" value={{this.activityname}}>{{{this.activityname}}}</option>
+                        <option value="{{this.activityname}}">{{{this.activityname}}}</option>
                         {{/each}}
                     </select>
                 </div>
-                <div class="row" id="inputDiv">
+                <div class="row inputDiv">
                     <div class="col-sm-4">
                         <label for="level">Level</label><br>
-                        <select value={{workoutActivity.level}} id="level" name="level" required>
-                            <option name="level" value=low>Low</option>
-                            <option name="level" value=Medium>Medium</option>
-                            <option name="level" value=High>High</option>
+                        <select  id="level" name="level" required>
+                            <option value="">Choose</option>
+                            <option value=low>Low</option>
+                            <option  value=Medium>Medium</option>
+                            <option  value=High>High</option>
                         </select>
                     </div>
                     <div class="col-sm-4">
@@ -30,11 +33,11 @@
                     </div>
                     <div class="col-sm-4">
                         <label for="enddate">End Date</label><br>
-                        <input value={{workoutActivity.enddate}} type="date" id="enddate" name="enddate" required/>
+                        <input value={{workoutActivity.enddate}} type="date" id="enddate" name="enddate" required />
                     </div>
                 </div>
-                <div class="checkBox" id="inputDiv">
-                    <label for="days">Days</label>
+                <div class="checkBox inputDiv">
+                    <label  >Days</label>
                     <label><input type="checkbox" name="days" value="Monday">Monday</label>
                     <label><input type="checkbox" name="days" value="Tuesday">Tuesday</label>
                     <label><input type="checkbox" name="days" value="Wednesday">Wednesday</label>
@@ -42,25 +45,27 @@
                     <label><input type="checkbox" name="days" value="Friday">Friday</label>
                     <label><input type="checkbox" name="days" value="Saturday">Saturday</label>
                 </div>
-                <div class="row" id="inputDiv">
+                <div class="row inputDiv">
                     <div class="col-sm-4">
                         <label for="sets"> Sets </label><br>
-                        <input value={{workoutActivity.sets}} type="text" id="sets" name="sets" min = "1" required/>
+                        <input value={{workoutActivity.sets}} type="number" id="sets" name="sets" min="1" required />
                     </div>
                     <div class="col-sm-4">
                         <label for="weight"> Weight(kg)</label><br>
-                        <input value={{workoutActivity.weight}} type="text" id="weight" name="weight" min ="1" step="0.001" required/>
+                        <input value={{workoutActivity.weight}} type="number" id="weight" name="weight" min="1" step="0.001"
+                            required />
                     </div>
                     <div class="col-sm-4">
                         <label for="repetitions"> Repetitions</label><br>
-                        <input value={{workoutActivity.repetitions}} type="text" id="repetitions" name="repetitions" min = "0" required/>
+                        <input value={{workoutActivity.repetitions}} type="number" id="repetitions" name="repetitions"
+                            min="0" required />
                     </div>
                 </div>
-                <div id="inputDiv">
+                <div class="inputDiv">
                     <label for="description">Description </label><br>
                     <textarea id="description" name="description" required>{{workoutActivity.description}} </textarea> </div>
-                        <input type="hidden" value={{userId}} name="userId">
-                        <input type="hidden" value={{workoutActivity._id}} name="workoutActivityId">
+                        <input type="hidden" name="userId">
+                        <input type="hidden" value="{{workoutActivity._id}}" name="workoutActivityId">
                 <div class="centered">
                     <div class="row">
                         <div class="col-sm-6"><input type="submit" value="Update Workout"></div>

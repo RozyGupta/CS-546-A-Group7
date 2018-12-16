@@ -59,7 +59,8 @@ router.get("/add", authRoute("addNotice"),async (req, res) => {
     //router.get("/add",async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     res.render("addNotice",{
-        layout:layout
+        layout:layout,
+        title: "Notice"
     });
 
 });
@@ -137,13 +138,15 @@ router.get("/view/:id", authRoute("viewNotice"),async (req, res) => {
         res.render("viewNotice", {
             layout:layout,
             notice: notice,
-            permission:permission
+            permission:permission,
+            title: "Notice"
         });
     } catch (e) {
         res.status(404).render("notice", {
             layout:layout,
             errorMessage: "notice Not Found",
-            permission:permission
+            permission:permission,
+            title: "Notice"
         })
     }
 });
@@ -161,13 +164,14 @@ router.get("/update/:id",authRoute("updateNotice"), async (req, res) => {
     
         let notice = await noticeData.getNoticesById(req.params.id);
         
-        res.render("updateNotice",{notice:notice});
+        res.render("updateNotice",{notice:notice,   title: "Notice"});
 
     } catch (e) {
         res.status(404).render("notice", {
             layout:layout,
             errorMessage: "notice Not Found",
-            permission:permission
+            permission:permission,
+            title: "Notice"
         })
     }
 });
@@ -189,7 +193,8 @@ router.get("/delete/:id",authRoute("deleteNotice"), async (req, res) => {
         res.render("viewNotice", {
             layout:layout,
             alertMsg: "error while deleting",
-            permission:permission
+            permission:permission,
+            title: "Notice"
         });
     }
 });
@@ -260,14 +265,16 @@ router.post("/update",authRoute("updateNotice"), async (req, res) => {
             msg: "Notice updated Successfully",
             layout:layout,
             notice:updatedNotice,
-            permission:permission
+            permission:permission,
+            title: "Notice"
         });
 
     }catch (error) {
         let updatedNotice = await noticeData.getNoticesById(noticeId);
         res.render("updateNotice", {
             error: "error while updating",
-            notice:updatedNotice
+            notice:updatedNotice,
+            title: "Notice"
         })
 
     }

@@ -48,7 +48,8 @@ router.get("/", authRoute("gymMember"), async (req, res) => {
         res.render("gymMember", {
             gymMember: gymMember,
             layout: layout,
-            permission: permission
+            permission: permission,
+            title:"Gym Member Module"
         });
     } catch (error) {
         res.render("error", { title: "error" });
@@ -61,6 +62,7 @@ router.get("/add", authRoute("addGymMember"), async (req, res) => {
     let membernames = await userData.getUserNameByRole("gymMember");
     res.render("addGymMember", {
         membernames: membernames,
+        title:"Gym Member Module",
         layout: layout
     });
 
@@ -76,7 +78,7 @@ router.post("/add", authRoute("addGymMember"), async (req, res) => {
         if (!membername) {
             res.render("addGymMember", {
                 alertMsg: "Please provide name",
-                title: "addGymMember",
+                title: "Add GymMember",
                 layout: layout
 
             });
@@ -86,7 +88,7 @@ router.post("/add", authRoute("addGymMember"), async (req, res) => {
             res.render("addGymMember", {
                 alertMsg: "Please provide height",
                 layout: layout,
-                title: "addGymMember"
+                title: "Add GymMember"
             });
             return;
         }
@@ -94,7 +96,7 @@ router.post("/add", authRoute("addGymMember"), async (req, res) => {
             res.render("addGymMember", {
                 alertMsg: "Please provide weight",
                 layout: layout,
-                title: "addGymMember"
+                title: "Add GymMember"
             });
             return;
         }
@@ -109,6 +111,7 @@ router.post("/add", authRoute("addGymMember"), async (req, res) => {
     } catch (error) {
         res.render("addGymMember", {
             alertMsg: "error while adding member",
+            title:"Gym Member Module",
             layout: layout
         });
     }
@@ -127,11 +130,13 @@ router.get("/view/:id", authRoute("viewGymMember"), async (req, res) => {
         let member = await gymMemberData.getGymMemberById(req.params.id);
         res.render("viewGymMember", {
             member: member,
+            title:"Gym Member Module",
             layout: layout
         });
     } catch (e) {
         res.status(404).render("gymMember", {
             errorMessage: "Member Not Found",
+            title:"Gym Member Module",
             permission: permission
         })
     }
@@ -139,6 +144,7 @@ router.get("/view/:id", authRoute("viewGymMember"), async (req, res) => {
 router.get("/update/:id", authRoute("updateGymMember"), async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     let userID = req.cookies.userId;
+    let membernames = await userData.getUserNameByRole("gymMember");
     let trainer = await trainerData.getAllTrainers();
     try {
         let permission = false;
@@ -149,6 +155,8 @@ router.get("/update/:id", authRoute("updateGymMember"), async (req, res) => {
         let member = await gymMemberData.getGymMemberById(req.params.id);
         res.render("updateGymMember", {
             member: member,
+            membernames:membernames,
+            title:"Gym Member Module",
             layout: layout,
             permission: permission
         });
@@ -156,6 +164,7 @@ router.get("/update/:id", authRoute("updateGymMember"), async (req, res) => {
     } catch (e) {
         res.status(404).render("gymMember", {
             errorMessage: "Member Not Found",
+            title:"Gym Member Module",
             permission: permission
         })
     }
@@ -167,7 +176,8 @@ router.get("/delete/:id", authRoute("deleteGymMember"), async (req, res) => {
         res.redirect("/gymMember");
     } catch (error) {
         res.render("viewGymMember", {
-            alertMsg: "error while deleting"
+            alertMsg: "error while deleting",
+            title:"Gym Member Module",
         });
     }
 });
@@ -177,6 +187,7 @@ router.post("/update", authRoute("updateGymMember"), async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     let userID = req.cookies.userId;
     let trainer = await trainerData.getAllTrainers();
+    let membernames = await userData.getUserNameByRole("gymMember");
     try {
         let permission = false;
         let booleanFlag = await authentication.getPermissionForRoute("addGymMember", userID)
@@ -191,27 +202,30 @@ router.post("/update", authRoute("updateGymMember"), async (req, res) => {
         if (!membername) {
             res.render("updateGymMember", {
                 alertMsg: "Please provide name",
-                title: "updateGymMember",
+                title: "update GymMember",
                 layout: layout,
-                member: member
+                member: member,
+                membernames:membernames
             });
             return;
         }
         if (!memberheight) {
             res.render("updateGymMember", {
                 alertMsg: "Please provide height",
-                title: "updateGymMember",
+                title: "update GymMember",
                 layout: layout,
-                member: member
+                member: member,
+                membernames:membernames
             });
             return;
         }
         if (!memberweight) {
             res.render("updateGymMember", {
                 alertMsg: "Please provide weight",
-                title: "updateGymMember",
+                title: "update GymMember",
                 layout: layout,
-                member: member
+                member: member,
+                membernames:membernames
             });
             return;
         }
@@ -225,6 +239,7 @@ router.post("/update", authRoute("updateGymMember"), async (req, res) => {
             error: "error while updating",
             layout: layout,
             member: updatedGymMember,
+            title:"Gym Member Module",
             permission:permission
         });
 
