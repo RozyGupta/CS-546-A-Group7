@@ -2,10 +2,11 @@ const express = require("express");
 const router = express.Router();
 const data = require("../data");
 const gymMemberData = data.gymMember;
-const authentication=data.authentication;
-const noticeData=data.notice;
+const trainerData=data.trainer; 
+const authentication = data.authentication;
+const noticeData = data.notice;
 const userData = data.user;
-const xss =require("xss");
+const xss = require("xss");
 
 const authRoute = function (moduleName) {
 
@@ -32,33 +33,40 @@ const authRoute = function (moduleName) {
         }
     };
 }
-router.get("/",authRoute("gymMember"), async (req, res) => {
+router.get("/", authRoute("gymMember"), async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
-
+    let userID = req.cookies.userId;
+    let trainer = await trainerData.getAllTrainers();
     try {
-        
+        let permission = false;
+        let booleanFlag = await authentication.getPermissionForRoute("addGymMember", userID)
+        if (booleanFlag) {
+            permission = true;
+        }
+
         let gymMember = await gymMemberData.getAllGymMembers();
         res.render("gymMember", {
             gymMember: gymMember,
-            layout:layout
+            layout: layout,
+            permission: permission
         });
-    }catch(error){
+    } catch (error) {
         res.render("error", { title: "error" });
-    } 
+    }
 });
 
 
-router.get("/add",authRoute("addGymMember"),async (req, res) => {
+router.get("/add", authRoute("addGymMember"), async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     let membernames = await userData.getUserNameByRole("gymMember");
-    res.render("addGymMember",{
+    res.render("addGymMember", {
         membernames: membernames,
-        layout:layout
+        layout: layout
     });
 
 });
 
-router.post("/add",authRoute("addGymMember"),async (req, res) => {
+router.post("/add", authRoute("addGymMember"), async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     try {
         let member = req.body;
@@ -69,15 +77,15 @@ router.post("/add",authRoute("addGymMember"),async (req, res) => {
             res.render("addGymMember", {
                 alertMsg: "Please provide name",
                 title: "addGymMember",
-                layout:layout
-               
+                layout: layout
+
             });
             return;
         }
         if (!memberheight) {
             res.render("addGymMember", {
                 alertMsg: "Please provide height",
-                layout:layout,
+                layout: layout,
                 title: "addGymMember"
             });
             return;
@@ -85,58 +93,75 @@ router.post("/add",authRoute("addGymMember"),async (req, res) => {
         if (!memberweight) {
             res.render("addGymMember", {
                 alertMsg: "Please provide weight",
-                layout:layout,
+                layout: layout,
                 title: "addGymMember"
             });
             return;
         }
-        let bmi = memberweight/(memberheight*memberheight);
-        let memberAdded =await gymMemberData.addGymMember(membername,memberheight,memberweight,bmi);
-        let memberId=memberAdded.newId;
+        let bmi = memberweight / (memberheight * memberheight);
+        let memberAdded = await gymMemberData.addGymMember(membername, memberheight, memberweight, bmi);
+        let memberId = memberAdded.newId;
         let user = await userData.getUserByUsername(membername);
         let userId = user._id;
-        await gymMemberData.addmemberstats(userId,memberId);
+        await gymMemberData.addmemberstats(userId, memberId);
         res.redirect("/gymMember");
 
     } catch (error) {
         res.render("addGymMember", {
             alertMsg: "error while adding member",
-            layout:layout
+            layout: layout
         });
     }
 });
-router.get("/view/:id",authRoute("viewGymMember"), async (req, res) => {
-    
+router.get("/view/:id", authRoute("viewGymMember"), async (req, res) => {
+
     let layout = await authentication.getLayout(req.cookies.userId);
+    let userID = req.cookies.userId;
+    let trainer = await trainerData.getAllTrainers();
     try {
+        let permission = false;
+        let booleanFlag = await authentication.getPermissionForRoute("addGymMember", userID)
+        if (booleanFlag) {
+            permission = true;
+        }
         let member = await gymMemberData.getGymMemberById(req.params.id);
         res.render("viewGymMember", {
             member: member,
-            layout:layout
+            layout: layout
         });
     } catch (e) {
         res.status(404).render("gymMember", {
-            errorMessage: "Member Not Found"
+            errorMessage: "Member Not Found",
+            permission: permission
         })
     }
 });
-router.get("/update/:id",authRoute("updateGymMember"),async (req, res) => {
+router.get("/update/:id", authRoute("updateGymMember"), async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
+    let userID = req.cookies.userId;
+    let trainer = await trainerData.getAllTrainers();
     try {
+        let permission = false;
+        let booleanFlag = await authentication.getPermissionForRoute("addGymMember", userID)
+        if (booleanFlag) {
+            permission = true;
+        }
         let member = await gymMemberData.getGymMemberById(req.params.id);
         res.render("updateGymMember", {
             member: member,
-            layout:layout
+            layout: layout,
+            permission: permission
         });
 
     } catch (e) {
         res.status(404).render("gymMember", {
-            errorMessage: "Member Not Found"
+            errorMessage: "Member Not Found",
+            permission: permission
         })
     }
 });
-router.get("/delete/:id",authRoute("deleteGymMember"), async (req, res) => {
-    
+router.get("/delete/:id", authRoute("deleteGymMember"), async (req, res) => {
+
     try {
         await gymMemberData.removeGymMember(req.params.id);
         res.redirect("/gymMember");
@@ -147,10 +172,17 @@ router.get("/delete/:id",authRoute("deleteGymMember"), async (req, res) => {
     }
 });
 
-router.post("/update",authRoute("updateGymMember"),async (req, res) => {
+router.post("/update", authRoute("updateGymMember"), async (req, res) => {
     let member;
     let layout = await authentication.getLayout(req.cookies.userId);
+    let userID = req.cookies.userId;
+    let trainer = await trainerData.getAllTrainers();
     try {
+        let permission = false;
+        let booleanFlag = await authentication.getPermissionForRoute("addGymMember", userID)
+        if (booleanFlag) {
+            permission = true;
+        }
         member = req.body;
         let memberId = xss(member.memberId);
         let membername = xss(member.membername);
@@ -160,8 +192,8 @@ router.post("/update",authRoute("updateGymMember"),async (req, res) => {
             res.render("updateGymMember", {
                 alertMsg: "Please provide name",
                 title: "updateGymMember",
-                layout:layout,
-                member:member
+                layout: layout,
+                member: member
             });
             return;
         }
@@ -169,8 +201,8 @@ router.post("/update",authRoute("updateGymMember"),async (req, res) => {
             res.render("updateGymMember", {
                 alertMsg: "Please provide height",
                 title: "updateGymMember",
-                layout:layout,
-                member:member
+                layout: layout,
+                member: member
             });
             return;
         }
@@ -178,24 +210,22 @@ router.post("/update",authRoute("updateGymMember"),async (req, res) => {
             res.render("updateGymMember", {
                 alertMsg: "Please provide weight",
                 title: "updateGymMember",
-                layout:layout,
-                member:member
+                layout: layout,
+                member: member
             });
             return;
         }
-        let bmi = memberweight/(memberheight*memberheight);
-        await gymMemberData.updateGymMember(memberId,membername,memberheight,memberweight,bmi);
+        let bmi = memberweight / (memberheight * memberheight);
+        await gymMemberData.updateGymMember(memberId, membername, memberheight, memberweight, bmi);
         let updatedGymMember = await gymMemberData.getGymMemberById(memberId);
-        res.render("viewGymMember", {
-         msg: "Activity updated Successfully",
-         layout:layout,
-         member:updatedGymMember
-        });
+        res.redirect("/gymMember");
+    
     } catch (error) {
         res.render("updateGymMember", {
             error: "error while updating",
-            layout:layout,
-            member:member
+            layout: layout,
+            member: member,
+            permission:permission
         });
 
     }

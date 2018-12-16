@@ -34,20 +34,20 @@ const authRoute = function (moduleName) {
 }
 
 
-router.get('/', authRoute("user"), async function (req, res) {
-    let layout = await authentication.getLayout(req.cookies.userId);
-    try {
-        let users = await userData.getAllUsers();
-        res.render("user", {
-            users: users,
-            layout: layout
-        });
-    } catch (error) {
-        res.render("error", {
-            title: "error"
-        });
-    }
-});
+// router.get('/', authRoute("user"), async function (req, res) {
+//     let layout = await authentication.getLayout(req.cookies.userId);
+//     try {
+//         let users = await userData.getAllUsers();
+//         res.render("user", {
+//             users: users,
+//             layout: layout
+//         });
+//     } catch (error) {
+//         res.render("error", {
+//             title: "error"
+//         });
+//     }
+// });
 
 
 router.get('/', authRoute("user"), async function (req, res) {
@@ -55,7 +55,7 @@ router.get('/', authRoute("user"), async function (req, res) {
     let userId = (req.cookies.userId);
     let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("user", userId)
+        let booleanFlag = await authentication.getPermissionForRoute("addUser", userId)
         if (booleanFlag) {
             permission = true;
         }
@@ -79,8 +79,9 @@ router.get("/add", authRoute("addUser"), async (req, res) => {
         title: "User"
     });
 })
-router.post("/add/", authRoute("addUser"), async function (req, res) {
+router.post("/add", authRoute("addUser"), async function (req, res) {
     let layout = await authentication.getLayout(req.cookies.userId);
+    console.log("dsfdksj");
     try {
         let userInfo = req.body;
         let userEmail = xss(userInfo.email);
@@ -139,38 +140,35 @@ router.post("/add/", authRoute("addUser"), async function (req, res) {
     }
 });
 
-router.get("/view/:id", authRoute("viewUser"), async (req, res) => {
-    let layout = await authentication.getLayout(req.cookies.userId);
-
-});
-router.post("/add/", authRoute("addUser"), async function (req, res) {
-    let layout = await authentication.getLayout(req.cookies.userId);
-    try {
-        let userInfo = req.body;
-        let userEmail = xss(userInfo.email);
-        let userFirstName = xss(userInfo.firstname);
-        let userLasttName = xss(userInfo.lastname);
-        let userZipCode = xss(userInfo.zipCode);
-        let successFlag = await userData.createUser(userInfo);
-        if (successFlag == true) {
-            res.redirect("/user");
-        } else {
-            res.render("addUser", {
-                layout: layout,
-                alertMsg: "User Creation unsuccess"
-            })
-        }
-    } catch (err) {
-        console.log("ERROR" + err);
-    }
-});
+// router.post("/add", authRoute("addUser"), async function (req, res) {
+//     console.log("errroe");
+//     let layout = await authentication.getLayout(req.cookies.userId);
+//     try {
+//         let userInfo = req.body;
+//         let userEmail = xss(userInfo.email);
+//         let userFirstName = xss(userInfo.firstname);
+//         let userLasttName = xss(userInfo.lastname);
+//         let userZipCode = xss(userInfo.zipCode);
+//         let successFlag = await userData.createUser(userInfo);
+//         if (successFlag == true) {
+//             res.redirect("/user");
+//         } else {
+//             res.render("addUser", {
+//                 layout: layout,
+//                 alertMsg: "User Creation unsuccess"
+//             })
+//         }
+//     } catch (err) {
+//         console.log("ERROR" + err);
+//     }
+// });
 
 router.get("/view/:id", authRoute("viewUser"), async (req, res) => {
     let layout = await authentication.getLayout(req.cookies.userId);
     let userId = (req.cookies.userId);
     let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("viewUser", userId)
+        let booleanFlag = await authentication.getPermissionForRoute("addUser", userId)
         if (booleanFlag) {
             permission = true;
         }
@@ -194,7 +192,7 @@ router.get("/update/:id", authRoute("updateUser"), async (req, res) => {
     let userId = (req.cookies.userId);
     let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("viewUser", userId)
+        let booleanFlag = await authentication.getPermissionForRoute("addUser", userId)
         if (booleanFlag) {
             permission = true;
         }

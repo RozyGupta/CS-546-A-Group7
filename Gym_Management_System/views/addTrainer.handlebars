@@ -8,35 +8,34 @@
             {{#if alertMsg}}
             <p class="alertMsg">{{alertMsg}}</p>
             {{/if }}
-           <div class="col-sm-1">
-                 <label for="trainername">Trainer</label></div>
-                        <div class="col-sm-10">
-                           <select id="trainername" name="trainername" required>
-                               <option value="" <option value="" selected disabled hidden></option></option>
-                                {{#each trainernames}}
-                                <option name="trainername" value= {{this.username}}>{{this.username}}</option>
-                                {{/each}}
-                            </select>
-
             <div id="inputDiv">
-               <label for="certifications"> Certifications </label><br>
-               <input class="major" type="text" name="certifications" required/>
-            </div>
+               <label for="trainername">Trainer</label>
+           
+               <select id="trainername" name="trainername" required>
+                  <option value="" <option value="" selected disabled hidden></option>
+                  </option>
+             </div>     
+                  {{#each trainernames}}
+                  <option name="trainername" value={{this.username}}>{{this.username}}</option>
+                  {{/each}}
+               </select>
 
-            <div id="inputDiv">
-               <label for="biography">Biography</label><br>
-               <textarea name="biography" placeholder="Enter Your Biography Here.." required></textarea>
-            </div>
-
-
-
-            <div class="centered">
-               <div class="row">
-                  <div class="col-sm-6"><input type="submit" value="Create Trainer"></div>
-                  <div class="col-sm-6"> <input type="button" onclick="window.location.href='/trainer'" id="cancel"
-                        value="Cancel"></div>
+               <div id="inputDiv">
+                  <label for="certifications"> Certifications </label><br>
+                  <input class="major" type="text" name="certifications" required />
                </div>
-            </div>
+
+               <div id="inputDiv">
+                  <label for="biography">Biography</label><br>
+                  <textarea name="biography" placeholder="Enter Your Biography Here.." required></textarea>
+               </div>
+               <div class="centered">
+                  <div class="row">
+                     <div class="col-sm-6"><input type="submit" value="Create Trainer"></div>
+                     <div class="col-sm-6"> <input type="button" onclick="window.location.href='/trainer'" id="cancel"
+                           value="Cancel"></div>
+                  </div>
+               </div>
          </form>
       </div>
    </div>

@@ -38,7 +38,7 @@ router.get("/",authRoute("activity"), async (req, res) => {
     let userID =   (req.cookies.userId);
     let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("activity", userID)
+        let booleanFlag = await authentication.getPermissionForRoute("addActivity", userID)
         if (booleanFlag) {
             permission = true;
         }
@@ -121,7 +121,7 @@ router.get("/view/:id",authRoute("viewActivity"), async (req, res) => {
     let userID =   (req.cookies.userId);
     let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("viewActivity", userID)
+        let booleanFlag = await authentication.getPermissionForRoute("addActivity", userID)
         if (booleanFlag) {
             permission = true;
         }
@@ -145,7 +145,7 @@ router.get("/update/:id",authRoute("updateActivity"),async (req, res) => {
     let userID =   (req.cookies.userId);
     let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("viewUser", userID)
+        let booleanFlag = await authentication.getPermissionForRoute("addActivity", userID)
         if (booleanFlag) {
             permission = true;
         }
@@ -159,6 +159,7 @@ router.get("/update/:id",authRoute("updateActivity"),async (req, res) => {
         });
 
     } catch (e) {
+       
         res.status(404).render("activity", {
             errorMessage: "Activity Not Found",
             permission:permission
@@ -170,7 +171,7 @@ router.get("/delete/:id",authRoute("deleteActivity"), async (req, res) => {
     let userID =   (req.cookies.userId);
     let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("viewActivity", userID)
+        let booleanFlag = await authentication.getPermissionForRoute("addActivity", userID)
         if (booleanFlag) {
             permission = true;
         }   
@@ -185,26 +186,29 @@ router.get("/delete/:id",authRoute("deleteActivity"), async (req, res) => {
     }
 });
 router.post("/update",authRoute("updateActivity"), async (req, res) => {
-    let activity;
+
     let layout = await authentication.getLayout(req.cookies.userId);
     let userID =   (req.cookies.userId);
     let permission = false;
     try {
-        let booleanFlag = await authentication.getPermissionForRoute("viewActivity", userID)
+        let booleanFlag = await authentication.getPermissionForRoute("addActivity", userID)
         if (booleanFlag) {
             permission = true;
         }
+        let activity=req.body;
+        let trainerList = await trainerData.getAllTrainers();
         let activityname = xss(activity.activityname);
         let activitytrainer = xss(activity.activitytrainer);
         let membershipplan = xss(activity.membershipplan);
-
-        
+        let activityDescription = xss(activity.description);
+        let activityId = xss(activity.activityId);
         if (!activityname) {
             res.render("updateActivity", {
                 alertMsg: "Please provide activity name",
                 title: "updateActivity",
                 layout:layout,
-                activity:activity
+                activity:activity,
+                trainerList:trainerList
             });
             return;
         }
@@ -213,6 +217,7 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
                 alertMsg: "Please provide activity trainer name",
                 title: "updateActivity",
                 layout:layout,
+                trainerList:trainerList,
                 activity:activity
             });
             return;
@@ -222,6 +227,7 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
                 alertMsg: "Please provide membershipplan",
                 title: "updateActivity",
                 layout:layout,
+                trainerList:trainerList,
                 activity:activity
             });
             return;
@@ -231,6 +237,7 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
                 alertMsg: "Please provide member name",
                 title: "updateActivity",
                 activity:activity,
+                trainerList:trainerList,
                 layout:layout
             });
             return;
@@ -253,7 +260,7 @@ router.post("/update",authRoute("updateActivity"), async (req, res) => {
             permission:permission
         });
     } catch (error) {
-
+        console.log(error);
         let trainerList = await trainerData.getAllTrainers();
         res.render("updateActivity", {
             activity: activity,

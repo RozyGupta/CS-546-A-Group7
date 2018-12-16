@@ -98,7 +98,7 @@ const exportedMethods = {
     },
 
     async getAllUserActivitiesId(userid) {
-        if (!userid) throw "You must provide  userid to search for";
+       try {if (!userid) throw "You must provide  userid to search for";
 
         let activityArray = [];
         const userWorkoutCollection = await userWorkout();
@@ -113,7 +113,11 @@ const exportedMethods = {
 
         if (!activityArray) throw "No activities for the user";
         else {
+            console.log(activityArray)
             return activityArray;
+        }}
+        catch(e){
+            console.log(e);
         }
     },
 
