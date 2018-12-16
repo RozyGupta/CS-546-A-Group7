@@ -113,7 +113,6 @@ const exportedMethods = {
 
         if (!activityArray) throw "No activities for the user";
         else {
-            console.log(activityArray)
             return activityArray;
         }}
         catch(e){

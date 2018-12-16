@@ -66,27 +66,16 @@ if (updateUserForm) {
 const addActivityForm = document.getElementById("add-activity");
 
 if (addActivityForm) {
-    $('#startdate').change(function () {
-        const startdate = document.getElementById("startdate");
-        let startDate = new Date(startdate.value);
-        let currentDate = new Date();
-
-        if (startDate > currentDate) {
-            $("#error").show();
-            $("#error").html("The start date can not be later than now !");
-        } else {
-            $("#error").hide();
-        }
-    })
 
     $('#enddate').change(function () {
+        const startdate = document.getElementById("startdate");
+        let startDate = new Date(startdate.value);
         const enddate = document.getElementById("enddate");
         let endDate = new Date(enddate.value);
-        let currentDate = new Date();
 
-        if (endDate < currentDate) {
+        if (endDate < startDate) {
             $("#error").show();
-            $("#error").html("The end date should be later than now !");
+            $("#error").html("The end date should not be earlier than start date !");
         } else {
             $("#error").hide();
         }
